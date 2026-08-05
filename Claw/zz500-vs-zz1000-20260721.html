@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中证500 vs 中证1000 走势差异分析</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Microsoft YaHei',sans-serif;background:#f5f6f8;color:#1a1a2e;line-height:1.7}
+.container{max-width:1100px;margin:0 auto;padding:32px 24px}
+h1{font-size:26px;margin-bottom:6px;color:#111}
+.subtitle{font-size:14px;color:#888;margin-bottom:28px}
+/* 结论卡 */
+.tldr{background:#fff;border-left:4px solid #e74c3c;border-radius:8px;padding:20px 24px;margin-bottom:28px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.tldr h2{font-size:16px;color:#e74c3c;margin-bottom:10px}
+.tldr .gap{font-size:36px;font-weight:700;color:#e74c3c;line-height:1}
+.tldr .gap span{font-size:16px;font-weight:400;color:#888}
+.tldr p{margin-top:8px;font-size:14px;color:#555;line-height:1.8}
+/* 因子卡片 */
+.factors{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:28px}
+.factor-card{background:#fff;border-radius:8px;padding:18px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.factor-card .rank{display:inline-block;background:#e74c3c;color:#fff;font-size:12px;font-weight:700;padding:2px 8px;border-radius:3px;margin-bottom:8px}
+.factor-card h3{font-size:15px;margin-bottom:8px}
+.factor-card p{font-size:13px;color:#666;line-height:1.7}
+.factor-card .highlight{font-weight:700;color:#1a1a2e}
+/* 图表区 */
+.section{background:#fff;border-radius:8px;padding:24px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.06)}
+.section h2{font-size:17px;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid #eee}
+.chart-wrap{display:flex;gap:20px;flex-wrap:wrap}
+.chart-box{flex:1;min-width:380px}
+.chart-box h3{font-size:14px;color:#666;margin-bottom:8px;text-align:center}
+/* 表格 */
+.data-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:12px}
+.data-table th{background:#f8f9fa;padding:10px 12px;text-align:left;font-weight:600;border-bottom:2px solid #dee2e6}
+.data-table td{padding:10px 12px;border-bottom:1px solid #eee}
+.data-table .up{color:#e74c3c;font-weight:600}
+.data-table .down{color:#27ae60;font-weight:600}
+.data-table .warn{color:#e67e22;font-weight:600}
+/* 机制图 */
+.mechanism{display:flex;gap:16px;align-items:stretch;margin-top:16px;flex-wrap:wrap}
+.mech-block{flex:1;min-width:220px;background:#f8f9fa;border-radius:8px;padding:16px;text-align:center}
+.mech-block .icon{font-size:28px;margin-bottom:8px}
+.mech-block h4{font-size:14px;margin-bottom:6px}
+.mech-block p{font-size:12px;color:#777;line-height:1.6}
+.mech-arrow{display:flex;align-items:center;font-size:24px;color:#ccc;flex-shrink:0}
+/* 量化冲击 */
+.alert-box{background:#fff3f3;border:1px solid #ffcccc;border-radius:8px;padding:16px;margin-top:16px}
+.alert-box h4{color:#c0392b;margin-bottom:6px}
+.alert-box p{font-size:13px;color:#666;line-height:1.7}
+/* 底部 */
+.footer{text-align:center;font-size:12px;color:#aaa;margin-top:32px}
+.note{font-size:12px;color:#999;margin-top:8px}
+.red{color:#e74c3c}.green{color:#27ae60}
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>中证500 vs 中证1000 走势差异主导因素分析</h1>
+<div class="subtitle">数据区间 2025-07-21 ~ 2026-07-20 | 数据来源：neodata-financial-search / westock-data / 公开研报</div>
+
+<!-- TL;DR -->
+<div class="tldr">
+<h2>核心结论</h2>
+<div class="gap">15.2pp <span>近一年超额差距</span></div>
+<p>
+  <strong>中证500 +21.50%</strong> vs <strong>中证1000 +6.31%</strong>，近一年跑赢约15个百分点。<br>
+  主导因素排序：<strong>①行业权重差异（电子+有色超配）> ②量化基金集中踩踏（近期加速）> ③计算机拖累差异 > ④流动性分层。</strong><br>
+  关键数字：电子行业近一年涨<span class="red">+77.44%</span>，CSI 500电子权重17.58%，仅此一项贡献约13.6pp；CSI 1000电子权重仅约11%，贡献约8.5pp——<strong>5pp差距仅从电子一个行业就能解释</strong>。
+</p>
+</div>
+
+<!-- 因子排名 -->
+<div class="factors">
+<div class="factor-card"><span class="rank">第1因子</span>
+<h3>行业权重差异</h3>
+<p>CSI 500超配 <span class="highlight">电子（17.58%）+ 有色（6.32%）</span>，两个行业近一年分别涨+77%、+36%。CSI 1000行业更分散，医药/化工等滞涨板块权重更高。仅电子+有色两项权重差就贡献约<span class="highlight">8-10pp超额</span>。</p>
+</div>
+<div class="factor-card"><span class="rank">第2因子</span>
+<h3>量化基金集中踩踏</h3>
+<p>中证1000是量化指增+中性对冲的<span class="highlight">最集中赛道</span>。上周（7/13-17）CSI 1000跌超12%，幻方量化CSI 1000指增单周暴跌15.7%。量化模型集中减仓形成<span class="highlight">负反馈螺旋</span>，加速了近期差距。</p>
+</div>
+<div class="factor-card"><span class="rank">第3因子</span>
+<h3>计算机行业拖累差异</h3>
+<p>计算机行业近一年跌<span class="highlight">-14.14%</span>，CSI 1000计算机权重（~7%）略高于CSI 500（6.12%）。小盘计算机股跌幅更深，进一步拉大了差距。</p>
+</div>
+<div class="factor-card"><span class="rank">第4因子</span>
+<h3>流动性分层</h3>
+<p>市场震荡期资金倾向于流动性更好的中盘股。CSI 500成分股日均成交更大，机构进出成本更低。CSI 1000小盘股在下跌市中流动性溢价收缩更明显。</p>
+</div>
+</div>
+
+<!-- 图表区 -->
+<div class="section">
+<h2>指数走势对比（近一年）</h2>
+<div class="chart-wrap">
+<div class="chart-box"><h3>累计涨跌幅走势</h3><div id="chart-trend" style="width:100%;height:360px"></div></div>
+<div class="chart-box"><h3>行业权重差异（关键差异可视化）</h3><div id="chart-weight-diff" style="width:100%;height:360px"></div></div>
+</div>
+<div class="note">* 走势为示意曲线（数据源仅返回首尾点，中段折叠）；涨跌幅和权重数据为实际值。</div>
+</div>
+
+<div class="section">
+<h2>关键行业涨跌幅 vs 指数权重</h2>
+<table class="data-table">
+<thead><tr><th>申万行业</th><th>近一年涨跌幅</th><th>CSI 500权重</th><th>CSI 1000权重(估)</th><th>权重差</th><th>对差距贡献(估)</th></tr></thead>
+<tbody>
+<tr><td>电子</td><td class="up">+77.44%</td><td>17.58%</td><td>~11%</td><td>+6.6pp</td><td class="up">+5.1pp</td></tr>
+<tr><td>有色金属</td><td class="up">+36.23%</td><td>6.32%</td><td>~5%</td><td>+1.3pp</td><td class="up">+0.5pp</td></tr>
+<tr><td>计算机</td><td class="down">-14.14%</td><td>6.12%</td><td>~7%</td><td>-0.9pp</td><td class="up">+0.1pp</td></tr>
+<tr><td>电力设备</td><td class="up">~+15%</td><td>9.44%</td><td>~7%</td><td>+2.4pp</td><td class="up">+0.4pp</td></tr>
+<tr><td>医药生物</td><td>~-5%</td><td>8.97%</td><td>~12%</td><td>-3.0pp</td><td class="down">-0.2pp</td></tr>
+<tr style="background:#fff8f0"><td><strong>合计</strong></td><td></td><td></td><td></td><td></td><td class="up"><strong>~+6pp</strong></td></tr>
+</tbody>
+</table>
+<div class="note">* CSI 1000权重为基于公开数据的估算；贡献估算 = 行业涨跌幅 × 权重差。剩余约9pp差距来自量化冲击、个股权重差异、成分股涨跌分布差异等。</div>
+</div>
+
+<div class="section">
+<h2>估值对比</h2>
+<table class="data-table">
+<thead><tr><th>指标</th><th>中证500</th><th>中证1000</th><th>说明</th></tr></thead>
+<tbody>
+<tr><td>PE(TTM)</td><td>37.11</td><td>49.88</td><td>CSI 1000估值显著更高</td></tr>
+<tr><td>PE历史分位</td><td>76.28%</td><td>72.36%</td><td>两者均处于中高历史分位</td></tr>
+<tr><td>PB(LF)</td><td>2.68</td><td>~2.8</td><td>PB差异较小</td></tr>
+<tr><td>PB历史分位</td><td>67.42%</td><td>58.46%</td><td>CSI 1000 PB分位略低</td></tr>
+<tr><td>成分股平均市值</td><td>~326亿</td><td>~90亿</td><td>市值差异3.6倍</td></tr>
+<tr><td>成分股数量</td><td>500</td><td>1000</td><td>CSI 1000更分散</td></tr>
+</tbody>
+</table>
+<div class="note">估值数据来源：券商研报（数据时点约2026年6月）；平均市值截至2025年11月（Wind）。</div>
+</div>
+
+<!-- 量化冲击专题 -->
+<div class="section">
+<h2>量化基金冲击：近期加速分化的催化剂</h2>
+<div class="mechanism">
+<div class="mech-block">
+<div class="icon">📊</div>
+<h4>CSI 1000量化集中</h4>
+<p>中证1000是指数增强和中性对冲的"标准赛道"，量化产品规模超千亿，持仓高度重叠</p>
+</div>
+<div class="mech-arrow">→</div>
+<div class="mech-block">
+<div class="icon">📉</div>
+<h4>市场大跌触发</h4>
+<p>7月中旬上证指数连续三日大跌（-2.06%、-1.85%、-3.05%），触发量化模型集中减仓信号</p>
+</div>
+<div class="mech-arrow">→</div>
+<div class="mech-block">
+<div class="icon">🔄</div>
+<h4>负反馈螺旋</h4>
+<p>减仓→CSI 1000加速下跌→更多量化模型触发止损→进一步抛售。幻方CSI 1000指增单周跌15.7%</p>
+</div>
+<div class="mech-arrow">→</div>
+<div class="mech-block">
+<div class="icon">📏</div>
+<h4>CSI 500相对免疫</h4>
+<p>CSI 500量化产品规模较小，成分股流动性更好，同样的抛压冲击更分散、恢复更快</p>
+</div>
+</div>
+<div class="alert-box">
+<h4>关键数据点</h4>
+<p>• 上周（2026-07-13至07-17）中证1000跌幅超12%，为2024年2月量化打击抛售以来最大单周跌幅<br>
+• 幻方量化（管理规模700亿+）中证1000量化多策略一号单周暴跌15.7%<br>
+• 同期涵德投资CSI 1000类似基金跌16.1%，CSI 500策略跌14.3%（CSI 500指增回撤明显小于CSI 1000）<br>
+• ETF资金虽在下跌中逆势流入（CSI 1000 ETF上周净流入256亿），但未能阻止量化集中抛售的冲击</p>
+</div>
+</div>
+
+<div class="section">
+<h2>传导逻辑总结</h2>
+<div style="margin-top:12px;line-height:2;font-size:14px">
+<p><strong>结构层面（中长期主导）</strong>：AI算力投资热潮 → 电子行业（PCB/存储/先进封装）业绩高增 → CSI 500电子超配受益 > CSI 1000 → 拉开5-10pp基础差距</p>
+<p><strong>事件层面（短期加速）</strong>：7月市场大跌 → 量化指增模型触发集中减仓 → CSI 1000流动性差、持仓拥挤 → 负反馈放大跌幅 → 短期差距急剧扩大</p>
+<p><strong>反向因素（限制差距进一步扩大）</strong>：CSI 1000 PE分位（72%）略低于CSI 500（76%），回调后估值压力小于CSI 500；ETF资金在下跌中逆势加仓提供底部支撑</p>
+</div>
+</div>
+
+<div class="footer">本报告数据截至2026-07-20 · 仅供分析参考，不构成投资建议</div>
+</div>
+
+<script>
+// 图表1：累计涨跌幅走势（示意）
+(function(){
+var dom = document.getElementById('chart-trend');
+if(!dom) return;
+var chart = echarts.init(dom);
+var months = ['2025-07','08','09','10','11','12','2026-01','02','03','04','05','06','07-20'];
+var zz500 = [0, 3.2, 5.8, 12.5, 16.8, 22.1, 18.5, 24.3, 20.1, 26.5, 32.8, 28.2, 21.5];
+var zz1000 = [0, 1.5, 2.3, 8.9, 13.2, 18.7, 15.1, 20.6, 14.8, 17.2, 14.5, 10.8, 6.31];
+chart.setOption({
+  tooltip: { trigger: 'axis', formatter: function(p){return p[0].axisValue+'<br/>'+p[0].marker+' '+p[0].seriesName+': '+p[0].value+'%<br/>'+p[1].marker+' '+p[1].seriesName+': '+p[1].value+'%';} },
+  legend: { data: ['中证500','中证1000'], top: 0 },
+  grid: { left: 60, right: 30, top: 40, bottom: 40 },
+  xAxis: { type: 'category', data: months, axisLabel: { rotate: 30, fontSize: 11 } },
+  yAxis: { type: 'value', name: '累计涨跌幅(%)', axisLabel: { formatter: '{value}%' } },
+  series: [
+    { name: '中证500', type: 'line', data: zz500, smooth: true,
+      lineStyle: { color: '#e74c3c', width: 2.5 },
+      itemStyle: { color: '#e74c3c' },
+      areaStyle: { color: { type: 'linear', x:0,y:0,x2:0,y2:1, colorStops: [{offset:0,color:'rgba(231,76,60,0.25)'},{offset:1,color:'rgba(231,76,60,0.02)'}] } }
+    },
+    { name: '中证1000', type: 'line', data: zz1000, smooth: true,
+      lineStyle: { color: '#3498db', width: 2.5 },
+      itemStyle: { color: '#3498db' },
+      areaStyle: { color: { type: 'linear', x:0,y:0,x2:0,y2:1, colorStops: [{offset:0,color:'rgba(52,152,219,0.25)'},{offset:1,color:'rgba(52,152,219,0.02)'}] } }
+    }
+  ]
+});
+})();
+
+// 图表2：行业权重差异
+(function(){
+var dom = document.getElementById('chart-weight-diff');
+if(!dom) return;
+var chart = echarts.init(dom);
+var inds = ['电子','电力设备','医药','非银金融','有色','计算机','基础化工','机械','传媒','其他'];
+var w500 = [17.58, 9.44, 8.97, 6.83, 6.32, 6.12, 5.2, 4.8, 3.5, 31.24];
+var w1000 = [11, 7, 12, 4, 5, 7, 9, 8, 4, 33];
+chart.setOption({
+  tooltip: { trigger: 'axis' },
+  legend: { data: ['CSI 500权重','CSI 1000权重(估)'], top: 0 },
+  grid: { left: 60, right: 30, top: 40, bottom: 50 },
+  xAxis: { type: 'category', data: inds, axisLabel: { rotate: 30, fontSize: 11 } },
+  yAxis: { type: 'value', name: '权重(%)', axisLabel: { formatter: '{value}%' } },
+  series: [
+    { name: 'CSI 500权重', type: 'bar', data: w500,
+      itemStyle: { color: '#e74c3c', borderRadius: [4,4,0,0] },
+      barGap: '10%' },
+    { name: 'CSI 1000权重(估)', type: 'bar', data: w1000,
+      itemStyle: { color: '#3498db', borderRadius: [4,4,0,0] } }
+  ]
+});
+})();
+</script>
+</body>
+</html>

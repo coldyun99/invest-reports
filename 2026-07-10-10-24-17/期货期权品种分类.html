@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>有期权的期货品种 · 相关性/产业链分类</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#1f2329; --sub:#6b7280;
+    --line:#e5e7eb; --accent:#2563eb;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--ink);line-height:1.6;padding:28px 18px;}
+  .wrap{max-width:1180px;margin:0 auto;}
+  h1{font-size:24px;font-weight:700;margin-bottom:4px;}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:22px;}
+  .legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px;font-size:12px;color:var(--sub);}
+  .legend span{background:#eef2ff;border:1px solid #dfe6ff;padding:3px 10px;border-radius:20px;}
+  .group{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px;margin-bottom:16px;box-shadow:0 1px 2px rgba(0,0,0,.03);}
+  .ghead{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;margin-bottom:8px;}
+  .gid{font-size:12px;font-weight:700;color:#fff;background:var(--accent);border-radius:6px;padding:2px 9px;}
+  .gname{font-size:17px;font-weight:700;}
+  .gtag{font-size:12px;color:var(--sub);border:1px solid var(--line);border-radius:6px;padding:1px 8px;}
+  .members{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 8px;}
+  .chip{display:flex;flex-direction:column;align-items:center;background:#f3f4f6;border:1px solid var(--line);border-radius:9px;padding:6px 10px;min-width:64px;}
+  .chip b{font-size:14px;color:var(--ink);}
+  .chip small{font-size:11px;color:var(--sub);}
+  .logic{font-size:13.5px;color:#374151;margin-top:6px;}
+  .logic b{color:var(--accent);}
+  .section-title{font-size:14px;font-weight:700;color:var(--sub);margin:28px 0 10px;letter-spacing:.5px;}
+  table{border-collapse:collapse;width:100%;font-size:13px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:8px;}
+  th,td{border-bottom:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top;}
+  th{background:#f0f4ff;color:#334155;font-weight:600;}
+  td .dir{font-weight:700;}
+  .neg{color:#dc2626;} .low{color:#d97706;} .mid{color:#2563eb;} .pos{color:#16a34a;}
+  .note{font-size:12.5px;color:var(--sub);background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:12px 14px;margin-top:18px;}
+  .foot{font-size:12px;color:var(--sub);margin-top:14px;text-align:center;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>有期权的期货品种 · 产业链 / 相关性分类</h1>
+  <div class="meta">分类原则：组内品种强相关（同产业链 / 同定价因子），组间相关性偏低或负相关 · 统计口径以国内五大交易所（上期所 / 上期能源 / 大商所 / 郑商所 / 广期所 / 中金所）已上市期权为准</div>
+
+  <div class="legend">
+    <span>🟦 金融</span><span>🟩 金属</span><span>🟧 能源化工</span><span>🟨 农产品</span><span>🟪 新能源 / 橡胶</span>
+  </div>
+
+  <!-- 金融 -->
+  <div class="section-title">一、金融衍生品（与商品整体低 / 负相关）</div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#1d4ed8">01</span><span class="gname">股指期货</span><span class="gtag">权益 β</span></div>
+    <div class="members">
+      <div class="chip"><b>IF</b><small>沪深300</small></div>
+      <div class="chip"><b>IH</b><small>上证50</small></div>
+      <div class="chip"><b>IC</b><small>中证500</small></div>
+      <div class="chip"><b>IM</b><small>中证1000</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>高度同向，同受权益市场情绪、流动性、政策驱动，大小盘风格有阶段性分化但长期同涨同跌。<b>组间：</b>与商品低相关；与国债常呈"股债跷跷板"负相关。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#1d4ed8">02</span><span class="gname">国债期货</span><span class="gtag">利率 / 避险</span></div>
+    <div class="members">
+      <div class="chip"><b>TS</b><small>2年</small></div>
+      <div class="chip"><b>TF</b><small>5年</small></div>
+      <div class="chip"><b>T</b><small>10年</small></div>
+      <div class="chip"><b>TL</b><small>30年</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>同受货币政策、资金面、通胀预期驱动，曲线平移时高度同向；陡平交易时长短端分化。<b>组间：</b>与商品（尤其工业品）常负相关——通胀/加息利空商品、利好债跌；避险情境下债涨、商品分化。</div>
+  </div>
+
+  <!-- 金属 -->
+  <div class="section-title">二、金属板块</div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#15803d">03</span><span class="gname">有色金属</span><span class="gtag">全球宏观 + 美元</span></div>
+    <div class="members">
+      <div class="chip"><b>cu</b><small>铜</small></div>
+      <div class="chip"><b>al</b><small>铝</small></div>
+      <div class="chip"><b>zn</b><small>锌</small></div>
+      <div class="chip"><b>pb</b><small>铅</small></div>
+      <div class="chip"><b>ni</b><small>镍</small></div>
+      <div class="chip"><b>sn</b><small>锡</small></div>
+      <div class="chip"><b>bc</b><small>国际铜</small></div>
+      <div class="chip"><b>ao</b><small>氧化铝</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>铜为定价锚，同受全球 GDP、美元指数、库存周期驱动；氧化铝是电解铝原料，与铝强相关。<b>组间：</b>与贵金属阶段负相关（风险偏好 vs 避险）；与黑色中等相关（同为工业，但有色更全球化、黑色更看国内地产基建）。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#15803d">04</span><span class="gname">贵金属</span><span class="gtag">实际利率 + 避险</span></div>
+    <div class="members">
+      <div class="chip"><b>au</b><small>黄金</small></div>
+      <div class="chip"><b>ag</b><small>白银</small></div>
+      <div class="chip"><b>pt</b><small>铂</small></div>
+      <div class="chip"><b>pd</b><small>钯</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>实际利率 + 美元 + 避险主线；金为首，银兼具工业属性与金联动；铂钯偏汽车催化需求、与金相关性弱于金银但仍属避险金属。<b>组间：</b>与有色、股指常负相关或低相关（避险 vs 风险资产）。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#15803d">05</span><span class="gname">黑色钢材产业链</span><span class="gtag">国内地产 / 基建</span></div>
+    <div class="members">
+      <div class="chip"><b>rb</b><small>螺纹钢</small></div>
+      <div class="chip"><b>hc</b><small>热卷</small></div>
+      <div class="chip"><b>i</b><small>铁矿石</small></div>
+      <div class="chip"><b>j</b><small>焦炭</small></div>
+      <div class="chip"><b>jm</b><small>焦煤</small></div>
+      <div class="chip"><b>SF</b><small>硅铁</small></div>
+      <div class="chip"><b>SM</b><small>锰硅</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>螺纹/热卷为成材，铁矿/焦炭/焦煤为炉料，硅铁锰硅为冶炼合金；成本推动 + 利润传导使成材与炉料高度正相关。<b>组间：</b>与能源/化工相关度低；与有色中等（同工业但驱动不同：黑色看国内、有色看全球）。</div>
+  </div>
+
+  <!-- 能源化工 -->
+  <div class="section-title">三、能源化工板块（能源—化工为相邻板块，存在原油传导但弱于组内）</div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#c2410c">06</span><span class="gname">能源</span><span class="gtag">原油为源头</span></div>
+    <div class="members">
+      <div class="chip"><b>sc</b><small>原油</small></div>
+      <div class="chip"><b>fu</b><small>燃油</small></div>
+      <div class="chip"><b>bu</b><small>沥青</small></div>
+      <div class="chip"><b>lu</b><small>低硫燃油</small></div>
+      <div class="chip"><b>pg</b><small>LPG</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>原油定价锚，燃油/低硫燃油/沥青为原油直接下游，高度联动；LPG 部分跟随原油但亦有自身供需。<b>组间：</b>与化工（聚酯/烯烃）正相关但滞后、弱于组内——是上游而非同组。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#c2410c">07</span><span class="gname">聚酯产业链</span><span class="gtag">PX→PTA→聚酯</span></div>
+    <div class="members">
+      <div class="chip"><b>PX</b><small>对二甲苯</small></div>
+      <div class="chip"><b>ta</b><small>PTA</small></div>
+      <div class="chip"><b>eg</b><small>乙二醇</small></div>
+      <div class="chip"><b>pf</b><small>短纤</small></div>
+      <div class="chip"><b>PR</b><small>瓶片</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>对二甲苯是 PTA 原料，PTA + 乙二醇是聚酯（短纤/瓶片）原料，产业链上下游价差交易使组内强相关。<b>组间：</b>上游受原油传导（与能源组正相关但滞后）；与烯烃组相关度低。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#c2410c">08</span><span class="gname">烯烃 / 塑料链</span><span class="gtag">聚烯烃</span></div>
+    <div class="members">
+      <div class="chip"><b>l</b><small>聚乙烯</small></div>
+      <div class="chip"><b>pp</b><small>聚丙烯</small></div>
+      <div class="chip"><b>v</b><small>PVC</small></div>
+      <div class="chip"><b>eb</b><small>苯乙烯</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>同属聚烯烃/乙烯、丙烯下游，共聚原料与产能周期，高度同向。<b>组间：</b>与聚酯组相关度低（不同下游：包装/建材 vs 纺织）；与能源组有原油传导但弱。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#c2410c">09</span><span class="gname">盐化工 / 煤化工</span><span class="gtag">纯碱-玻璃 / 煤头</span></div>
+    <div class="members">
+      <div class="chip"><b>sa</b><small>纯碱</small></div>
+      <div class="chip"><b>fg</b><small>玻璃</small></div>
+      <div class="chip"><b>ma</b><small>甲醇</small></div>
+      <div class="chip"><b>ur</b><small>尿素</small></div>
+      <div class="chip"><b>SH</b><small>烧碱</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>纯碱是玻璃原料（强相关）；甲醇/尿素同为煤头、共享煤炭成本；烧碱是氧化铝原料（与有色组铝联动，但归化工更贴切）。<b>组间：</b>与金属（铝）有单点联动；与聚酯/烯烃组相关度低。</div>
+  </div>
+
+  <!-- 农产品 -->
+  <div class="section-title">四、农产品板块</div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#a16207">10</span><span class="gname">油脂油料</span><span class="gtag">油粕压榨链</span></div>
+    <div class="members">
+      <div class="chip"><b>m</b><small>豆粕</small></div>
+      <div class="chip"><b>y</b><small>豆油</small></div>
+      <div class="chip"><b>p</b><small>棕榈油</small></div>
+      <div class="chip"><b>rm</b><small>菜粕</small></div>
+      <div class="chip"><b>oi</b><small>菜油</small></div>
+      <div class="chip"><b>a</b><small>豆一</small></div>
+      <div class="chip"><b>b</b><small>豆二</small></div>
+      <div class="chip"><b>cs</b><small>玉米淀粉</small></div>
+      <div class="chip"><b>c</b><small>玉米</small></div>
+      <div class="chip"><b>pk</b><small>花生</small></div>
+      <div class="chip"><b>rs</b><small>菜籽</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>蛋白粕（豆粕/菜粕）强相关；油脂（豆油/棕榈油/菜油）强相关；油粕比、豆粽价差为经典套利；玉米/淀粉强相关；豆一/豆二/花生/菜籽同受油料供需影响。<b>组间：</b>与工业品低相关（独立天气/供需驱动）；与软商品相关度低。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#a16207">11</span><span class="gname">软商品</span><span class="gtag">糖 / 棉</span></div>
+    <div class="members">
+      <div class="chip"><b>sr</b><small>白糖</small></div>
+      <div class="chip"><b>cf</b><small>棉花</small></div>
+      <div class="chip"><b>cy</b><small>棉纱</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>棉花—棉纱为上下游，强相关；白糖相对独立但仍归软商品。<b>组间：</b>与油脂油料低相关；受自身产销国政策（印度糖、美棉）主导。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#a16207">12</span><span class="gname">生鲜 / 养殖</span><span class="gtag">养殖周期</span></div>
+    <div class="members">
+      <div class="chip"><b>lh</b><small>生猪</small></div>
+      <div class="chip"><b>jd</b><small>鸡蛋</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>同属养殖，共享饲料成本（豆粕/玉米）与蛋白消费，周期有共振但各自产能周期不同。<b>组间：</b>与油脂油料（饲料端）中等相关；与工业品低相关。注：苹果/红枣/粳米等为特异性品种，组内彼此相关性低，宜单独跟踪。</div>
+  </div>
+
+  <!-- 新能源 / 橡胶 -->
+  <div class="section-title">五、新能源 & 橡胶</div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#7c3aed">13</span><span class="gname">新能源金属</span><span class="gtag">光伏 / 锂电链</span></div>
+    <div class="members">
+      <div class="chip"><b>si</b><small>工业硅</small></div>
+      <div class="chip"><b>lc</b><small>碳酸锂</small></div>
+      <div class="chip"><b>ps</b><small>多晶硅</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>工业硅→多晶硅（光伏硅料），碳酸锂（锂电）同受新能源装机/电池需求驱动，政策与产能周期同步，强相关。<b>组间：</b>与有色中等相关（锂亦受宏观/电池需求影响）；与黑色/能源低相关。</div>
+  </div>
+
+  <div class="group">
+    <div class="ghead"><span class="gid" style="background:#7c3aed">14</span><span class="gname">橡胶</span><span class="gtag">轮胎原料</span></div>
+    <div class="members">
+      <div class="chip"><b>ru</b><small>天然橡胶</small></div>
+      <div class="chip"><b>nr</b><small>20号胶</small></div>
+      <div class="chip"><b>br</b><small>丁二烯橡胶</small></div>
+    </div>
+    <div class="logic"><b>组内：</b>天胶与 20 号胶高度同价（标胶替代）；丁二烯橡胶（合成橡胶）与天胶有替代与成本联动，相关度高但不完全替代。<b>组间：</b>与化工（烯烃）有成本交叉；与金属/能源低相关。</div>
+  </div>
+
+  <!-- 组间相关性方向矩阵 -->
+  <div class="section-title">六、组间相关性方向（定性，供对冲/配置参考）</div>
+  <table>
+    <thead><tr><th>对比</th><th>方向</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>股指 ↔ 国债</td><td><span class="dir neg">负相关</span></td><td>股债跷跷板，风险偏好切换</td></tr>
+      <tr><td>商品整体 ↔ 国债</td><td><span class="dir neg">负相关</span></td><td>通胀/加息利空债、影响商品成本</td></tr>
+      <tr><td>有色 ↔ 贵金属</td><td><span class="dir neg">阶段负相关</span></td><td>风险资产 vs 避险资产</td></tr>
+      <tr><td>黑色 ↔ 有色</td><td><span class="dir low">中等相关</span></td><td>同为工业，但驱动分化（国内地产 vs 全球宏观）</td></tr>
+      <tr><td>能源 ↔ 化工(聚酯/烯烃)</td><td><span class="dir low">正相关·滞后</span></td><td>原油→化工传导，弱于组内</td></tr>
+      <tr><td>农产品 ↔ 工业品</td><td><span class="dir low">低相关</span></td><td>独立天气/供需驱动</td></tr>
+      <tr><td>新能源金属 ↔ 有色</td><td><span class="dir mid">中等相关</span></td><td>锂受宏观+电池需求双重影响</td></tr>
+    </tbody>
+  </table>
+
+  <div class="note">
+    <b>用法提示</b><br>
+    1）同一板块内可做跨品种套利 / 价差交易（如 rb-hc、ta-eg、cu-al、m-rm、y-p），组内相关度高、方向可控。<br>
+    2）跨板块配置用于分散风险：商品 vs 国债、有色 vs 贵金属、股指 vs 国债 是常见的低/负相关对冲组合。<br>
+    3）能源↔化工、有色↔新能源 属于"相邻板块"，相关性中等而非极低，做跨组对冲时需注意传导滞后。<br>
+    4）本分类基于产业链逻辑与已知相关性结构；精确的相关系数需用各品种主力连续合约的日收益序列测算（可接行情数据后出量化矩阵）。
+  </div>
+
+  <div class="foot">生成日期：2026-07-10 · 品种以各交易所最新上市公告为准（铂钯、瓶片、合成橡胶等为近年新增期权）</div>
+</div>
+</body>
+</html>

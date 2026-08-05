@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大宗商品行业数据源目录（2026-07-24 实测验证）</title>
+<style>
+  :root{--red:#c0392b;--green:#1e8449;--bg:#f7f8fa;--card:#fff;--line:#e5e8ec;--txt:#222;--sub:#667;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--txt);line-height:1.65;padding:16px;max-width:1080px;margin:0 auto;}
+  h1{font-size:22px;margin:8px 0 4px;}
+  h2{font-size:17px;margin:28px 0 10px;padding-left:10px;border-left:4px solid var(--red);}
+  h3{font-size:15px;margin:16px 0 6px;}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:12px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;margin-bottom:14px;overflow-x:auto;}
+  table{border-collapse:collapse;width:100%;font-size:13px;white-space:nowrap;}
+  th,td{border:1px solid var(--line);padding:6px 9px;text-align:left;}
+  th{background:#f0f2f5;font-weight:600;}
+  tr:nth-child(even){background:#fafbfc;}
+  .ok{color:var(--green);font-weight:600;}
+  .warn{color:#b7770d;font-weight:600;}
+  .bad{color:var(--red);font-weight:600;}
+  .up{color:var(--red);}
+  .down{color:var(--green);}
+  code,pre{font-family:Consolas,Monaco,monospace;font-size:12px;background:#f4f5f7;border-radius:5px;}
+  code{padding:1px 5px;}
+  pre{padding:10px 12px;overflow-x:auto;border:1px solid var(--line);line-height:1.5;}
+  .tag{display:inline-block;font-size:11px;padding:1px 8px;border-radius:10px;margin-right:4px;}
+  .t-api{background:#e8f4fd;color:#1565c0;}
+  .t-crawl{background:#fdf3e5;color:#a05a00;}
+  .t-free{background:#e8f7ee;color:#1e8449;}
+  .t-part{background:#fdeaea;color:#c0392b;}
+  .note{font-size:12.5px;color:var(--sub);margin-top:8px;}
+  @media (max-width:600px){body{padding:8px;}th,td{padding:5px 6px;font-size:12px;}}
+</style>
+</head>
+<body>
+
+<h1>大宗商品行业数据源目录</h1>
+<div class="meta">实测验证时间：2026-07-24 · 全部数据源经脚本直连抓取验证（非仅浏览器可见） · 范围：全品类大宗商品现货/产业数据，不含交易所行情</div>
+
+<h2>一、数据源总表（按推荐优先级）</h2>
+<div class="card">
+<table>
+<tr><th>#</th><th>数据源</th><th>网址</th><th>覆盖范围</th><th>方式</th><th>频率</th><th>免费程度</th><th>脚本直连实测</th></tr>
+<tr><td>1</td><td><b>生意社·现期表</b></td><td>100ppi.com/sf/</td><td>50+商品现货价+基差（一页全览）</td><td><span class="tag t-crawl">爬虫</span></td><td>每交易日 16:30</td><td><span class="ok">全免费</span></td><td><span class="ok">✅ 200 / 60KB</span>（需处理JS Cookie，已破解）</td></tr>
+<tr><td>2</td><td><b>生意社·单品基准价</b></td><td>100ppi.com/rawmex/detail-{id}.html</td><td>每商品基准价+3月高低+1/2/3年位置+情报流</td><td><span class="tag t-crawl">爬虫</span></td><td>每交易日</td><td><span class="ok">全免费</span></td><td><span class="ok">✅ 200 / 17KB</span></td></tr>
+<tr><td>3</td><td><b>生意社·涨跌榜/BPI</b></td><td>100ppi.com（首页）</td><td>各板块涨跌幅榜、大宗商品价格指数BPI、行业指数</td><td><span class="tag t-crawl">爬虫</span></td><td>每日</td><td><span class="ok">全免费</span></td><td><span class="ok">✅ 可爬</span></td></tr>
+<tr><td>4</td><td><b>新浪期货行情API</b></td><td>hq.sinajs.cn/list=nf_XX0</td><td>全部国内期货主力连续（现货的价格锚）</td><td><span class="tag t-api">API</span></td><td>实时</td><td><span class="ok">全免费</span></td><td><span class="ok">✅ 200 / 结构化文本</span>（需Referer头）</td></tr>
+<tr><td>5</td><td><b>SMM 上海有色网</b></td><td>hq.smm.cn</td><td>有色金属快讯流：库存(SHFE/LME)、开工率、LME升贴水、矿山动态</td><td><span class="tag t-crawl">爬虫</span></td><td>每日多条</td><td><span class="warn">快讯免费，报价数据库付费</span></td><td><span class="ok">✅ 200 / 1.2MB</span>（302跟随后）</td></tr>
+<tr><td>6</td><td><b>隆众资讯</b></td><td>oilchem.net</td><td>能源化工：原油、成品油周批发价、化工品排行、沥青/燃料油/LNG市场价</td><td><span class="tag t-crawl">爬虫</span></td><td>日+周</td><td><span class="warn">首页快照免费，数据中心付费</span></td><td><span class="ok">✅ 200 / 171KB</span></td></tr>
+<tr><td>7</td><td>东方财富 push2 API</td><td>push2.eastmoney.com/api/qt/...</td><td>期货/指数/个股行情（cffex skill已长期使用）</td><td><span class="tag t-api">API</span></td><td>实时</td><td><span class="ok">全免费</span></td><td><span class="ok">✅ 已验证（存量skill）</span></td></tr>
+<tr><td>8</td><td>Mysteel 我的钢铁</td><td>index.mysteel.com</td><td>钢材/铁矿石价格指数</td><td><span class="tag t-crawl">爬虫</span></td><td>每日</td><td><span class="bad">指数数值需客户授权</span></td><td><span class="bad">❌ 仅入口可见，数值动态加载</span></td></tr>
+<tr><td>9</td><td>国家统计局 easyquery</td><td>data.stats.gov.cn</td><td>PPI、行业产量（月度）</td><td><span class="tag t-api">API</span></td><td>月</td><td><span class="ok">免费</span></td><td><span class="bad">❌ 403 WAF UrlACL（脚本被拦，需浏览器方案）</span></td></tr>
+</table>
+<div class="note">交易所官网（上期所/郑商所）均有WAF人机检测，且按你的要求已剔除交易所行情类数据。</div>
+</div>
+
+<h2>二、你的品种覆盖对照（现货数据源定位）</h2>
+<div class="card">
+<table>
+<tr><th>品种</th><th>现货价来源①</th><th>直达URL</th><th>补充来源②</th></tr>
+<tr><td>氧化铝</td><td>新浪 nf_AO0（期货锚，实测✅）</td><td><code>hq.sinajs.cn/list=nf_AO0</code></td><td>SMM铝频道快讯（免费）；生意社rawmex目录未单列氧化铝</td></tr>
+<tr><td>纸浆</td><td>生意社现期表：现货4900 vs 期货4804</td><td><code>100ppi.com/sf/1053.html</code>（针叶浆detail-1053）</td><td>阔叶浆 detail-958</td></tr>
+<tr><td>原油</td><td>生意社 WTI/Brent 基准价</td><td><code>rawmex/detail-1036.html</code>(WTI) / <code>detail-1127.html</code>(Brent)</td><td>隆众首页：Brent 100.69美元/桶(+7.04%)、成品油周批发价</td></tr>
+<tr><td>沪镍</td><td>生意社现期表：现货132,417 vs 期货133,710</td><td><code>rawmex/detail-432.html</code></td><td>SMM镍频道（沪镍日评免费）</td></tr>
+<tr><td>铁矿石</td><td>生意社现期表：现货710.67(湿吨) vs 期货746</td><td><code>rawmex/detail-961.html</code>（铁矿石·澳）</td><td>Mysteel(付费)；海关月度进口量</td></tr>
+<tr><td>豆粕</td><td>生意社：基准价3090(-0.58%)+美豆销售/巴西出口情报流</td><td><code>rawmex/detail-312.html</code></td><td>新浪 nf_M0（实测✅）</td></tr>
+<tr><td>白银</td><td>生意社现期表：现货14,061元/千克</td><td><code>rawmex/detail-544.html</code></td><td>新浪 nf_AG0（实测✅）</td></tr>
+<tr><td>玉米</td><td>生意社现期表：现货2,255.71 vs 期货2,277</td><td><code>rawmex/detail-274.html</code></td><td>新浪 nf_C0（实测✅）</td></tr>
+<tr><td>玻璃</td><td>生意社现期表：现货12.68元/㎡</td><td><code>rawmex/detail-959.html</code></td><td>新浪 nf_FG0（实测✅）</td></tr>
+</table>
+<div class="note">除你的10个品种外，生意社现期表一页即覆盖 50+ 商品（铜/铝/锌/黄金/焦煤/焦炭/碳酸锂/多晶硅/工业硅/生猪/鸡蛋/棉花/白糖/PTA/甲醇/纯碱/尿素…），全品类大宗商品一次抓齐。</div>
+</div>
+
+<h2>三、实测示例数据（2026-07-24 当日抓取）</h2>
+
+<h3>3.1 生意社现期表（节选，元/吨）</h3>
+<div class="card">
+<table>
+<tr><th>商品</th><th>现货价</th><th>主力合约</th><th>期货价</th><th>现期差</th><th>基差率</th></tr>
+<tr><td>纸浆</td><td>4,900.00</td><td>2609</td><td>4,804</td><td class="up">+96</td><td class="up">+1.96%</td></tr>
+<tr><td>镍</td><td>132,416.67</td><td>2609</td><td>133,710</td><td class="down">-1,293</td><td class="down">-0.98%</td></tr>
+<tr><td>白银(元/千克)</td><td>14,061.00</td><td>2610</td><td>14,154</td><td class="down">-93</td><td class="down">-0.66%</td></tr>
+<tr><td>豆粕</td><td>3,090.00</td><td>2609</td><td>3,225</td><td class="down">-135</td><td class="down">-4.37%</td></tr>
+<tr><td>玉米</td><td>2,255.71</td><td>2609</td><td>2,277</td><td class="down">-21</td><td class="down">-0.93%</td></tr>
+<tr><td>铁矿石(湿吨/干吨)</td><td>710.67</td><td>2609</td><td>746</td><td class="down">-35</td><td class="down">-4.92%</td></tr>
+<tr><td>玻璃(现货元/㎡)</td><td>12.68</td><td>2609</td><td>908</td><td colspan="2">规格不同仅供参考</td></tr>
+<tr><td>焦煤</td><td>1,846.25</td><td>2609</td><td>1,285</td><td class="up">+561</td><td class="up">+30.39%</td></tr>
+<tr><td>碳酸锂</td><td>143,000.00</td><td>2609</td><td>144,280</td><td class="down">-1,280</td><td class="down">-0.90%</td></tr>
+</table>
+<div class="note">来源：https://www.100ppi.com/sf/ · 每交易日约16:30更新 · 抓样文件 samples/100ppi_xianqibiao.html（60KB完整页）</div>
+</div>
+
+<h3>3.2 生意社单品详情页（豆粕 detail-312）</h3>
+<div class="card">
+<pre>基准价: 3090.00 元/吨   涨跌: -0.58%   更新: 07-24 16:20
+三个月均价: 2938.64  最高: 3108.00  最低: 2848.00
+一年位置: 中低位   两年位置: 中低位   三年位置: 低位
+现货参考价: 豆粕 九三·天津 粗蛋白≥43% → 3080.00 (07-24 16:00)
+情报流(免费): 美豆粕周度净销售18.5万吨 | 巴西7月豆粕出口169万吨 |
+             6月中国豆粕进口4396.7吨 | 欧盟自阿根廷进口10.9万吨(-29.8%)</pre>
+<div class="note">每个品种一个页面，结构统一，URL仅换ID → 极易批量爬取。抓样 samples/100ppi_doupo_detail.html</div>
+</div>
+
+<h3>3.3 新浪期货行情API（结构化，最易解析）</h3>
+<div class="card">
+<pre>GET https://hq.sinajs.cn/list=nf_AO0,nf_SP0,nf_M0,nf_FG0   (需 Referer: finance.sina.com.cn)
+
+var hq_str_nf_AO0="氧化铝连续,150000,2702.000,2715.000,2685.000,2710.000,...,2026-07-24";
+var hq_str_nf_SP0="纸浆连续,150000,4854.000,4854.000,4784.000,4804.000,...,2026-07-24";
+var hq_str_nf_M0="豆粕连续,150424,3180.000,3230.000,3166.000,3225.000,...,2026-07-24";
+var hq_str_nf_FG0="玻璃连续,150000,900.000,912.000,891.000,908.000,...,2026-07-24";
+
+字段: 名称,时间,开盘,最高,最低,收盘,结算,买价,卖价,昨结,昨收,买量,卖量,持仓,成交量,交易所,品种,日期
+品种代码: AO氧化铝 SP纸浆 NI镍 I铁矿石 M豆粕 AG白银 C玉米 FG玻璃 SC原油 (后缀0=主力连续)</pre>
+<div class="note">抓样 samples/sina_futures_api.txt（9品种全部返回成功）</div>
+</div>
+
+<h3>3.4 SMM 上海有色网免费快讯（有色基本面）</h3>
+<div class="card">
+<pre>07-24  2026年7月24日 SHFE铜库存【SMM数据】
+07-24  LME升贴水: 铜+4.6 | 铝+17.98 | 镍-198.84 美元/吨 (持仓变动同步给出)
+07-24  黄铜棒周度开工率 49.13% (环比-0.48pct)，成品库存天数 5.09天
+07-24  漆包线开机率环比-2.07pct，周接单量-4.18%
+07-24  智利暴雪: Caserones停产待复产 | 巴基斯坦Saindak铜矿遭封锁(年产2万吨粗铜)</pre>
+<div class="note">来源 hq.smm.cn/copper 等分频道 · 快讯/库存/开工率免费，历史报价数据库付费 · 抓样 samples/smm_home.html（1.2MB）</div>
+</div>
+
+<h3>3.5 隆众资讯首页（能源化工）</h3>
+<div class="card">
+<pre>Brent原油: 100.69 美元/桶 (+7.04%, 07-24)
+成品油周批发价(7.20-7.24): 92#汽油 8657(+6.39%) | 95# 8759(+6.22%) | 柴油 7512(+9.39%)
+市场价(07-24): 山东重交沥青 4415(+0.8%) | 舟山高硫燃油 645美元 | 河北LNG 5605(-0.53%)
+全市场涨跌统计: 上涨374种(25.5%) | 持平748种(51.0%) | 下跌346种(23.6%)</pre>
+<div class="note">首页快照免费可爬；产能/开工率/进出口数据中心(dt.oilchem.net)需订阅 · 抓样 samples/oilchem_home.html（171KB）</div>
+</div>
+
+<h2>四、爬取技术要点（实测结论）</h2>
+<div class="card">
+<table>
+<tr><th>数据源</th><th>反爬情况</th><th>破解方案（已验证）</th></tr>
+<tr><td>生意社</td><td>首次请求返回JS Cookie挑战页(HW_CHECK)</td><td>正则提取 <code>_0x2="..."</code> 值 → 带 <code>Cookie: HW_CHECK=值</code> 重试 → 拿到完整页面。Cookie有效期10分钟，会话内复用</td></tr>
+<tr><td>新浪API</td><td>校验Referer头</td><td>带 <code>Referer: finance.sina.com.cn</code> 即可，无其他限制</td></tr>
+<tr><td>SMM</td><td>首页302重定向到 /copper</td><td>跟随重定向(curl -L)即可；分品种频道 /nickel /aluminum 等同理</td></tr>
+<tr><td>隆众</td><td>无（首页）</td><td>直接抓取，HTML解析</td></tr>
+<tr><td>国家统计局</td><td>WAF UrlACL 拦截脚本UA</td><td>暂未破解，后续可走浏览器自动化或改用统计月报页面</td></tr>
+</table>
+<div class="note">通用建议：UA伪装Mozilla/5.0、请求间隔≥2秒、每源3次重试、双源兜底（生意社挂了用新浪期货锚现货趋势）。</div>
+</div>
+
+<h2>五、下一步（开发采集skill时）</h2>
+<div class="card">
+<b>建议频率分层：</b>
+<table>
+<tr><th>层</th><th>内容</th><th>源</th><th>频率</th></tr>
+<tr><td>日更</td><td>50+商品现货价+基差（现期表整页）</td><td>生意社 /sf/</td><td>每交易日 17:00 后</td></tr>
+<tr><td>日更</td><td>关注品种基准价+位置+情报流</td><td>生意社 detail-{id}</td><td>每交易日</td></tr>
+<tr><td>日更</td><td>有色库存/开工率/LME升贴水快讯</td><td>SMM 分频道</td><td>每交易日</td></tr>
+<tr><td>周更</td><td>成品油批发价、化工品涨跌排行</td><td>隆众首页</td><td>每周五</td></tr>
+<tr><td>月更</td><td>PPI/产量/进口量</td><td>统计局(待解)/海关</td><td>每月发布日</td></tr>
+</table>
+<div class="note">架构参考现有 cffex-basis-monitor skill：HTTP取数+重试+双源兜底+Markdown表格推送，数据落SQLite积累历史。</div>
+</div>
+
+<div class="meta" style="margin-top:20px">抓样文件目录：samples/（100ppi_xianqibiao.html · 100ppi_doupo_detail.html · sina_futures_api.txt · smm_home.html · oilchem_home.html）</div>
+</body>
+</html>

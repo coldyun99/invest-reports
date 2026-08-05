@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>武汉车位投资分析报告</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  :root {
+    --bg: #f5f6f8;
+    --card: #ffffff;
+    --text: #1a1a2e;
+    --text-2: #555;
+    --text-3: #888;
+    --border: #e8e8e8;
+    --accent: #1a56db;
+    --accent-light: #e8f0fe;
+    --red: #dc2626;
+    --green: #059669;
+    --orange: #ea580c;
+    --yellow: #ca8a04;
+    --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-lg: 0 4px 12px rgba(0,0,0,0.08);
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15px;
+  }
+  .container { max-width: 960px; margin: 0 auto; padding: 0 24px 60px; }
+
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+    color: #fff;
+    padding: 48px 0 40px;
+    text-align: center;
+  }
+  .header h1 { font-size: 30px; font-weight: 700; margin-bottom: 10px; letter-spacing: 1px; }
+  .header .subtitle { font-size: 15px; opacity: 0.8; }
+  .header .meta { margin-top: 16px; font-size: 13px; opacity: 0.6; }
+  .header .meta span { margin: 0 8px; }
+
+  /* Section */
+  .section { margin-top: 40px; }
+  .section-title {
+    font-size: 22px; font-weight: 700; margin-bottom: 6px;
+    padding-left: 14px; border-left: 4px solid var(--accent);
+  }
+  .section-desc { font-size: 14px; color: var(--text-3); margin-bottom: 20px; padding-left: 18px; }
+
+  /* Verdict Banner */
+  .verdict {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: var(--shadow-lg);
+    margin-top: 32px;
+    border-top: 4px solid var(--red);
+  }
+  .verdict-label {
+    display: inline-block; background: #fef2f2; color: var(--red);
+    font-size: 13px; font-weight: 600; padding: 4px 12px; border-radius: 20px;
+    margin-bottom: 16px;
+  }
+  .verdict h2 { font-size: 24px; line-height: 1.5; margin-bottom: 16px; }
+  .verdict p { color: var(--text-2); font-size: 15px; line-height: 1.8; }
+  .verdict .highlight { color: var(--red); font-weight: 600; }
+
+  /* Cards grid */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+  @media (max-width: 680px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+
+  .card {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .card-title { font-size: 16px; font-weight: 600; margin-bottom: 14px; color: var(--text); }
+  .stat-big { font-size: 36px; font-weight: 700; line-height: 1.1; }
+  .stat-unit { font-size: 14px; color: var(--text-3); margin-left: 4px; }
+  .stat-label { font-size: 13px; color: var(--text-3); margin-top: 6px; }
+  .stat-change { font-size: 13px; margin-top: 8px; }
+  .stat-change.down { color: var(--green); }
+  .stat-change.up { color: var(--red); }
+
+  /* Chart container */
+  .chart-box {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+  }
+  .chart-box h3 { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+  .chart-box .chart-desc { font-size: 13px; color: var(--text-3); margin-bottom: 20px; }
+  .chart-wrap { position: relative; height: 320px; }
+
+  /* Table */
+  table { width: 100%; border-collapse: collapse; font-size: 14px; }
+  th {
+    text-align: left; padding: 12px 14px; background: #f8f9fa;
+    font-weight: 600; color: var(--text-2); border-bottom: 2px solid var(--border);
+    font-size: 13px;
+  }
+  td { padding: 12px 14px; border-bottom: 1px solid var(--border); }
+  tr:last-child td { border-bottom: none; }
+  .tag {
+    display: inline-block; font-size: 12px; padding: 2px 10px;
+    border-radius: 12px; font-weight: 500;
+  }
+  .tag-red { background: #fef2f2; color: var(--red); }
+  .tag-yellow { background: #fefce8; color: var(--yellow); }
+  .tag-green { background: #f0fdf4; color: var(--green); }
+
+  /* Risk list */
+  .risk-item {
+    display: flex; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--border);
+  }
+  .risk-item:last-child { border-bottom: none; }
+  .risk-num {
+    flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+    background: #fef2f2; color: var(--red); font-size: 14px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .risk-content h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .risk-content p { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+
+  /* Condition list */
+  .cond-item {
+    background: var(--card);
+    border-radius: 10px;
+    padding: 20px 24px;
+    box-shadow: var(--shadow);
+    margin-bottom: 14px;
+    border-left: 4px solid var(--green);
+  }
+  .cond-item h4 { font-size: 16px; font-weight: 600; margin-bottom: 6px; }
+  .cond-item p { font-size: 14px; color: var(--text-2); }
+
+  /* Formula box */
+  .formula {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 16px 20px;
+    font-family: "Courier New", monospace;
+    font-size: 14px;
+    color: var(--text);
+    margin: 12px 0;
+    border: 1px solid var(--border);
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 48px; padding-top: 24px; border-top: 1px solid var(--border);
+    font-size: 13px; color: var(--text-3); line-height: 1.8;
+  }
+  .footer a { color: var(--accent); text-decoration: none; }
+
+  .note { font-size: 13px; color: var(--text-3); margin-top: 10px; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 24px; }
+  @media (max-width: 680px) { .summary-grid { grid-template-columns: repeat(2, 1fr); } }
+  .summary-item {
+    background: var(--card); border-radius: 10px; padding: 18px 16px; box-shadow: var(--shadow);
+    text-align: center;
+  }
+  .summary-item .val { font-size: 24px; font-weight: 700; }
+  .summary-item .lbl { font-size: 12px; color: var(--text-3); margin-top: 4px; }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="container">
+    <h1>武汉车位投资分析报告</h1>
+    <div class="subtitle">出租收益模式下的投资回报与风险评估</div>
+    <div class="meta">
+      <span>数据截止：2025年底</span>
+      <span>|</span>
+      <span>发布日期：2026年7月</span>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 执行摘要 -->
+  <div class="verdict">
+    <span class="verdict-label">核心结论</span>
+    <h2>当前武汉车位投资出租<span class="highlight">整体不划算</span>，仅极少数"低价捡漏+核心地段+产权车位"组合有微利空间</h2>
+    <p>
+      武汉车位价格经历大幅下跌，部分小区从高峰期15万腰斩至2-5万，表面看"抄底"机会来了。但租金同步连跌4年（2022年1.08元/㎡/天降至2026年0.95元/㎡/天），主流月租仅300-500元，扣除管理费后年化收益多在3%-6%。叠加价格仍在下行、违停管理松散抑制需求、人防车位无产权、流动性极差等多重风险，<strong>绝大多数场景下跑不赢低风险理财</strong>，且面临本金亏损风险。
+    </p>
+  </div>
+
+  <!-- 关键数据速览 -->
+  <div class="summary-grid" style="margin-top: 28px;">
+    <div class="summary-item">
+      <div class="val" style="color: var(--red);">5-8万</div>
+      <div class="lbl">主流车位售价（2025）</div>
+    </div>
+    <div class="summary-item">
+      <div class="val" style="color: var(--orange);">300-500</div>
+      <div class="lbl">主流月租金（元）</div>
+    </div>
+    <div class="summary-item">
+      <div class="val" style="color: var(--green);">1:1.01</div>
+      <div class="lbl">全市车位比（供略大于求）</div>
+    </div>
+    <div class="summary-item">
+      <div class="val" style="color: var(--red);">3%-6%</div>
+      <div class="lbl">典型年化收益率（净）</div>
+    </div>
+  </div>
+
+  <!-- 一、市场现状 -->
+  <div class="section">
+    <div class="section-title">一、武汉车位市场现状</div>
+    <div class="section-desc">价格腰斩、租金下行、供需结构性失衡</div>
+
+    <div class="chart-box">
+      <h3>典型小区车位价格变化（高峰期 vs 2025年）</h3>
+      <div class="chart-desc">数据来源：今日头条、搜狐、极目新闻报道（2025年）</div>
+      <div class="chart-wrap"><canvas id="priceChart"></canvas></div>
+    </div>
+
+    <div class="grid-2">
+      <div class="chart-box">
+        <h3>车位月租金分布</h3>
+        <div class="chart-desc">58同城/安居客挂牌数据，单位：元/月</div>
+        <div class="chart-wrap"><canvas id="rentChart"></canvas></div>
+      </div>
+      <div class="chart-box">
+        <h3>车位日租金走势（元/㎡/天）</h3>
+        <div class="chart-desc">58同城数据，连续4年下跌</div>
+        <div class="chart-wrap"><canvas id="rentTrendChart"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 4px;">
+      <div class="card-title">供需基本面</div>
+      <table>
+        <tr><th>指标</th><th>数据</th><th>解读</th></tr>
+        <tr>
+          <td>机动车保有量</td>
+          <td>500万辆+（2025年底）</td>
+          <td>2015年仅200万，10年翻倍</td>
+        </tr>
+        <tr>
+          <td>停车位总量</td>
+          <td>477.91万个（2023年）</td>
+          <td>车位比1:1.01，全国领先</td>
+        </tr>
+        <tr>
+          <td>2025年新增泊位</td>
+          <td>20.59万个</td>
+          <td>政府民生实事，供给持续增加</td>
+        </tr>
+        <tr>
+          <td>中心城区占比</td>
+          <td>59.8%</td>
+          <td><span class="tag tag-yellow">结构性失衡</span> 中心城区需求大但供给不足</td>
+        </tr>
+        <tr>
+          <td>违停管理</td>
+          <td>普遍松散</td>
+          <td><span class="tag tag-red">利空</span> 路边免费停车抑制付费车位需求</td>
+        </tr>
+        <tr>
+          <td>新能源车保有量</td>
+          <td>79.3万辆（2025年底）</td>
+          <td><span class="tag tag-green">利好</span> 带充电桩车位需求增长</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- 二、投资回报测算 -->
+  <div class="section">
+    <div class="section-title">二、投资回报测算</div>
+    <div class="section-desc">三种典型场景的静态回报分析（含管理费、含空置假设）</div>
+
+    <div class="card">
+      <div class="card-title">测算假设</div>
+      <ul style="font-size: 14px; color: var(--text-2); padding-left: 20px; line-height: 2;">
+        <li>车位管理费：96元/月（业主承担，保守口径）</li>
+        <li>年空置率：1个月/年（换租间隙，合理估计）</li>
+        <li>管理费空置期仍需缴纳（全年12个月）</li>
+        <li>不含税费、交易成本、维修费用</li>
+        <li>静态测算，不考虑租金涨跌和车位价格变动</li>
+      </ul>
+    </div>
+
+    <div class="chart-box" style="margin-top: 20px;">
+      <h3>三种投资场景对比</h3>
+      <div class="chart-desc">按购入价格分档，测算净年化收益率与回本周期</div>
+      <table>
+        <tr>
+          <th>指标</th>
+          <th>场景A：低价捡漏</th>
+          <th>场景B：主流中价</th>
+          <th>场景C：核心区高价</th>
+        </tr>
+        <tr>
+          <td>购入价格</td>
+          <td><strong>5万元</strong></td>
+          <td><strong>8万元</strong></td>
+          <td><strong>15万元</strong></td>
+        </tr>
+        <tr>
+          <td>月租金（含空置摊薄）</td>
+          <td>321元</td>
+          <td>367元</td>
+          <td>458元</td>
+        </tr>
+        <tr>
+          <td>月管理费</td>
+          <td>96元</td>
+          <td>96元</td>
+          <td>96元</td>
+        </tr>
+        <tr>
+          <td>年净收益</td>
+          <td>2,700元</td>
+          <td>3,252元</td>
+          <td>4,344元</td>
+        </tr>
+        <tr>
+          <td>静态回本周期</td>
+          <td style="color: var(--orange); font-weight: 600;">18.5年</td>
+          <td style="color: var(--red); font-weight: 600;">24.6年</td>
+          <td style="color: var(--red); font-weight: 600;">34.5年</td>
+        </tr>
+        <tr>
+          <td>净年化收益率</td>
+          <td style="color: var(--green); font-weight: 700;">5.4%</td>
+          <td style="color: var(--orange); font-weight: 700;">4.1%</td>
+          <td style="color: var(--red); font-weight: 700;">2.9%</td>
+        </tr>
+        <tr>
+          <td>结论</td>
+          <td><span class="tag tag-yellow">勉强可行</span></td>
+          <td><span class="tag tag-red">不推荐</span></td>
+          <td><span class="tag tag-red">明确亏损</span></td>
+        </tr>
+      </table>
+      <div class="note">
+        * 月租金含空置摊薄 = 名义月租 × 11/12；场景A名义月租350元，场景B名义月租400元，场景C名义月租500元
+      </div>
+    </div>
+
+    <div class="chart-box">
+      <h3>与其他投资方式年化收益对比</h3>
+      <div class="chart-desc">车位投资需承担流动性风险与价格下跌风险，理应要求更高回报</div>
+      <div class="chart-wrap"><canvas id="compareChart"></canvas></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">价值判断公式</div>
+      <p style="font-size: 14px; color: var(--text-2); margin-bottom: 12px;">业内人士提出的车位购买价值红线：</p>
+      <div class="formula">月租金 × 180个月 > 车位售价 → 才值得购买</div>
+      <p style="font-size: 14px; color: var(--text-2);">
+        以武汉主流月租400元计算：400 × 180 = <strong>7.2万元</strong>。即售价低于7.2万才有投资价值，高于此线则不如长租。
+      </p>
+    </div>
+  </div>
+
+  <!-- 三、核心风险 -->
+  <div class="section">
+    <div class="section-title">三、五大核心风险</div>
+    <div class="section-desc">投资前必须认清的下行因素</div>
+
+    <div class="card">
+      <div class="risk-item">
+        <div class="risk-num">1</div>
+        <div class="risk-content">
+          <h4>价格持续下跌，跌幅惊人</h4>
+          <p>武汉正荣府车位从15万跌至2万（跌幅87%），绿地国际理想城从12万跌至3.2万（跌幅73%）。这不是个案，而是全市场趋势。买入后大概率面临账面浮亏，且法拍车位成交率不足10%，几乎无法变现。</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">2</div>
+        <div class="risk-content">
+          <h4>租金连续4年下行</h4>
+          <p>58同城数据显示，武汉车位日租金从2022年1.08元/㎡/天跌至2026年0.95元/㎡/天，累计跌幅12%。趋势未见拐点，意味着投资回报可能持续恶化。</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">3</div>
+        <div class="risk-content">
+          <h4>人防车位无产权，法律风险大</h4>
+          <p>武汉大部分在售车位实为人防车位，依据《人民防空法》和湖北省相关规定，人防车位<strong>无产权、不能买卖、只能租赁</strong>（租期不超过20年）。所谓"购买"本质是长期租赁，合同存在被认定无效的风险，也无法抵押融资。</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">4</div>
+        <div class="risk-content">
+          <h4>违停管理松散，抑制付费需求</h4>
+          <p>武汉路边违停现象普遍，小区周边道路夜间停满车辆，部分区域甚至停两排。免费/低成本的路边停车直接分流了付费车位需求，是租金上不去的核心原因之一。多位业主反映"武汉违停没人管"。</p>
+        </div>
+      </div>
+      <div class="risk-item">
+        <div class="risk-num">5</div>
+        <div class="risk-content">
+          <h4>流动性极差，转手困难</h4>
+          <p>车位属于非必需品（可租可不停），受众窄。中指研究院数据显示2025年法拍车位清仓率仅9.1%，近九成流拍。买入容易卖出难，资金一旦投入可能长期被锁定。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 四、什么情况下可以考虑 -->
+  <div class="section">
+    <div class="section-title">四、什么情况下"可以买"</div>
+    <div class="section-desc">并非完全不能投，但需同时满足多个条件</div>
+
+    <div class="cond-item">
+      <h4>条件一：价格极低 + 产权车位</h4>
+      <p>购入价低于5万元，且为可办不动产权证的产权车位（非人防车位）。此时即使租金一般，年化收益也能到5%以上，且产权车位可抵押、可转让，退出渠道相对畅通。</p>
+    </div>
+    <div class="cond-item" style="border-left-color: var(--orange);">
+      <h4>条件二：车位比低于1:0.8的老旧小区</h4>
+      <p>小区车位严重不足（如老城区2010年前建成小区），车位比低于1:0.8，夜间停车一位难求。这类小区空置率接近零，租金抗跌性强，且有涨价空间。前提是确认该小区不会被新增公共停车场分流。</p>
+    </div>
+    <div class="cond-item" style="border-left-color: var(--accent);">
+      <h4>条件三：带充电桩的新能源车位</h4>
+      <p>武汉新能源车保有量已达79.3万辆且快速增长。带7kW充电桩的车位在深圳等城市租金溢价达41%。若能以合理价格购入带充电桩的产权车位，且小区新能源车主占比高，租金回报有望显著高于普通车位。</p>
+    </div>
+    <div class="cond-item" style="border-left-color: var(--text-3);">
+      <h4>条件四：自用为主，投资为辅</h4>
+      <p>如果本身住在该小区、有停车刚需，买车位省下的租金相当于"收益"。此时不用考虑空置和找租客的问题，门槛大大降低——但本质上这是消费决策而非投资决策。</p>
+    </div>
+  </div>
+
+  <!-- 五、决策建议 -->
+  <div class="section">
+    <div class="section-title">五、投资决策建议</div>
+    <div class="section-desc">基于以上分析的行动指南</div>
+
+    <div class="grid-2">
+      <div class="card" style="border-top: 3px solid var(--red);">
+        <div class="card-title" style="color: var(--red);">不建议的情况</div>
+        <ul style="font-size: 14px; color: var(--text-2); padding-left: 20px; line-height: 2.2;">
+          <li>售价超过7万元（按主流月租400元红线）</li>
+          <li>人防车位、无产权、只能签长期租赁协议</li>
+          <li>小区车位比 > 1:1.2，供过于求</li>
+          <li>周边道路夜间大量免费违停</li>
+          <li>纯投资目的（不自住、不自用）</li>
+          <li>预期短期内转手获利</li>
+        </ul>
+      </div>
+      <div class="card" style="border-top: 3px solid var(--green);">
+        <div class="card-title" style="color: var(--green);">可以考虑的情况</div>
+        <ul style="font-size: 14px; color: var(--text-2); padding-left: 20px; line-height: 2.2;">
+          <li>产权车位，售价3-5万元（工抵/特价）</li>
+          <li>自住小区，车位比 < 1:0.8</li>
+          <li>带充电桩，小区新能源车主多</li>
+          <li>长期持有（10年以上），不急于变现</li>
+          <li>资金闲余，不依赖这笔钱的流动性</li>
+          <li>已实地确认空置率低、租金稳定</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top: 16px; background: #fffbeb; border: 1px solid #fde68a;">
+      <div class="card-title" style="color: var(--yellow);">一句话总结</div>
+      <p style="font-size: 16px; line-height: 1.8; color: var(--text);">
+        武汉车位市场正处于<strong>价格泡沫出清期</strong>，大多数车位仍是"负资产"——租金跑不赢理财，价格还在跌，卖又卖不掉。
+        如果手上有闲钱，<strong>银行理财或国债的性价比远高于投资车位出租</strong>。
+        唯一的例外是用3-5万捡漏一个核心区老旧小区的产权车位，这种机会少之又少，且必须自己做足尽职调查。
+      </p>
+    </div>
+  </div>
+
+  <!-- 数据来源 -->
+  <div class="footer">
+    <strong>数据来源：</strong><br>
+    1. 《2023年度武汉市停车发展蓝皮书》（武汉城建集团交通公司发布）<br>
+    2. 58同城/安居客武汉车位租金及售价挂牌数据（2025-2026年）<br>
+    3. 极目新闻、今日头条、搜狐等媒体报道（武汉车位降价相关，2025年）<br>
+    4. 武汉市经信局公开数据（新能源汽车保有量，2025年底）<br>
+    5. 中指研究院法拍市场报告（2025年1-2月）<br>
+    6. 武汉市自然资源和城乡建设局/东西湖区政府官网（人防车位政策问答）<br>
+    7. 湖北日报报道（武汉停车泊位建设，2025年12月）<br>
+    <br>
+    <strong>免责声明：</strong>本报告基于公开数据和市场信息进行分析，不构成投资建议。实际投资决策请结合个人情况、实地调研和专业咨询。市场数据存在时效性，请以最新信息为准。
+  </div>
+
+</div>
+
+<script>
+// 颜色常量
+const C = {
+  text: '#555',
+  grid: '#e8e8e8',
+  red: '#dc2626',
+  green: '#059669',
+  orange: '#ea580c',
+  yellow: '#ca8a04',
+  blue: '#1a56db',
+  lightRed: '#fca5a5',
+  lightBlue: '#93c5fd',
+  gray: '#9ca3af'
+};
+
+Chart.defaults.font.family = "-apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif";
+Chart.defaults.font.size = 12;
+Chart.defaults.color = C.text;
+
+// 1. 价格变化对比图
+new Chart(document.getElementById('priceChart'), {
+  type: 'bar',
+  data: {
+    labels: ['正荣府', '绿地国际\n理想城', '中建汤逊\n湖壹号', '华润\n昆仑御', '光明上海\n府邸', '融创\n临江府', '仁恒公园\n世纪'],
+    datasets: [
+      {
+        label: '高峰期售价（万元）',
+        data: [15, 12, 12, 18, 13, 19, 20],
+        backgroundColor: C.gray,
+        borderRadius: 4,
+      },
+      {
+        label: '2025年售价（万元）',
+        data: [2, 3.2, 6, 8, 8.5, 11, 7],
+        backgroundColor: C.red,
+        borderRadius: 4,
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { position: 'top', labels: { boxWidth: 14, padding: 16 } },
+      tooltip: { callbacks: { label: (c) => ` ${c.dataset.label}: ${c.parsed.y}万元` } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: '万元' },
+        grid: { color: C.grid }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 2. 租金分布
+new Chart(document.getElementById('rentChart'), {
+  type: 'bar',
+  data: {
+    labels: ['200-300', '300-350', '350-400', '400-450', '450-550', '550-700', '700+'],
+    datasets: [{
+      label: '挂牌数量占比（%）',
+      data: [12, 18, 22, 20, 14, 9, 5],
+      backgroundColor: [C.lightBlue, C.lightBlue, C.blue, C.blue, C.orange, C.orange, C.red],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (c) => ` 占比约 ${c.parsed.y}%` } }
+    },
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: { display: true, text: '挂牌占比（%）' },
+        grid: { color: C.grid }
+      },
+      x: {
+        title: { display: true, text: '月租金区间（元）' },
+        grid: { display: false }
+      }
+    }
+  }
+});
+
+// 3. 租金走势
+new Chart(document.getElementById('rentTrendChart'), {
+  type: 'line',
+  data: {
+    labels: ['2022', '2023', '2024', '2025', '2026'],
+    datasets: [{
+      label: '日租金（元/㎡/天）',
+      data: [1.08, 1.05, 1.07, 0.97, 0.95],
+      borderColor: C.red,
+      backgroundColor: 'rgba(220,38,38,0.08)',
+      fill: true,
+      tension: 0.3,
+      pointRadius: 5,
+      pointBackgroundColor: C.red,
+      borderWidth: 2.5,
+    }]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (c) => ` ${c.parsed.y}元/㎡/天` } }
+    },
+    scales: {
+      y: {
+        min: 0.9,
+        max: 1.15,
+        title: { display: true, text: '元/㎡/天' },
+        grid: { color: C.grid }
+      },
+      x: { grid: { display: false } }
+    }
+  }
+});
+
+// 4. 投资方式对比
+new Chart(document.getElementById('compareChart'), {
+  type: 'bar',
+  data: {
+    labels: ['货币基金', '银行定期\n（3年）', '国债\n（3年）', '银行理财\n（R2级）', '车位A\n（5万捡漏）', '车位B\n（8万主流）', '车位C\n（15万高价）'],
+    datasets: [{
+      label: '年化收益率（%）',
+      data: [1.5, 2.0, 2.3, 3.3, 5.4, 4.1, 2.9],
+      backgroundColor: [C.green, C.green, C.green, C.green, C.yellow, C.orange, C.red],
+      borderRadius: 4,
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: { callbacks: { label: (c) => ` 年化 ${c.parsed.x}%` } },
+      annotation: {}
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        title: { display: true, text: '年化收益率（%）' },
+        grid: { color: C.grid }
+      },
+      y: { grid: { display: false } }
+    }
+  }
+});
+</script>
+
+</body>
+</html>

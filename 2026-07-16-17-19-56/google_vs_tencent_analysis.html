@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>谷歌(Alphabet) vs 腾讯控股 财务对比分析</title>
+<style>
+  :root{
+    --bg:#f7f8fa; --card:#ffffff; --ink:#1a1d24; --muted:#6b7280;
+    --line:#e6e8ec; --blue:#1a73e8; --blue2:#4285f4; --green:#0f9d58;
+    --red:#ea4335; --tencent:#07c160; --tencent2:#1aad19; --gold:#f4b400;
+    --softblue:#e8f0fe; --softgreen:#e6f7ee; --shadow:0 1px 3px rgba(0,0,0,.06),0 6px 20px rgba(0,0,0,.04);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:1080px;margin:0 auto;padding:32px 20px 80px}
+  header.hero{background:linear-gradient(120deg,#1a73e8 0%,#4285f4 45%,#07c160 130%);
+    color:#fff;border-radius:18px;padding:34px 36px;box-shadow:var(--shadow);position:relative;overflow:hidden}
+  header.hero:after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;
+    background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
+  header.hero h1{font-size:26px;font-weight:800;letter-spacing:.5px}
+  header.hero .sub{margin-top:8px;font-size:14px;opacity:.92}
+  header.hero .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
+  header.hero .tags span{background:rgba(255,255,255,.16);padding:4px 11px;border-radius:20px;font-size:12.5px}
+  .meta{margin-top:14px;font-size:12px;opacity:.85}
+  section{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:26px 28px;margin-top:22px;box-shadow:var(--shadow)}
+  h2{font-size:19px;font-weight:750;margin-bottom:6px;display:flex;align-items:center;gap:9px}
+  h2 .num{background:var(--blue);color:#fff;width:26px;height:26px;border-radius:8px;display:inline-flex;
+    align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .lead{color:var(--muted);font-size:14px;margin:10px 0 18px}
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+  .cmp-card{border:1px solid var(--line);border-radius:14px;padding:18px 20px;background:#fcfdff}
+  .cmp-card.tc{background:#f7fdf9}
+  .cmp-card .name{font-weight:750;font-size:16px;display:flex;align-items:center;gap:8px}
+  .dot{width:10px;height:10px;border-radius:50%}
+  .dot.g{background:var(--blue2)} .dot.t{background:var(--tencent)}
+  .cmp-card .ticker{font-size:12px;color:var(--muted);margin-bottom:12px}
+  .kv{display:flex;justify-content:space-between;font-size:13.5px;padding:6px 0;border-bottom:1px dashed var(--line)}
+  .kv:last-child{border-bottom:none}
+  .kv .k{color:var(--muted)} .kv .v{font-weight:650}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:6px}
+  .kpi{background:linear-gradient(180deg,#fff,#fafbff);border:1px solid var(--line);border-radius:13px;padding:15px 16px;text-align:center}
+  .kpi .big{font-size:22px;font-weight:800;color:var(--blue)}
+  .kpi .big.t{color:var(--tencent2)}
+  .kpi .lbl{font-size:12px;color:var(--muted);margin-top:4px}
+  .kpi .delta{font-size:11.5px;margin-top:3px}
+  .up{color:var(--green)} .down{color:var(--red)}
+  /* bar chart */
+  .barrow{display:flex;align-items:center;gap:12px;margin:11px 0}
+  .barrow .blabel{width:150px;font-size:13px;color:var(--ink);text-align:right;flex-shrink:0}
+  .bartrack{flex:1;background:#eef1f5;border-radius:8px;height:30px;position:relative;overflow:hidden}
+  .barfill{height:100%;border-radius:8px;display:flex;align-items:center;justify-content:flex-end;
+    padding-right:10px;color:#fff;font-size:12.5px;font-weight:700;transition:width .6s}
+  .barfill.g{background:linear-gradient(90deg,#4285f4,#1a73e8)}
+  .barfill.t{background:linear-gradient(90deg,#1aad19,#07c160)}
+  .barfill.gn{background:linear-gradient(90deg,#34a853,#0f9d58)}
+  .barfill.am{background:linear-gradient(90deg,#fbbc05,#f4b400)}
+  .legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);margin:8px 0 4px}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+  /* donut */
+  .donuts{display:grid;grid-template-columns:repeat(2,1fr);gap:22px;margin-top:10px}
+  .donut-box{text-align:center}
+  .donut{width:190px;height:190px;border-radius:50%;margin:0 auto 14px;position:relative}
+  .donut:after{content:"";position:absolute;inset:34px;background:#fff;border-radius:50%}
+  .donut .center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;z-index:2}
+  .donut .center b{font-size:18px} .donut .center small{font-size:11px;color:var(--muted)}
+  .seg-legend{font-size:12.5px;text-align:left;display:inline-block}
+  .seg-legend div{padding:3px 0}
+  .seg-legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:7px;vertical-align:-1px}
+  table{width:100%;border-collapse:collapse;margin-top:14px;font-size:13.5px}
+  th,td{padding:11px 12px;text-align:right;border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left}
+  thead th{background:#f4f6f9;font-weight:700;color:#374151;font-size:12.5px}
+  tbody tr:hover{background:#fafbfe}
+  .pos{color:var(--green);font-weight:650} .neg{color:var(--red);font-weight:650}
+  .hl{background:#fff8e6 !important}
+  .note{font-size:12.5px;color:var(--muted);margin-top:10px;line-height:1.6}
+  .callout{border-left:4px solid var(--blue);background:var(--softblue);padding:14px 16px;border-radius:0 10px 10px 0;margin:14px 0;font-size:13.5px}
+  .callout.t{border-color:var(--tencent);background:var(--softgreen)}
+  .callout b{color:var(--ink)}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  ul.clean{list-style:none;margin-top:8px}
+  ul.clean li{padding:8px 0 8px 22px;position:relative;font-size:13.5px;border-bottom:1px dashed var(--line)}
+  ul.clean li:before{content:"▸";position:absolute;left:0;color:var(--blue);font-weight:700}
+  ul.clean.t li:before{color:var(--tencent)}
+  .verdict{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:8px}
+  .vcard{border-radius:14px;padding:18px 20px;border:1px solid var(--line)}
+  .vcard.g{background:linear-gradient(180deg,#eef4ff,#fff)}
+  .vcard.t{background:linear-gradient(180deg,#eafaf0,#fff)}
+  .vcard h3{font-size:15px;margin-bottom:8px}
+  .vcard .tag{font-size:11.5px;padding:2px 9px;border-radius:12px;font-weight:700}
+  .tag.buy{background:#e6f7ee;color:#0f9d58} .tag.hold{background:#fff4e0;color:#e08a00}
+  footer{margin-top:26px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7}
+  .disc{background:#fff7f6;border:1px solid #f3d4cf;border-radius:10px;padding:12px 16px;font-size:12px;color:#9a4a3f;margin-top:14px}
+  @media(max-width:720px){.cards,.kpis,.donuts,.grid2,.verdict{grid-template-columns:1fr}.barrow .blabel{width:110px;font-size:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="hero">
+  <h1>谷歌 (Alphabet) vs 腾讯控股 财务深度对比</h1>
+  <div class="sub">两份「流量+AI」巨头的财报解剖：规模、盈利、估值与资本开支的全方位对照</div>
+  <div class="tags">
+    <span>📊 2025 全年 + 2026Q1</span>
+    <span>💡 估值对比（截至 2026-07）</span>
+    <span>🤖 AI 资本开支视角</span>
+  </div>
+  <div class="meta">数据截至 2026-07-16 ｜ 谷歌 FY2025=截至 2025-12-31；腾讯 FY2025=截至 2025-12-31 ｜ 汇率假设 USD/CNY=7.15，HKD/USD=7.80</div>
+</header>
+
+<!-- 一句话结论 -->
+<section>
+  <h2><span class="num">★</span>核心结论（先看这 5 条）</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="big">3.8×</div><div class="lbl">谷歌营收规模</div><div class="delta">是腾讯的倍数</div></div>
+    <div class="kpi"><div class="big t">~16.5×</div><div class="lbl">腾讯市盈率</div><div class="delta down">谷歌约 27×（贵 ~1.6×）</div></div>
+    <div class="kpi"><div class="big">~8×</div><div class="lbl">谷歌市值</div><div class="delta">是腾讯的倍数</div></div>
+    <div class="kpi"><div class="big t">+9%</div><div class="lbl">腾讯 2026Q1 营收增速</div><div class="delta down">谷歌 +22%，明显分化</div></div>
+  </div>
+  <div class="callout">
+    <b>一句话：</b>两家 2025 年赚钱能力（净利率、经营利润率）几乎一样，但谷歌赚的是「全球广告+云」的 4 倍体量，且 2026 年增速重新拉开；市场给谷歌约 <b>8 倍</b>于腾讯的市值，却只赚约 <b>4 倍</b>的利润——中间的缺口，主要是<b>十年 AI/云基础设施期权</b>的定价，以及对腾讯的<b>中国监管+地缘折价</b>。
+  </div>
+</section>
+
+<!-- 公司快照 -->
+<section>
+  <h2><span class="num">1</span>两家公司是干什么的</h2>
+  <p class="lead">都是「超级流量入口 + 广告 + 云」，但一个面向全球、一个扎根中国生态。</p>
+  <div class="cards">
+    <div class="cmp-card">
+      <div class="name"><span class="dot g"></span>Alphabet（谷歌母公司）</div>
+      <div class="ticker">NASDAQ: GOOGL / GOOG ｜ 市值 ≈ $4.37 万亿</div>
+      <div class="kv"><span class="k">核心业务</span><span class="v">搜索/YouTube 广告、Cloud、Android、Waymo</span></div>
+      <div class="kv"><span class="k">最大引擎</span><span class="v">Google Services（广告，约占 85%）</span></div>
+      <div class="kv"><span class="k">增长引擎</span><span class="v">Google Cloud（2026Q1 +63%）</span></div>
+      <div class="kv"><span class="k">AI 抓手</span><span class="v">Gemini 大模型、TPU 自研芯片</span></div>
+      <div class="kv"><span class="k">市场</span><span class="v">全球（美国为主）</span></div>
+    </div>
+    <div class="cmp-card tc">
+      <div class="name"><span class="dot t"></span>腾讯控股</div>
+      <div class="ticker">HKEX: 00700 ｜ 市值 ≈ HK$4.3 万亿（≈ $550B）</div>
+      <div class="kv"><span class="k">核心业务</span><span class="v">游戏、社交（微信）、广告、金融科技、云</span></div>
+      <div class="kv"><span class="k">最大引擎</span><span class="v">增值服务/游戏（约占 49%）</span></div>
+      <div class="kv"><span class="k">增长引擎</span><span class="v">营销服务（广告 +20% Q1）、企业服务</span></div>
+      <div class="kv"><span class="k">AI 抓手</span><span class="v">混元 Hy3、元宝、WorkBuddy、QClaw</span></div>
+      <div class="kv"><span class="k">市场</span><span class="v">中国为主 + 游戏出海</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 收入规模 -->
+<section>
+  <h2><span class="num">2</span>收入规模与增速</h2>
+  <p class="lead">2025 全年两家营收增速几乎一致（+15% vs +14%），但 2026Q1 谷歌重新加速、腾讯放缓。</p>
+  <div class="legend">
+    <span><i style="background:#4285f4"></i>谷歌 Alphabet</span>
+    <span><i style="background:#07c160"></i>腾讯控股（人民币折算美元）</span>
+  </div>
+  <div class="barrow"><div class="blabel">谷歌 FY2025 营收</div>
+    <div class="bartrack"><div class="barfill g" style="width:100%">$402.8B</div></div></div>
+  <div class="barrow"><div class="blabel">腾讯 FY2025 营收</div>
+    <div class="bartrack"><div class="barfill t" style="width:26.1%">RMB 751.8B ≈ $105.1B</div></div></div>
+  <div class="barrow"><div class="blabel">谷歌 2026Q1 营收</div>
+    <div class="bartrack"><div class="barfill g" style="width:27.3%">$109.9B</div></div></div>
+  <div class="barrow"><div class="blabel">腾讯 2026Q1 营收</div>
+    <div class="bartrack"><div class="barfill t" style="width:13.3%">RMB 196.5B ≈ $27.5B</div></div></div>
+  <table>
+    <thead><tr><th>指标</th><th>谷歌 FY2025</th><th>腾讯 FY2025</th><th>谷歌 2026Q1</th><th>腾讯 2026Q1</th></tr></thead>
+    <tbody>
+      <tr><td>营收（YoY）</td><td>$402.8B <span class="pos">+15%</span></td><td>RMB 751.8B <span class="pos">+14%</span></td><td>$109.9B <span class="pos">+22%</span></td><td>RMB 196.5B <span class="pos">+9%</span></td></tr>
+      <tr class="hl"><td>营收差距</td><td colspan="2" style="text-align:center">谷歌 ≈ <b>3.8×</b> 腾讯</td><td colspan="2" style="text-align:center">谷歌 ≈ <b>4.0×</b> 腾讯</td></tr>
+    </tbody>
+  </table>
+  <p class="note">注：腾讯营收按 USD/CNY=7.15 折算。2026Q1 腾讯增速放缓部分因新 AI 产品（混元、元宝、WorkBuddy、QClaw）成本计入、且春节时点错位导致部分游戏收入递延；若剔除新 AI 产品影响，腾讯 Non-IFRS 经营利润同比 +17%。</p>
+</section>
+
+<!-- 盈利能力 -->
+<section>
+  <h2><span class="num">3</span>盈利能力：利润率出奇地接近</h2>
+  <p class="lead">两家经营利润率都约 32%，净利率都在 31%–36% 区间——都是印钞机，只是印钞的「机器」不同。</p>
+  <div class="legend">
+    <span><i style="background:#4285f4"></i>谷歌</span>
+    <span><i style="background:#07c160"></i>腾讯（IFRS）</span>
+    <span><i style="background:#34a853"></i>腾讯（Non-IFRS）</span>
+  </div>
+  <div class="barrow"><div class="blabel">谷歌 经营利润率</div>
+    <div class="bartrack"><div class="barfill g" style="width:32%">32%</div></div></div>
+  <div class="barrow"><div class="blabel">腾讯 经营利润率(IFRS)</div>
+    <div class="bartrack"><div class="barfill t" style="width:32.1%">32%</div></div></div>
+  <div class="barrow"><div class="blabel">腾讯 经营利润率(Non)</div>
+    <div class="bartrack"><div class="barfill gn" style="width:37.3%">37%</div></div></div>
+  <div class="barrow"><div class="blabel">谷歌 净利率(FY25)</div>
+    <div class="bartrack"><div class="barfill g" style="width:32.8%">32.8%</div></div></div>
+  <div class="barrow"><div class="blabel">腾讯 净利率(IFRS)</div>
+    <div class="bartrack"><div class="barfill t" style="width:30.6%">30.6%</div></div></div>
+  <div class="barrow"><div class="blabel">腾讯 净利率(Non)</div>
+    <div class="bartrack"><div class="barfill gn" style="width:35.5%">35.5%</div></div></div>
+  <table>
+    <thead><tr><th>盈利能力</th><th>谷歌 FY2025</th><th>腾讯 FY2025</th><th>说明</th></tr></thead>
+    <tbody>
+      <tr><td>经营利润</td><td>$129.0B</td><td>RMB 241.6B</td><td>利润率均≈32%</td></tr>
+      <tr><td>净利润（GAAP/IFRS）</td><td>$132.2B</td><td>RMB 224.8B</td><td>≈ 4.2× 差距</td></tr>
+      <tr><td>净利润（Non-IFRS）</td><td>—（GAAP 为准）</td><td>RMB 259.6B</td><td>腾讯 Non-IFRS 更反映经营</td></tr>
+      <tr><td>毛利率</td><td>~60%</td><td>56%</td><td>腾讯毛利率高，因游戏/社交占比大</td></tr>
+      <tr><td>ROE（TTM）</td><td>~39%</td><td>~20–25%（估算）</td><td>谷歌杠杆+高净利推高 ROE</td></tr>
+    </tbody>
+  </table>
+  <div class="callout t">
+    <b>关键洞察：</b>单看「赚钱效率」，两家旗鼓相当。但谷歌的利润<b>增速更快</b>（FY2025 净利 +32%，2026Q1 受股权增值影响 +81%）；腾讯 2026Q1 净利 +21%（IFRS），但营收端已明显降速。
+  </div>
+</section>
+
+<!-- 业务结构 -->
+<section>
+  <h2><span class="num">4</span>业务结构：一个靠广告，一个靠游戏+生态</h2>
+  <p class="lead">谷歌是「广告巨兽 + 云新星」；腾讯是「游戏 + 微信生态 + 金融科技」三足鼎立。</p>
+  <div class="donuts">
+    <div class="donut-box">
+      <div class="donut" style="background:conic-gradient(#4285f4 0 85.1%,#34a853 85.1% 99.7%,#ea4335 99.7% 100%)">
+        <div class="center"><b>$402.8B</b><small>谷歌总营收</small></div>
+      </div>
+      <div class="seg-legend">
+        <div><i style="background:#4285f4"></i>Google Services（搜索/YouTube/订阅）$342.7B · 85%</div>
+        <div><i style="background:#34a853"></i>Google Cloud $58.7B · 15%</div>
+        <div><i style="background:#ea4335"></i>Other Bets（Waymo 等）$1.5B · 0.4%</div>
+      </div>
+    </div>
+    <div class="donut-box">
+      <div class="donut" style="background:conic-gradient(#07c160 0 49.1%,#1aad19 49.1% 80.2%,#f4b400 80.2% 99.7%,#9aa0a6 99.7% 100%)">
+        <div class="center"><b>RMB 751.8B</b><small>腾讯总营收</small></div>
+      </div>
+      <div class="seg-legend">
+        <div><i style="background:#07c160"></i>增值服务（游戏+社交）RMB 369.3B · 49%</div>
+        <div><i style="background:#1aad19"></i>金融科技及企业服务 RMB 229.4B · 31%</div>
+        <div><i style="background:#f4b400"></i>营销服务（广告）RMB 145.0B · 19%</div>
+        <div><i style="background:#9aa0a6"></i>其他 RMB 7.9B · 1%</div>
+      </div>
+    </div>
+  </div>
+  <div class="grid2">
+    <div>
+      <h3 style="font-size:14px;margin:6px 0">谷歌的看点</h3>
+      <ul class="clean">
+        <li>广告占绝对主体，但 <b>Google Cloud +63%</b>（2026Q1）已成为第二增长曲线</li>
+        <li>搜索被 AI 重做后查询量创新高，广告基本盘未被颠覆</li>
+        <li>Other Bets（Waymo）仍亏损，但 Waymo 周自动驾驶订单破 50 万次</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-size:14px;margin:6px 0">腾讯的看点</h3>
+      <ul class="clean t">
+        <li><b>游戏双轮</b>：本土 +18%、国际 +33%（2025）</li>
+        <li>微信 14.18 亿 MAU 是广告+小程序的超级分发入口</li>
+        <li>金融科技（支付/理财）+ 企业服务（云/AI）提供稳定性</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 资产负债表 / 现金流 -->
+<section>
+  <h2><span class="num">5</span>资产负债表、现金流与资本开支</h2>
+  <p class="lead">两家都「不差钱」，但花钱的方向与量级天差地别：谷歌一年砸近千亿美元建 AI 基建，腾讯更克制。</p>
+  <table>
+    <thead><tr><th>指标</th><th>谷歌</th><th>腾讯</th></tr></thead>
+    <tbody>
+      <tr><td>现金及等价物</td><td>~$126.8B（TTM）</td><td>RMB 494.9B（≈ $69B）</td></tr>
+      <tr><td>净现金状况</td><td>接近中性</td><td>净现金 RMB 107.1B（≈ $15B）</td></tr>
+      <tr class="hl"><td>资本开支（CapEx）</td><td>2025: $91.5B ｜ 2026 指引 $180–190B</td><td>2025: RMB 79.2B（≈ $11B）｜ 2026Q1: RMB 31.9B</td></tr>
+      <tr><td>自由现金流</td><td>受 CapEx 挤压（2026Q1 仅 $10.1B）</td><td>RMB 182.6B（≈ $25.5B，+18%）</td></tr>
+      <tr><td>股东回报</td><td>季度股息 $0.22/股（yield ~0.25%）+ 回购</td><td>回购 HK$800 亿 + 末期息 HK$5.30/股（yield ~1.15%）</td></tr>
+      <tr><td>投资组合</td><td>Alphabet 自身即投资主体</td><td>上市+非上市联营公司公允价值 ≈ RMB 1.04 万亿（≈ $145B）</td></tr>
+    </tbody>
+  </table>
+  <div class="callout">
+    <b>资本开支是最大分野：</b>谷歌 2026 年 CapEx 指引（$180–190B）约为腾讯（年化约 RMB 128B ≈ $18B）的 <b>10 倍</b>。谷歌在「赌」全球 AI 云的需求曲线，腾讯则在「养」中国生态的 AI 能力——<b>风险与想象空间都因此拉开</b>。
+  </div>
+</section>
+
+<!-- 估值 -->
+<section>
+  <h2><span class="num">6</span>估值对比：腾讯「便宜」得肉眼可见</h2>
+  <p class="lead">截至 2026-07，谷歌市值约 $4.37 万亿、腾讯约 $550B。谷歌赚约 4 倍利润，却值约 8 倍价钱。</p>
+  <div class="legend">
+    <span><i style="background:#4285f4"></i>谷歌</span>
+    <span><i style="background:#07c160"></i>腾讯</span>
+  </div>
+  <div class="barrow"><div class="blabel">市盈率 TTM</div>
+    <div class="bartrack"><div class="barfill g" style="width:100%">谷歌 ~27×</div></div></div>
+  <div class="barrow"><div class="blabel">市盈率 TTM</div>
+    <div class="bartrack"><div class="barfill t" style="width:61%">腾讯 ~16.5×</div></div></div>
+  <div class="barrow"><div class="blabel">市销率（TTM 营收）</div>
+    <div class="bartrack"><div class="barfill g" style="width:100%">谷歌 ~10.3×</div></div></div>
+  <div class="barrow"><div class="blabel">市销率（TTM 营收）</div>
+    <div class="bartrack"><div class="barfill t" style="width:49%">腾讯 ~5.1×</div></div></div>
+  <table>
+    <thead><tr><th>估值指标</th><th>谷歌</th><th>腾讯</th><th>倍数差</th></tr></thead>
+    <tbody>
+      <tr><td>市值</td><td>~$4.37 万亿</td><td>~$550B（HK$4.3 万亿）</td><td>≈ 8×</td></tr>
+      <tr><td>市盈率（TTM）</td><td>~27×</td><td>~16.5×</td><td>谷歌贵 ~1.6×</td></tr>
+      <tr><td>市销率（TTM）</td><td>~10.3×</td><td>~5.1×</td><td>谷歌贵 ~2×</td></tr>
+      <tr><td>股息率</td><td>~0.25%</td><td>~1.15%</td><td>腾讯更高</td></tr>
+      <tr class="hl"><td>隐含「便宜度」</td><td>高估值已反映 AI 预期</td><td>低估值含中国/监管折价 + 投资组合未充分体现</td><td>—</td></tr>
+    </tbody>
+  </table>
+  <p class="note">腾讯还持有约 RMB 1.04 万亿（≈ $145B）的联营/投资公司公允价值，叠加净现金，相当于在其经营业务之外还有一笔「隐蔽资产」。若按「经营性市值」看，腾讯的估值折扣比表面 P/E 更大。</p>
+</section>
+
+<!-- AI 战略 -->
+<section>
+  <h2><span class="num">7</span>AI 与资本开支：两种打法</h2>
+  <div class="grid2">
+    <div class="vcard g">
+      <h3>谷歌：全栈豪赌 🔵</h3>
+      <ul class="clean">
+        <li>Gemini 3 月活超 7.5 亿；API 每分钟处理 160 亿 token</li>
+        <li>自研 TPU + 英伟达芯片，2025 单位服务成本降 78%</li>
+        <li>Cloud 订单积压超 $4,600 亿（2026Q1）</li>
+        <li>2026 CapEx $180–190B，约为利润 1.4 倍</li>
+        <li>风险：若 AI 需求不及预期 → 产能过剩/减值</li>
+      </ul>
+    </div>
+    <div class="vcard t">
+      <h3>腾讯：生态内生 🟢</h3>
+      <ul class="clean t">
+        <li>混元 Hy3 preview 登 OpenRouter 周榜第一</li>
+        <li>元宝/ima/WorkBuddy 嵌入微信+QQ 生态</li>
+        <li>AI 赋能广告精准度、游戏参与度</li>
+        <li>CapEx 克制（2025 RMB 79B ≈ $11B）</li>
+        <li>风险：AI 变现仍早期，马化腾称「刚站稳」</li>
+      </ul>
+    </div>
+  </div>
+  <div class="callout t">
+    <b>巴菲特式解读：</b>谷歌把利润「再投资」成算力护城河，赌的是 5–10 年后的云+AI 垄断租金；腾讯把利润「留存+回购+分红」反哺股东，赌的是微信生态的持续变现。一个重资产扩张，一个轻资产收割。
+  </div>
+</section>
+
+<!-- 风险 -->
+<section>
+  <h2><span class="num">8</span>主要风险对照</h2>
+  <div class="grid2">
+    <div>
+      <h3 style="font-size:14px">谷歌的风险 🔵</h3>
+      <ul class="clean">
+        <li><b>CapEx 失控</b>：$180–190B/年，自由现金流大幅承压</li>
+        <li><b>反垄断</b>：DOJ 搜索救济、广告技术审判进行中</li>
+        <li><b>云竞争</b>：AWS、Azure 正面厮杀</li>
+        <li><b>股权收益波动</b>：2026Q1 净利含 $37.7B 未实现股权增值（非现金、不可持续）</li>
+      </ul>
+    </div>
+    <div>
+      <h3 style="font-size:14px">腾讯的风险 🟢</h3>
+      <ul class="clean t">
+        <li><b>中国宏观/监管</b>：游戏版号、金融科技合规、地缘摩擦</li>
+        <li><b>生态依赖</b>：微信增长见顶，用户时长被短视频分流</li>
+        <li><b>AI 变现 early</b>：混元重建完成但收入贡献尚未计入</li>
+        <li><b>投资组合波动</b>：上市联营公司市值随中概/港股波动</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 结论 -->
+<section>
+  <h2><span class="num">9</span>投资视角总结</h2>
+  <div class="verdict">
+    <div class="vcard g">
+      <h3>谷歌（GOOGL）</h3>
+      <span class="tag buy">成长 + 平台垄断</span>
+      <p style="font-size:13.5px;margin-top:10px">适合相信「AI 云需求曲线陡峭、谷歌全栈优势能兑现」的投资者。优势是规模、增速、利润率三优；代价是估值已不便宜、CapEx 重压下短期自由现金流承压、且 Q1 净利含大额一次性股权增值。本质是<b>买未来 5 年的算力租金</b>。</p>
+    </div>
+    <div class="vcard t">
+      <h3>腾讯（0700）</h3>
+      <span class="tag hold">价值 + 高股东回报</span>
+      <p style="font-size:13.5px;margin-top:10px">适合偏好「低估值、高回购分红、现金流扎实、隐含投资组合价值」的投资者。优势是便宜（~16.5× P/E、~5× P/S）、净现金、微信护城河；隐忧是营收增速放缓、AI 变现尚早、中国资产地缘折价可能持续。本质是<b>买被低估的现金牛 + 期权</b>。</p>
+    </div>
+  </div>
+  <div class="disc">
+    ⚠️ 本报告基于公开财报与行情数据整理，汇率与估值口径为估算，仅供研究参考，不构成任何投资建议。财务数据以公司官方公告为准。
+  </div>
+</section>
+
+<footer>
+  数据来源：Alphabet 2025 年报及 2026Q1 财报、腾讯 2025 年报及 2026Q1 财报、HKEX / Yahoo Finance 行情（截至 2026-07）<br>
+  汇率假设：USD/CNY = 7.15，HKD/USD = 7.80 ｜ 生成时间：2026-07-16
+</footer>
+
+</div>
+</body>
+</html>

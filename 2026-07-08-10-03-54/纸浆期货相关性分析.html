@@ -1,0 +1,379 @@
+<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>纸浆期货相关性分析</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#1f2933;padding:28px;line-height:1.6}
+.wrap{max-width:980px;margin:0 auto}
+h1{font-size:24px;margin-bottom:6px}
+.sub{color:#6b7280;font-size:13px;margin-bottom:20px}
+.card{background:#fff;border-radius:12px;padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.card h2{font-size:16px;margin-bottom:14px;color:#111}
+.kpis{display:flex;gap:14px;flex-wrap:wrap}
+.kpi{flex:1;min-width:150px;background:#f8fafc;border-radius:10px;padding:14px}
+.kpi .v{font-size:22px;font-weight:700;color:#b45309}
+.kpi .t{font-size:12px;color:#6b7280;margin-top:2px}
+.kpi.green .v{color:#2e9e5b} .kpi.blue .v{color:#2f7fd1} .kpi.pur .v{color:#8e44ad}
+.row{display:grid;grid-template-columns:96px 1fr 130px;align-items:center;gap:10px;margin:5px 0}
+.name{font-size:13px;font-weight:600} .name .code{font-size:11px;color:#9aa3ad;margin-left:4px;font-weight:400}
+.track{position:relative;background:#eef1f4;border-radius:5px;height:20px}
+.bar{height:20px;border-radius:5px}
+.rval{position:absolute;right:6px;top:0;font-size:12px;line-height:20px;font-weight:600;color:#374151}
+.meta{font-size:11px;color:#9aa3ad;text-align:right}
+.grp{display:flex;gap:12px;flex-wrap:wrap}
+.gcard{flex:1;min-width:120px;background:#f8fafc;border-radius:10px;padding:12px 14px}
+.gname{font-size:13px;font-weight:600} .gavg{font-size:20px;font-weight:700;margin-top:4px} .gn{font-size:11px;color:#9aa3ad}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid #eef1f4}
+th{color:#6b7280;font-weight:600;font-size:12px}
+td.pos{color:#2e9e5b;font-weight:600}
+.note{font-size:13px;color:#374151;margin:8px 0}
+.note b{color:#111}
+.tag{display:inline-block;background:#fff4e6;color:#c2410c;border-radius:6px;padding:2px 8px;font-size:12px;margin:2px 0}
+footer{font-size:11px;color:#9aa3ad;margin-top:10px}
+</style></head><body><div class="wrap">
+<h1>纸浆(SP)期货 × 全市场期货品种 相关性分析</h1>
+<div class="sub">口径：日收益率 Pearson 相关系数 · 区间 2024-01-02 ~ 2026-07-07（原木/多晶硅按实际上市日对齐）· 共 50 个品种 · 数据源：新浪期货日线</div>
+
+<div class="card">
+  <div class="kpis">
+    <div class="kpi"><div class="v">+0.356</div><div class="t">最强正相关：棉花(CF)</div></div>
+    <div class="kpi green"><div class="v">0 个</div><div class="t">负相关品种（全部为正）</div></div>
+    <div class="kpi blue"><div class="v">+0.088</div><div class="t">原木(LG)反直觉低相关</div></div>
+    <div class="kpi pur"><div class="v">50</div><div class="t">覆盖全市场主要品种</div></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>① 各大类平均相关性（哪条产业链与纸浆更"同频"）</h2>
+  <div class="grp"><div class="gcard" style="border-left:5px solid #5b6b7b"><div class="gname">黑色系</div><div class="gavg">0.261</div><div class="gn">6个品种</div></div><div class="gcard" style="border-left:5px solid #2f7fd1"><div class="gname">有色金属</div><div class="gavg">0.214</div><div class="gn">7个品种</div></div><div class="gcard" style="border-left:5px solid #8e44ad"><div class="gname">其他/新材</div><div class="gavg">0.213</div><div class="gn">6个品种</div></div><div class="gcard" style="border-left:5px solid #e08a1e"><div class="gname">能源化工</div><div class="gavg">0.207</div><div class="gn">13个品种</div></div><div class="gcard" style="border-left:5px solid #2e9e5b"><div class="gname">农产品</div><div class="gavg">0.153</div><div class="gn">16个品种</div></div><div class="gcard" style="border-left:5px solid #c9a227"><div class="gname">贵金属</div><div class="gavg">0.150</div><div class="gn">2个品种</div></div></div>
+  <div class="note" style="margin-top:12px">农产品（棉花系拉动）与黑色系（地产/基建链）平均同频度最高；贵金属（金/银）最弱——纸浆的"软商品+消费+宏观"属性强于"避险"属性。</div>
+</div>
+
+<div class="card">
+  <h2>② 全品种与纸浆相关性排名（横条越长相关越强）</h2>
+  
+    <div class="row">
+      <div class="name">棉花<span class="code">cf</span></div>
+      <div class="track"><div class="bar" style="width:100.0%;background:#2e9e5b"></div>
+        <span class="rval">+0.356</span></div>
+      <div class="meta">农产品 · n=603</div>
+    </div>
+    <div class="row">
+      <div class="name">螺纹钢<span class="code">rb</span></div>
+      <div class="track"><div class="bar" style="width:89.0%;background:#5b6b7b"></div>
+        <span class="rval">+0.317</span></div>
+      <div class="meta">黑色系 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">棉纱<span class="code">cy</span></div>
+      <div class="track"><div class="bar" style="width:86.7%;background:#2e9e5b"></div>
+        <span class="rval">+0.309</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">焦炭<span class="code">j</span></div>
+      <div class="track"><div class="bar" style="width:84.5%;background:#5b6b7b"></div>
+        <span class="rval">+0.301</span></div>
+      <div class="meta">黑色系 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">焦煤<span class="code">jm</span></div>
+      <div class="track"><div class="bar" style="width:84.2%;background:#5b6b7b"></div>
+        <span class="rval">+0.300</span></div>
+      <div class="meta">黑色系 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">热卷<span class="code">hc</span></div>
+      <div class="track"><div class="bar" style="width:83.8%;background:#5b6b7b"></div>
+        <span class="rval">+0.299</span></div>
+      <div class="meta">黑色系 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">PTA<span class="code">TA</span></div>
+      <div class="track"><div class="bar" style="width:75.6%;background:#e08a1e"></div>
+        <span class="rval">+0.270</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">纯碱<span class="code">sa</span></div>
+      <div class="track"><div class="bar" style="width:75.6%;background:#8e44ad"></div>
+        <span class="rval">+0.269</span></div>
+      <div class="meta">其他/新材 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">镍<span class="code">ni</span></div>
+      <div class="track"><div class="bar" style="width:75.2%;background:#2f7fd1"></div>
+        <span class="rval">+0.268</span></div>
+      <div class="meta">有色金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">铁矿石<span class="code">i</span></div>
+      <div class="track"><div class="bar" style="width:73.7%;background:#5b6b7b"></div>
+        <span class="rval">+0.263</span></div>
+      <div class="meta">黑色系 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">20号胶<span class="code">nr</span></div>
+      <div class="track"><div class="bar" style="width:73.0%;background:#e08a1e"></div>
+        <span class="rval">+0.260</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">橡胶<span class="code">ru</span></div>
+      <div class="track"><div class="bar" style="width:70.6%;background:#e08a1e"></div>
+        <span class="rval">+0.252</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">铝<span class="code">al</span></div>
+      <div class="track"><div class="bar" style="width:69.4%;background:#2f7fd1"></div>
+        <span class="rval">+0.247</span></div>
+      <div class="meta">有色金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">苯乙烯<span class="code">eb</span></div>
+      <div class="track"><div class="bar" style="width:66.6%;background:#e08a1e"></div>
+        <span class="rval">+0.237</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">铜<span class="code">cu</span></div>
+      <div class="track"><div class="bar" style="width:65.3%;background:#2f7fd1"></div>
+        <span class="rval">+0.233</span></div>
+      <div class="meta">有色金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">工业硅<span class="code">si</span></div>
+      <div class="track"><div class="bar" style="width:65.0%;background:#8e44ad"></div>
+        <span class="rval">+0.232</span></div>
+      <div class="meta">其他/新材 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">锌<span class="code">zn</span></div>
+      <div class="track"><div class="bar" style="width:63.7%;background:#2f7fd1"></div>
+        <span class="rval">+0.227</span></div>
+      <div class="meta">有色金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">碳酸锂<span class="code">lc</span></div>
+      <div class="track"><div class="bar" style="width:62.5%;background:#8e44ad"></div>
+        <span class="rval">+0.223</span></div>
+      <div class="meta">其他/新材 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">PVC<span class="code">v</span></div>
+      <div class="track"><div class="bar" style="width:62.0%;background:#e08a1e"></div>
+        <span class="rval">+0.221</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">乙二醇<span class="code">eg</span></div>
+      <div class="track"><div class="bar" style="width:61.9%;background:#e08a1e"></div>
+        <span class="rval">+0.221</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">甲醇<span class="code">MA</span></div>
+      <div class="track"><div class="bar" style="width:59.5%;background:#e08a1e"></div>
+        <span class="rval">+0.212</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">玻璃<span class="code">fg</span></div>
+      <div class="track"><div class="bar" style="width:57.9%;background:#8e44ad"></div>
+        <span class="rval">+0.206</span></div>
+      <div class="meta">其他/新材 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">白银<span class="code">ag</span></div>
+      <div class="track"><div class="bar" style="width:56.0%;background:#c9a227"></div>
+        <span class="rval">+0.200</span></div>
+      <div class="meta">贵金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">塑料<span class="code">l</span></div>
+      <div class="track"><div class="bar" style="width:55.8%;background:#e08a1e"></div>
+        <span class="rval">+0.199</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">铅<span class="code">pb</span></div>
+      <div class="track"><div class="bar" style="width:55.7%;background:#2f7fd1"></div>
+        <span class="rval">+0.198</span></div>
+      <div class="meta">有色金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">聚丙烯<span class="code">pp</span></div>
+      <div class="track"><div class="bar" style="width:52.5%;background:#e08a1e"></div>
+        <span class="rval">+0.187</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">尿素<span class="code">ur</span></div>
+      <div class="track"><div class="bar" style="width:51.4%;background:#8e44ad"></div>
+        <span class="rval">+0.183</span></div>
+      <div class="meta">其他/新材 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">豆油<span class="code">y</span></div>
+      <div class="track"><div class="bar" style="width:51.0%;background:#2e9e5b"></div>
+        <span class="rval">+0.182</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">红枣<span class="code">cj</span></div>
+      <div class="track"><div class="bar" style="width:50.6%;background:#2e9e5b"></div>
+        <span class="rval">+0.180</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">原油<span class="code">sc</span></div>
+      <div class="track"><div class="bar" style="width:48.6%;background:#e08a1e"></div>
+        <span class="rval">+0.173</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">氧化铝<span class="code">ao</span></div>
+      <div class="track"><div class="bar" style="width:48.6%;background:#2f7fd1"></div>
+        <span class="rval">+0.173</span></div>
+      <div class="meta">有色金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">沥青<span class="code">bu</span></div>
+      <div class="track"><div class="bar" style="width:48.3%;background:#e08a1e"></div>
+        <span class="rval">+0.172</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">菜粕<span class="code">rm</span></div>
+      <div class="track"><div class="bar" style="width:48.1%;background:#2e9e5b"></div>
+        <span class="rval">+0.172</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">菜油<span class="code">oi</span></div>
+      <div class="track"><div class="bar" style="width:47.8%;background:#2e9e5b"></div>
+        <span class="rval">+0.171</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">豆粕<span class="code">m</span></div>
+      <div class="track"><div class="bar" style="width:46.4%;background:#2e9e5b"></div>
+        <span class="rval">+0.165</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">多晶硅<span class="code">ps</span></div>
+      <div class="track"><div class="bar" style="width:46.2%;background:#8e44ad"></div>
+        <span class="rval">+0.165</span></div>
+      <div class="meta">其他/新材 · n=367</div>
+    </div>
+    <div class="row">
+      <div class="name">豆二<span class="code">b</span></div>
+      <div class="track"><div class="bar" style="width:44.7%;background:#2e9e5b"></div>
+        <span class="rval">+0.160</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">燃油<span class="code">fu</span></div>
+      <div class="track"><div class="bar" style="width:44.7%;background:#e08a1e"></div>
+        <span class="rval">+0.159</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">白糖<span class="code">sr</span></div>
+      <div class="track"><div class="bar" style="width:43.4%;background:#2e9e5b"></div>
+        <span class="rval">+0.155</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">锡<span class="code">sn</span></div>
+      <div class="track"><div class="bar" style="width:42.8%;background:#2f7fd1"></div>
+        <span class="rval">+0.153</span></div>
+      <div class="meta">有色金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">低硫燃油<span class="code">lu</span></div>
+      <div class="track"><div class="bar" style="width:36.4%;background:#e08a1e"></div>
+        <span class="rval">+0.130</span></div>
+      <div class="meta">能源化工 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">豆一<span class="code">a</span></div>
+      <div class="track"><div class="bar" style="width:31.4%;background:#2e9e5b"></div>
+        <span class="rval">+0.112</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">棕榈油<span class="code">p</span></div>
+      <div class="track"><div class="bar" style="width:31.2%;background:#2e9e5b"></div>
+        <span class="rval">+0.111</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">玉米淀粉<span class="code">cs</span></div>
+      <div class="track"><div class="bar" style="width:29.3%;background:#2e9e5b"></div>
+        <span class="rval">+0.104</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">黄金<span class="code">au</span></div>
+      <div class="track"><div class="bar" style="width:28.0%;background:#c9a227"></div>
+        <span class="rval">+0.100</span></div>
+      <div class="meta">贵金属 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">苹果<span class="code">ap</span></div>
+      <div class="track"><div class="bar" style="width:24.6%;background:#2e9e5b"></div>
+        <span class="rval">+0.088</span></div>
+      <div class="meta">农产品 · n=602</div>
+    </div>
+    <div class="row">
+      <div class="name">原木<span class="code">lg</span></div>
+      <div class="track"><div class="bar" style="width:24.5%;background:#5b6b7b"></div>
+        <span class="rval">+0.087</span></div>
+      <div class="meta">黑色系 · n=395</div>
+    </div>
+    <div class="row">
+      <div class="name">玉米<span class="code">c</span></div>
+      <div class="track"><div class="bar" style="width:22.3%;background:#2e9e5b"></div>
+        <span class="rval">+0.080</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">生猪<span class="code">lh</span></div>
+      <div class="track"><div class="bar" style="width:16.2%;background:#2e9e5b"></div>
+        <span class="rval">+0.058</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+    <div class="row">
+      <div class="name">鸡蛋<span class="code">jd</span></div>
+      <div class="track"><div class="bar" style="width:14.7%;background:#2e9e5b"></div>
+        <span class="rval">+0.052</span></div>
+      <div class="meta">农产品 · n=605</div>
+    </div>
+</div>
+
+<div class="card">
+  <h2>③ 头部正相关 TOP6</h2>
+  <table><tr><th>品种</th><th>代码</th><th>日收益率相关系数</th><th>样本(n)</th></tr><tr><td>棉花</td><td>cf</td><td class="pos">+0.356</td><td>603</td></tr><tr><td>螺纹钢</td><td>rb</td><td class="pos">+0.317</td><td>605</td></tr><tr><td>棉纱</td><td>cy</td><td class="pos">+0.309</td><td>605</td></tr><tr><td>焦炭</td><td>j</td><td class="pos">+0.301</td><td>605</td></tr><tr><td>焦煤</td><td>jm</td><td class="pos">+0.300</td><td>605</td></tr><tr><td>热卷</td><td>hc</td><td class="pos">+0.299</td><td>605</td></tr></table>
+  <div class="note" style="margin-top:10px">棉花、棉纱同属"软商品+纺织下游"，螺纹/热卷/焦炭/焦煤属"包装纸需求←地产基建链"，宏观共振明显。</div>
+</div>
+
+<div class="card">
+  <h2>④ 关键结论与解读</h2>
+  <p class="note"><b>1. 棉花(CF)/棉纱(CY)相关性最高（0.31~0.36）。</b> 两者同具"进口依赖+人民币汇率敏感+下游消费（纺织/包装）"属性，且棉浆与木浆存在部分替代关系，驱动因子高度重叠。</p>
+  <p class="note"><b>2. 原木(LG)只有 +0.088，远低于"同是针叶木"的直觉。</b> 纸浆用漂针浆主要做<b>文化纸/生活用纸</b>（消费驱动），原木期货标的多用于<b>建筑结构材</b>（地产施工驱动）；叠加原木2024-11才上市、样本仅约395天，统计噪声大。产业同源≠价格同频。</p>
+  <p class="note"><b>3. 没有任何负相关问题品种。</b> 全市场52个品种与纸浆相关系数全为正，说明商品整体被共同宏观因子（美元、流动性、PMI、 risk-on/off ）驱动。纸浆<b>没有天然的负相关对冲标的</b>——要对冲纸浆单边风险，得跨到股指或国债，而非商品内部。</p>
+  <p class="note"><b>4. 黑色系（螺纹/热卷/焦煤/铁矿，0.26~0.32）是商品内部最强的"协同板块"。</b> 逻辑链：包装纸（箱板瓦楞）需求 ← 社会消费/物流/地产竣工，与黑色系宏观β一致。</p>
+</div>
+
+<div class="card">
+  <h2>⑤ 尾部弱相关品种</h2>
+  <table><tr><th>品种</th><th>代码</th><th>相关系数</th><th>样本(n)</th></tr><tr><td>苹果</td><td>ap</td><td>+0.088</td><td>602</td></tr><tr><td>原木</td><td>lg</td><td>+0.087</td><td>395</td></tr><tr><td>玉米</td><td>c</td><td>+0.080</td><td>605</td></tr><tr><td>生猪</td><td>lh</td><td>+0.058</td><td>605</td></tr><tr><td>鸡蛋</td><td>jd</td><td>+0.052</td><td>605</td></tr></table>
+  <div class="note" style="margin-top:8px">鸡蛋、生猪、玉米等生鲜/谷物与纸浆几乎独立运行，符合"各自供需逻辑"的预期；黄金(0.10)避险属性使其与工业品β脱钩。</div>
+</div>
+
+<footer>方法：各品种取主力连续日线收盘价→算日收益率→与纸浆对齐共同交易日后计算 Pearson 相关系数。相关系数衡量"同向波动"程度，|r|<0.2 弱、0.2~0.5 中等、>0.5 强。样本期含2024-2026，覆盖加息尾声→复苏→政策刺激的多阶段，结论具一定代表性但非预测。</footer>
+</div></body></html>

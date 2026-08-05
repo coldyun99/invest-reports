@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>原油强相关期货品种 · 相关系数分析</title>
+<style>
+*{box-sizing:border-box}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;margin:0;background:#f5f6f8;color:#1f2329;padding:28px}
+.wrap{max-width:1180px;margin:0 auto}
+h1{font-size:24px;margin:0 0 4px}
+.sub{color:#6b7280;font-size:13px;margin-bottom:18px}
+.card{background:#fff;border:1px solid #e8eaed;border-radius:12px;padding:18px 20px;margin-bottom:18px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+h3{margin:0 0 6px;font-size:16px}
+.note{color:#8a9099;font-size:12px;margin:0 0 12px}
+table.rank{border-collapse:collapse;width:100%;font-size:13.5px}
+table.rank th,table.rank td{padding:9px 10px;text-align:center;border-bottom:1px solid #f0f1f3}
+table.rank th{background:#fafbfc;color:#6b7280;font-weight:600}
+table.rank td.nm{text-align:left;font-weight:700}
+table.rank td.cat{text-align:left;color:#6b7280;font-size:12.5px}
+.tag{padding:2px 9px;border-radius:20px;font-size:12px;font-weight:600}
+.scroll{overflow-x:auto}
+table.hm{border-collapse:collapse;font-size:11.5px}
+table.hm th{background:#fafbfc;color:#6b7280;font-weight:600;padding:4px 6px;position:sticky;top:0}
+table.hm td,table.hm th.rowh{padding:4px 6px;text-align:center;min-width:38px}
+table.hm th.rowh,table.hm td.rowh{text-align:right;font-weight:700;color:#333;background:#fafbfc}
+.legend{display:flex;gap:18px;align-items:center;font-size:12px;color:#6b7280;margin-top:10px;flex-wrap:wrap}
+.swatch{display:inline-block;width:44px;height:12px;border-radius:3px;vertical-align:middle;margin-right:5px}
+.kpis{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.kpi{flex:1;min-width:160px;background:#fff;border:1px solid #e8eaed;border-radius:12px;padding:14px 16px}
+.kpi .v{font-size:22px;font-weight:700}
+.kpi .l{font-size:12px;color:#8a9099;margin-top:2px}
+.insight li{margin:7px 0;font-size:13.5px;line-height:1.6}
+.insight b{color:#c0392b}
+</style></head>
+<body><div class="wrap">
+<h1>原油强相关期货品种 · 相关系数分析</h1>
+<div class="sub">基准: 上海原油 SC 主力连续 ｜ 数据源: akshare(Sina 主力连续日线) ｜ 截至 2026-07-09 ｜ 共 16 个品种</div>
+
+<div class="kpis">
+  <div class="kpi"><div class="v" style="color:#c0392b">燃油 0.888</div><div class="l">中期(近1年)与原油相关性最强</div></div>
+  <div class="kpi"><div class="v" style="color:#c0392b">能源 &gt; 化工</div><div class="l">能源直接替代品种整体强于化工下游</div></div>
+  <div class="kpi"><div class="v" style="color:#27865a">橡胶/黄金 弱</div><div class="l">合成替代与避险逻辑近期不成立</div></div>
+</div>
+
+<div class="card">
+  <h3>一、与原油相关性排名(分中期 / 长期)</h3>
+  <p class="note">中期=近 250 交易日(约1年)日收益率相关;长期=全样本日收益率相关。末列 Δ=中期−长期,▲表示近期相关性走强。</p>
+  <table class="rank">
+    <thead><tr>
+      <th style="text-align:left">品种</th><th style="text-align:left">产业链</th>
+      <th>中期·日频</th><th>长期·日频</th><th>长期·周频</th><th>长期·月频</th>
+      <th>Δ(中−长)</th><th>强度档</th>
+    </tr></thead>
+    <tbody><tr>
+      <td class='nm'>燃油</td>
+      <td class='cat'>能源-直接替代</td>
+      <td><b>0.888</b></td>
+      <td>0.788</td>
+      <td>0.778</td>
+      <td>0.772</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.100</td>
+      <td><span class='tag' style='background:#c0392b;color:#fff'>极强</span></td>
+    </tr><tr>
+      <td class='nm'>沥青</td>
+      <td class='cat'>能源-直接替代</td>
+      <td><b>0.728</b></td>
+      <td>0.678</td>
+      <td>0.678</td>
+      <td>0.743</td>
+      <td style='color:#888;font-weight:700'>→ +0.050</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>甲醇</td>
+      <td class='cat'>化工-下游</td>
+      <td><b>0.708</b></td>
+      <td>0.449</td>
+      <td>0.424</td>
+      <td>0.536</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.259</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>聚丙烯</td>
+      <td class='cat'>化工-下游</td>
+      <td><b>0.698</b></td>
+      <td>0.483</td>
+      <td>0.489</td>
+      <td>0.608</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.215</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>LPG</td>
+      <td class='cat'>能源-直接替代</td>
+      <td><b>0.693</b></td>
+      <td>0.493</td>
+      <td>0.504</td>
+      <td>0.453</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.200</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>短纤</td>
+      <td class='cat'>化工-下游</td>
+      <td><b>0.675</b></td>
+      <td>0.618</td>
+      <td>0.574</td>
+      <td>0.658</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.057</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>塑料</td>
+      <td class='cat'>化工-下游</td>
+      <td><b>0.668</b></td>
+      <td>0.462</td>
+      <td>0.448</td>
+      <td>0.597</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.206</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>苯乙烯</td>
+      <td class='cat'>化工-下游</td>
+      <td><b>0.660</b></td>
+      <td>0.505</td>
+      <td>0.475</td>
+      <td>0.610</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.155</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>PTA</td>
+      <td class='cat'>化工-下游</td>
+      <td><b>0.654</b></td>
+      <td>0.609</td>
+      <td>0.595</td>
+      <td>0.631</td>
+      <td style='color:#888;font-weight:700'>→ +0.045</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>乙二醇</td>
+      <td class='cat'>化工-下游</td>
+      <td><b>0.638</b></td>
+      <td>0.446</td>
+      <td>0.372</td>
+      <td>0.507</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.192</td>
+      <td><span class='tag' style='background:#e67e22;color:#fff'>强</span></td>
+    </tr><tr>
+      <td class='nm'>棕榈油</td>
+      <td class='cat'>农产品-生物柴油</td>
+      <td><b>0.516</b></td>
+      <td>0.352</td>
+      <td>0.327</td>
+      <td>0.378</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.164</td>
+      <td><span class='tag' style='background:#f1c40f;color:#333'>中</span></td>
+    </tr><tr>
+      <td class='nm'>豆油</td>
+      <td class='cat'>农产品-生物柴油</td>
+      <td><b>0.478</b></td>
+      <td>0.364</td>
+      <td>0.306</td>
+      <td>0.371</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.114</td>
+      <td><span class='tag' style='background:#f1c40f;color:#333'>中</span></td>
+    </tr><tr>
+      <td class='nm'>PVC</td>
+      <td class='cat'>化工-下游</td>
+      <td><b>0.453</b></td>
+      <td>0.261</td>
+      <td>0.216</td>
+      <td>0.369</td>
+      <td style='color:#c0392b;font-weight:700'>▲ +0.192</td>
+      <td><span class='tag' style='background:#f1c40f;color:#333'>中</span></td>
+    </tr><tr>
+      <td class='nm'>橡胶</td>
+      <td class='cat'>工业-合成替代</td>
+      <td><b>0.029</b></td>
+      <td>0.222</td>
+      <td>0.121</td>
+      <td>0.028</td>
+      <td style='color:#27865a;font-weight:700'>▼ -0.193</td>
+      <td><span class='tag' style='background:#7f8c8d;color:#fff'>极弱/无关</span></td>
+    </tr><tr>
+      <td class='nm'>黄金</td>
+      <td class='cat'>贵金属-避险/通胀</td>
+      <td><b>-0.180</b></td>
+      <td>0.012</td>
+      <td>0.022</td>
+      <td>-0.199</td>
+      <td style='color:#27865a;font-weight:700'>▼ -0.192</td>
+      <td><span class='tag' style='background:#7f8c8d;color:#fff'>极弱/无关</span></td>
+    </tr></tbody>
+  </table>
+</div>
+
+
+    <div class="card">
+      <h3>二、中期相关性热力图(近1年 日频)</h3>
+      <p class="note">只看最近 1 年。颜色越红=同涨同跌越强,绿=反向。燃料油/沥青/化工链整体偏红。</p>
+      <div class="scroll">
+      <table class="hm">
+        <thead><tr><th></th><th>燃油</th><th>沥青</th><th>甲醇</th><th>聚丙烯</th><th>LPG</th><th>短纤</th><th>塑料</th><th>苯乙烯</th><th>PTA</th><th>乙二醇</th><th>棕榈油</th><th>豆油</th><th>PVC</th><th>橡胶</th><th>黄金</th></tr></thead>
+        <tbody><tr><th class='rowh'>燃油</th><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.71);color:#111'>0.73</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.72</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.72</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.67);color:#111'>0.69</td><td style='background:rgba(220,50,40,0.69);color:#111'>0.70</td><td style='background:rgba(220,50,40,0.67);color:#111'>0.68</td><td style='background:rgba(220,50,40,0.64);color:#111'>0.66</td><td style='background:rgba(220,50,40,0.64);color:#111'>0.66</td><td style='background:rgba(220,50,40,0.47);color:#111'>0.47</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.13);color:#111'>0.10</td><td style='background:rgba(40,160,80,0.18);color:#111'>-0.15</td></tr><tr><th class='rowh'>沥青</th><td style='background:rgba(220,50,40,0.71);color:#111'>0.73</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.67);color:#111'>0.69</td><td style='background:rgba(220,50,40,0.62);color:#111'>0.63</td><td style='background:rgba(220,50,40,0.65);color:#111'>0.66</td><td style='background:rgba(220,50,40,0.67);color:#111'>0.69</td><td style='background:rgba(220,50,40,0.55);color:#111'>0.55</td><td style='background:rgba(220,50,40,0.63);color:#111'>0.64</td><td style='background:rgba(220,50,40,0.63);color:#111'>0.64</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.42);color:#111'>0.41</td><td style='background:rgba(220,50,40,0.09);color:#111'>0.05</td><td style='background:rgba(40,160,80,0.14);color:#111'>-0.11</td></tr><tr><th class='rowh'>甲醇</th><td style='background:rgba(220,50,40,0.70);color:#111'>0.72</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.78);color:#111'>0.81</td><td style='background:rgba(220,50,40,0.68);color:#111'>0.69</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.72</td><td style='background:rgba(220,50,40,0.78);color:#111'>0.80</td><td style='background:rgba(220,50,40,0.62);color:#111'>0.63</td><td style='background:rgba(220,50,40,0.67);color:#111'>0.68</td><td style='background:rgba(220,50,40,0.76);color:#111'>0.79</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.44</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.56);color:#111'>0.57</td><td style='background:rgba(220,50,40,0.14);color:#111'>0.11</td><td style='background:rgba(40,160,80,0.19);color:#111'>-0.16</td></tr><tr><th class='rowh'>聚丙烯</th><td style='background:rgba(220,50,40,0.70);color:#111'>0.72</td><td style='background:rgba(220,50,40,0.67);color:#111'>0.69</td><td style='background:rgba(220,50,40,0.78);color:#111'>0.81</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.72</td><td style='background:rgba(220,50,40,0.72);color:#111'>0.74</td><td style='background:rgba(220,50,40,0.89);color:#111'>0.93</td><td style='background:rgba(220,50,40,0.68);color:#111'>0.70</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.79);color:#111'>0.82</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.44</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.44</td><td style='background:rgba(220,50,40,0.62);color:#111'>0.63</td><td style='background:rgba(220,50,40,0.18);color:#111'>0.15</td><td style='background:rgba(40,160,80,0.22);color:#111'>-0.19</td></tr><tr><th class='rowh'>LPG</th><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.62);color:#111'>0.63</td><td style='background:rgba(220,50,40,0.68);color:#111'>0.69</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.72</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.69);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.57);color:#111'>0.57</td><td style='background:rgba(220,50,40,0.56);color:#111'>0.56</td><td style='background:rgba(220,50,40,0.64);color:#111'>0.65</td><td style='background:rgba(220,50,40,0.34);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.36);color:#111'>0.35</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.06);color:#111'>0.03</td><td style='background:rgba(40,160,80,0.24);color:#111'>-0.22</td></tr><tr><th class='rowh'>短纤</th><td style='background:rgba(220,50,40,0.67);color:#111'>0.69</td><td style='background:rgba(220,50,40,0.65);color:#111'>0.66</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.72</td><td style='background:rgba(220,50,40,0.72);color:#111'>0.74</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.74);color:#111'>0.76</td><td style='background:rgba(220,50,40,0.71);color:#111'>0.73</td><td style='background:rgba(220,50,40,0.92);color:#111'>0.95</td><td style='background:rgba(220,50,40,0.76);color:#111'>0.79</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.57);color:#111'>0.58</td><td style='background:rgba(220,50,40,0.21);color:#111'>0.19</td><td style='background:rgba(40,160,80,0.17);color:#111'>-0.14</td></tr><tr><th class='rowh'>塑料</th><td style='background:rgba(220,50,40,0.69);color:#111'>0.70</td><td style='background:rgba(220,50,40,0.67);color:#111'>0.69</td><td style='background:rgba(220,50,40,0.78);color:#111'>0.80</td><td style='background:rgba(220,50,40,0.89);color:#111'>0.93</td><td style='background:rgba(220,50,40,0.69);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.74);color:#111'>0.76</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.69);color:#111'>0.70</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.82);color:#111'>0.84</td><td style='background:rgba(220,50,40,0.47);color:#111'>0.47</td><td style='background:rgba(220,50,40,0.49);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.62);color:#111'>0.63</td><td style='background:rgba(220,50,40,0.19);color:#111'>0.16</td><td style='background:rgba(40,160,80,0.23);color:#111'>-0.20</td></tr><tr><th class='rowh'>苯乙烯</th><td style='background:rgba(220,50,40,0.67);color:#111'>0.68</td><td style='background:rgba(220,50,40,0.55);color:#111'>0.55</td><td style='background:rgba(220,50,40,0.62);color:#111'>0.63</td><td style='background:rgba(220,50,40,0.68);color:#111'>0.70</td><td style='background:rgba(220,50,40,0.57);color:#111'>0.57</td><td style='background:rgba(220,50,40,0.71);color:#111'>0.73</td><td style='background:rgba(220,50,40,0.69);color:#111'>0.70</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.66);color:#111'>0.67</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.23);color:#111'>0.21</td><td style='background:rgba(40,160,80,0.11);color:#111'>-0.08</td></tr><tr><th class='rowh'>PTA</th><td style='background:rgba(220,50,40,0.64);color:#111'>0.66</td><td style='background:rgba(220,50,40,0.63);color:#111'>0.64</td><td style='background:rgba(220,50,40,0.67);color:#111'>0.68</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.56);color:#111'>0.56</td><td style='background:rgba(220,50,40,0.92);color:#111'>0.95</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.70);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.69);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.56);color:#111'>0.57</td><td style='background:rgba(220,50,40,0.24);color:#111'>0.22</td><td style='background:rgba(40,160,80,0.15);color:#111'>-0.12</td></tr><tr><th class='rowh'>乙二醇</th><td style='background:rgba(220,50,40,0.64);color:#111'>0.66</td><td style='background:rgba(220,50,40,0.63);color:#111'>0.64</td><td style='background:rgba(220,50,40,0.76);color:#111'>0.79</td><td style='background:rgba(220,50,40,0.79);color:#111'>0.82</td><td style='background:rgba(220,50,40,0.64);color:#111'>0.65</td><td style='background:rgba(220,50,40,0.76);color:#111'>0.79</td><td style='background:rgba(220,50,40,0.82);color:#111'>0.84</td><td style='background:rgba(220,50,40,0.66);color:#111'>0.67</td><td style='background:rgba(220,50,40,0.69);color:#111'>0.71</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.42</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.21);color:#111'>0.18</td><td style='background:rgba(40,160,80,0.19);color:#111'>-0.16</td></tr><tr><th class='rowh'>棕榈油</th><td style='background:rgba(220,50,40,0.47);color:#111'>0.47</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.44</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.44</td><td style='background:rgba(220,50,40,0.34);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.47);color:#111'>0.47</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.42</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.77);color:#111'>0.79</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.25);color:#111'>0.23</td><td style='background:rgba(220,50,40,0.07);color:#111'>0.04</td></tr><tr><th class='rowh'>豆油</th><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.44</td><td style='background:rgba(220,50,40,0.36);color:#111'>0.35</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.49);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.77);color:#111'>0.79</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.26);color:#111'>0.24</td><td style='background:rgba(220,50,40,0.10);color:#111'>0.07</td></tr><tr><th class='rowh'>PVC</th><td style='background:rgba(220,50,40,0.45);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.42);color:#111'>0.41</td><td style='background:rgba(220,50,40,0.56);color:#111'>0.57</td><td style='background:rgba(220,50,40,0.62);color:#111'>0.63</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.57);color:#111'>0.58</td><td style='background:rgba(220,50,40,0.62);color:#111'>0.63</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.56);color:#111'>0.57</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(40,160,80,0.21);color:#111'>-0.19</td></tr><tr><th class='rowh'>橡胶</th><td style='background:rgba(220,50,40,0.13);color:#111'>0.10</td><td style='background:rgba(220,50,40,0.09);color:#111'>0.05</td><td style='background:rgba(220,50,40,0.14);color:#111'>0.11</td><td style='background:rgba(220,50,40,0.18);color:#111'>0.15</td><td style='background:rgba(220,50,40,0.06);color:#111'>0.03</td><td style='background:rgba(220,50,40,0.21);color:#111'>0.19</td><td style='background:rgba(220,50,40,0.19);color:#111'>0.16</td><td style='background:rgba(220,50,40,0.23);color:#111'>0.21</td><td style='background:rgba(220,50,40,0.24);color:#111'>0.22</td><td style='background:rgba(220,50,40,0.21);color:#111'>0.18</td><td style='background:rgba(220,50,40,0.25);color:#111'>0.23</td><td style='background:rgba(220,50,40,0.26);color:#111'>0.24</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.31);color:#111'>0.29</td></tr><tr><th class='rowh'>黄金</th><td style='background:rgba(40,160,80,0.18);color:#111'>-0.15</td><td style='background:rgba(40,160,80,0.14);color:#111'>-0.11</td><td style='background:rgba(40,160,80,0.19);color:#111'>-0.16</td><td style='background:rgba(40,160,80,0.22);color:#111'>-0.19</td><td style='background:rgba(40,160,80,0.24);color:#111'>-0.22</td><td style='background:rgba(40,160,80,0.17);color:#111'>-0.14</td><td style='background:rgba(40,160,80,0.23);color:#111'>-0.20</td><td style='background:rgba(40,160,80,0.11);color:#111'>-0.08</td><td style='background:rgba(40,160,80,0.15);color:#111'>-0.12</td><td style='background:rgba(40,160,80,0.19);color:#111'>-0.16</td><td style='background:rgba(220,50,40,0.07);color:#111'>0.04</td><td style='background:rgba(220,50,40,0.10);color:#111'>0.07</td><td style='background:rgba(40,160,80,0.21);color:#111'>-0.19</td><td style='background:rgba(220,50,40,0.31);color:#111'>0.29</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td></tr></tbody>
+      </table>
+      </div>
+    </div>
+
+
+    <div class="card">
+      <h3>三、长期相关性热力图(全样本 日频)</h3>
+      <p class="note">拉长到全样本(多数品种 5~10 年)。可看到结构性基线的相关强度,化工链比中期明显回落。</p>
+      <div class="scroll">
+      <table class="hm">
+        <thead><tr><th></th><th>燃油</th><th>沥青</th><th>甲醇</th><th>聚丙烯</th><th>LPG</th><th>短纤</th><th>塑料</th><th>苯乙烯</th><th>PTA</th><th>乙二醇</th><th>棕榈油</th><th>豆油</th><th>PVC</th><th>橡胶</th><th>黄金</th></tr></thead>
+        <tbody><tr><th class='rowh'>燃油</th><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.36);color:#111'>0.35</td><td style='background:rgba(220,50,40,0.31);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.60);color:#111'>0.61</td><td style='background:rgba(220,50,40,0.34);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.51);color:#111'>0.52</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.45);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.33);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.33);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.24);color:#111'>0.22</td><td style='background:rgba(220,50,40,0.25);color:#111'>0.23</td><td style='background:rgba(220,50,40,0.11);color:#111'>0.08</td></tr><tr><th class='rowh'>沥青</th><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.44</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.42</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.55);color:#111'>0.55</td><td style='background:rgba(220,50,40,0.47);color:#111'>0.47</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.33);color:#111'>0.32</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.34</td><td style='background:rgba(220,50,40,0.34);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.09);color:#111'>0.05</td></tr><tr><th class='rowh'>甲醇</th><td style='background:rgba(220,50,40,0.36);color:#111'>0.35</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.60);color:#111'>0.61</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.42</td><td style='background:rgba(220,50,40,0.53);color:#111'>0.53</td><td style='background:rgba(220,50,40,0.57);color:#111'>0.58</td><td style='background:rgba(220,50,40,0.47);color:#111'>0.47</td><td style='background:rgba(220,50,40,0.50);color:#111'>0.49</td><td style='background:rgba(220,50,40,0.61);color:#111'>0.62</td><td style='background:rgba(220,50,40,0.30);color:#111'>0.29</td><td style='background:rgba(220,50,40,0.30);color:#111'>0.28</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.04);color:#111'>0.00</td></tr><tr><th class='rowh'>聚丙烯</th><td style='background:rgba(220,50,40,0.31);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.44</td><td style='background:rgba(220,50,40,0.60);color:#111'>0.61</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.50);color:#111'>0.50</td><td style='background:rgba(220,50,40,0.60);color:#111'>0.61</td><td style='background:rgba(220,50,40,0.78);color:#111'>0.80</td><td style='background:rgba(220,50,40,0.55);color:#111'>0.56</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.60</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.31);color:#111'>0.29</td><td style='background:rgba(220,50,40,0.54);color:#111'>0.54</td><td style='background:rgba(220,50,40,0.30);color:#111'>0.28</td><td style='background:rgba(220,50,40,0.06);color:#111'>0.02</td></tr><tr><th class='rowh'>LPG</th><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.42</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.42</td><td style='background:rgba(220,50,40,0.50);color:#111'>0.50</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.41);color:#111'>0.40</td><td style='background:rgba(220,50,40,0.27);color:#111'>0.25</td><td style='background:rgba(220,50,40,0.28);color:#111'>0.26</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.24);color:#111'>0.21</td><td style='background:rgba(220,50,40,0.05);color:#111'>0.01</td></tr><tr><th class='rowh'>短纤</th><td style='background:rgba(220,50,40,0.60);color:#111'>0.61</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.53);color:#111'>0.53</td><td style='background:rgba(220,50,40,0.60);color:#111'>0.61</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.60);color:#111'>0.60</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.60</td><td style='background:rgba(220,50,40,0.85);color:#111'>0.88</td><td style='background:rgba(220,50,40,0.66);color:#111'>0.67</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.34</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.42</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.05);color:#111'>0.01</td></tr><tr><th class='rowh'>塑料</th><td style='background:rgba(220,50,40,0.34);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.44);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.57);color:#111'>0.58</td><td style='background:rgba(220,50,40,0.78);color:#111'>0.80</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.60);color:#111'>0.60</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.54);color:#111'>0.54</td><td style='background:rgba(220,50,40,0.50);color:#111'>0.50</td><td style='background:rgba(220,50,40,0.61);color:#111'>0.62</td><td style='background:rgba(220,50,40,0.36);color:#111'>0.35</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.58);color:#111'>0.58</td><td style='background:rgba(220,50,40,0.40);color:#111'>0.40</td><td style='background:rgba(220,50,40,0.17);color:#111'>0.14</td></tr><tr><th class='rowh'>苯乙烯</th><td style='background:rgba(220,50,40,0.51);color:#111'>0.52</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.47);color:#111'>0.47</td><td style='background:rgba(220,50,40,0.55);color:#111'>0.56</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.60</td><td style='background:rgba(220,50,40,0.54);color:#111'>0.54</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.58);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.56);color:#111'>0.56</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.40);color:#111'>0.39</td><td style='background:rgba(220,50,40,0.31);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.07);color:#111'>0.03</td></tr><tr><th class='rowh'>PTA</th><td style='background:rgba(220,50,40,0.43);color:#111'>0.43</td><td style='background:rgba(220,50,40,0.55);color:#111'>0.55</td><td style='background:rgba(220,50,40,0.50);color:#111'>0.49</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.48);color:#111'>0.48</td><td style='background:rgba(220,50,40,0.85);color:#111'>0.88</td><td style='background:rgba(220,50,40,0.50);color:#111'>0.50</td><td style='background:rgba(220,50,40,0.58);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.58);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.36</td><td style='background:rgba(220,50,40,0.37);color:#111'>0.36</td><td style='background:rgba(220,50,40,0.42);color:#111'>0.41</td><td style='background:rgba(220,50,40,0.40);color:#111'>0.39</td><td style='background:rgba(220,50,40,0.15);color:#111'>0.12</td></tr><tr><th class='rowh'>乙二醇</th><td style='background:rgba(220,50,40,0.45);color:#111'>0.45</td><td style='background:rgba(220,50,40,0.47);color:#111'>0.47</td><td style='background:rgba(220,50,40,0.61);color:#111'>0.62</td><td style='background:rgba(220,50,40,0.59);color:#111'>0.60</td><td style='background:rgba(220,50,40,0.41);color:#111'>0.40</td><td style='background:rgba(220,50,40,0.66);color:#111'>0.67</td><td style='background:rgba(220,50,40,0.61);color:#111'>0.62</td><td style='background:rgba(220,50,40,0.56);color:#111'>0.56</td><td style='background:rgba(220,50,40,0.58);color:#111'>0.59</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.30);color:#111'>0.28</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.31</td><td style='background:rgba(40,160,80,0.06);color:#111'>-0.03</td></tr><tr><th class='rowh'>棕榈油</th><td style='background:rgba(220,50,40,0.33);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.30);color:#111'>0.29</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.27);color:#111'>0.25</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.34</td><td style='background:rgba(220,50,40,0.36);color:#111'>0.35</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.36</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.79);color:#111'>0.81</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.19);color:#111'>0.16</td></tr><tr><th class='rowh'>豆油</th><td style='background:rgba(220,50,40,0.33);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.33);color:#111'>0.32</td><td style='background:rgba(220,50,40,0.30);color:#111'>0.28</td><td style='background:rgba(220,50,40,0.31);color:#111'>0.29</td><td style='background:rgba(220,50,40,0.28);color:#111'>0.26</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.29);color:#111'>0.27</td><td style='background:rgba(220,50,40,0.37);color:#111'>0.36</td><td style='background:rgba(220,50,40,0.30);color:#111'>0.28</td><td style='background:rgba(220,50,40,0.79);color:#111'>0.81</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.36);color:#111'>0.35</td><td style='background:rgba(220,50,40,0.20);color:#111'>0.17</td></tr><tr><th class='rowh'>PVC</th><td style='background:rgba(220,50,40,0.24);color:#111'>0.22</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.34</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.54);color:#111'>0.54</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.43);color:#111'>0.42</td><td style='background:rgba(220,50,40,0.58);color:#111'>0.58</td><td style='background:rgba(220,50,40,0.40);color:#111'>0.39</td><td style='background:rgba(220,50,40,0.42);color:#111'>0.41</td><td style='background:rgba(220,50,40,0.46);color:#111'>0.46</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.37);color:#111'>0.36</td><td style='background:rgba(220,50,40,0.11);color:#111'>0.08</td></tr><tr><th class='rowh'>橡胶</th><td style='background:rgba(220,50,40,0.25);color:#111'>0.23</td><td style='background:rgba(220,50,40,0.34);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.30);color:#111'>0.28</td><td style='background:rgba(220,50,40,0.24);color:#111'>0.21</td><td style='background:rgba(220,50,40,0.35);color:#111'>0.33</td><td style='background:rgba(220,50,40,0.40);color:#111'>0.40</td><td style='background:rgba(220,50,40,0.31);color:#111'>0.30</td><td style='background:rgba(220,50,40,0.40);color:#111'>0.39</td><td style='background:rgba(220,50,40,0.32);color:#111'>0.31</td><td style='background:rgba(220,50,40,0.38);color:#111'>0.37</td><td style='background:rgba(220,50,40,0.36);color:#111'>0.35</td><td style='background:rgba(220,50,40,0.37);color:#111'>0.36</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td><td style='background:rgba(220,50,40,0.19);color:#111'>0.17</td></tr><tr><th class='rowh'>黄金</th><td style='background:rgba(220,50,40,0.11);color:#111'>0.08</td><td style='background:rgba(220,50,40,0.09);color:#111'>0.05</td><td style='background:rgba(220,50,40,0.04);color:#111'>0.00</td><td style='background:rgba(220,50,40,0.06);color:#111'>0.02</td><td style='background:rgba(220,50,40,0.05);color:#111'>0.01</td><td style='background:rgba(220,50,40,0.05);color:#111'>0.01</td><td style='background:rgba(220,50,40,0.17);color:#111'>0.14</td><td style='background:rgba(220,50,40,0.07);color:#111'>0.03</td><td style='background:rgba(220,50,40,0.15);color:#111'>0.12</td><td style='background:rgba(40,160,80,0.06);color:#111'>-0.03</td><td style='background:rgba(220,50,40,0.19);color:#111'>0.16</td><td style='background:rgba(220,50,40,0.20);color:#111'>0.17</td><td style='background:rgba(220,50,40,0.11);color:#111'>0.08</td><td style='background:rgba(220,50,40,0.19);color:#111'>0.17</td><td style='background:rgba(220,50,40,0.92);color:#111'>1.00</td></tr></tbody>
+      </table>
+      </div>
+    </div>
+
+<div class="card insight">
+  <h3>四、关键结论</h3>
+  <ul>
+    <li><b>第一梯队(极强, 中期&gt;0.75):</b> 仅 <b>燃油(0.89)</b>。它是原油的直接馏分产品,价格几乎跟着原油走,是原油最纯粹的"影子品种"。</li>
+    <li><b>第二梯队(强, 0.60~0.75):</b> 沥青(0.73)、甲醇(0.71)、聚丙烯(0.70)、LPG(0.69)、短纤(0.68)、塑料(0.67)、苯乙烯(0.66)、PTA(0.65)、乙二醇(0.64)。能源直接替代 + 油头化工链,与原油同向但弹性递减。</li>
+    <li><b>第三梯队(中, 0.45~0.60):</b> 棕榈油(0.52)、豆油(0.48)走生物柴油逻辑;PVC(0.45)因电石法占比高,与原油关系被稀释。</li>
+    <li><b>几乎无关:</b> <b>橡胶(0.03)</b> 中期、<b>黄金(-0.18)</b> 中期。橡胶虽有合成橡胶源于石油的说法,但天然橡胶定价更多看产区供需,与原油脱钩;黄金是避险/美元逻辑,与原油无稳定同向关系,近期甚至反向。</li>
+    <li><b>中期 &gt; 长期 是普遍现象:</b> 几乎所有品种"近1年"相关性都高于"全样本"。说明近年原油对化工品的传导更顺畅(能源危机、成本定价回归),但拉长看会被各自产业周期稀释。</li>
+    <li><b>甲醇/聚丙烯 偏离最大:</b> 中期(0.71/0.70)远高于长期(0.45/0.48),因煤制路线长期削弱了与油价的绑定,近年能源属性回归导致短期跳升。</li>
+  </ul>
+  <p class="note">注:相关系数为历史统计关系,不代表因果,也不保证未来稳定;化工品种还受自身产能、库存、煤/气替代路线影响。实盘需结合价差结构与基本面。</p>
+</div>
+</div></body></html>

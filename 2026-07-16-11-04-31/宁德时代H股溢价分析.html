@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>宁德时代 H 股溢价深度分析</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+    background: #f7f8fa;
+    color: #1f2329;
+    line-height: 1.7;
+    padding: 32px 16px;
+  }
+  .wrap { max-width: 920px; margin: 0 auto; }
+  header {
+    background: #ffffff;
+    border: 1px solid #e8eaed;
+    border-radius: 14px;
+    padding: 28px 32px;
+    margin-bottom: 20px;
+  }
+  h1 { font-size: 23px; font-weight: 700; color: #1f2329; margin-bottom: 6px; }
+  .sub { font-size: 14px; color: #6b7280; margin-bottom: 16px; }
+  .lead {
+    background: #f0f5ff;
+    border-left: 4px solid #185fa5;
+    padding: 14px 18px;
+    border-radius: 0 8px 8px 0;
+    font-size: 15px;
+    color: #0c447c;
+  }
+  .lead b { color: #185fa5; }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .card {
+    background: #ffffff;
+    border: 1px solid #e8eaed;
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .card .label { font-size: 12px; color: #8a9099; margin-bottom: 6px; }
+  .card .num { font-size: 22px; font-weight: 700; color: #1f2329; }
+  .card .num.red { color: #c0392b; }
+  .card .unit { font-size: 12px; color: #8a9099; font-weight: 400; }
+  section {
+    background: #ffffff;
+    border: 1px solid #e8eaed;
+    border-radius: 14px;
+    padding: 26px 32px;
+    margin-bottom: 20px;
+  }
+  h2 { font-size: 18px; font-weight: 700; margin-bottom: 14px; color: #1f2329; }
+  h2 .tag {
+    font-size: 12px; font-weight: 500; color: #185fa5;
+    background: #e6f1fb; padding: 2px 10px; border-radius: 20px; margin-left: 8px;
+  }
+  h3 { font-size: 15px; font-weight: 700; margin: 22px 0 8px; color: #1f2329; }
+  p { font-size: 14px; color: #3a3f47; margin-bottom: 10px; }
+  .reason {
+    border-left: 3px solid #d3d7dd;
+    padding: 4px 0 4px 16px;
+    margin: 16px 0;
+  }
+  .reason.w1 { border-color: #185fa5; }
+  .reason.w2 { border-color: #639922; }
+  .reason.w3 { border-color: #ba7517; }
+  .reason.w4 { border-color: #993556; }
+  .reason.w5 { border-color: #534ab7; }
+  .reason .rh { font-size: 15px; font-weight: 700; color: #1f2329; margin-bottom: 4px; }
+  .reason .rb { font-size: 13.5px; color: #3a3f47; }
+  .reason .rb .em { color: #c0392b; font-weight: 600; }
+  .chart-box { margin: 18px 0; text-align: center; }
+  .chart-cap { font-size: 12px; color: #8a9099; margin-top: 6px; }
+  .note {
+    background: #fff8ec;
+    border: 1px solid #f5d99b;
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px; color: #7a5b12;
+    margin: 14px 0;
+  }
+  table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 13px; }
+  th, td { border: 1px solid #e8eaed; padding: 9px 12px; text-align: left; }
+  th { background: #f4f6f8; font-weight: 600; color: #1f2329; }
+  td { color: #3a3f47; }
+  .src { font-size: 12px; color: #8a9099; line-height: 1.9; }
+  .src a { color: #185fa5; text-decoration: none; }
+  .footer { text-align: center; font-size: 12px; color: #aab0b8; margin-top: 8px; }
+  .pill { display: inline-block; font-size: 12px; padding: 1px 8px; border-radius: 12px; background: #eaf3de; color: #3b6d11; margin-right: 6px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>宁德时代 H 股溢价深度分析</h1>
+  <div class="sub">03750.HK / 300750.SZ ｜ 金融服务研究视角 ｜ 数据截至 2026-06-05</div>
+  <div class="lead">
+    <b>一句话结论：</b>宁德时代 H 股长期比 A 股贵 30% 上下，本质是「<b>外资主导定价权 + 极小流通盘 + 国际估值逻辑</b>」三重叠加的结果——它反映全球资本对中国硬科技核心资产的重估，而不是 A 股定价失效。这条「倒挂」大概率只在少数全球龙头身上成为常态，而非普遍现象。
+  </div>
+</header>
+
+<div class="cards">
+  <div class="card"><div class="label">港股上市日 / 发行价</div><div class="num">2025-05-20<span class="unit"> ／ 263 港元</span></div></div>
+  <div class="card"><div class="label">最新 H 股溢价率</div><div class="num red">+34.85%<span class="unit"> 折价率口径</span></div></div>
+  <div class="card"><div class="label">H 股流通股本</div><div class="num">1.56<span class="unit"> 亿股</span></div></div>
+  <div class="card"><div class="label">A 股流通股本</div><div class="num">42.57<span class="unit"> 亿股</span></div></div>
+  <div class="card"><div class="label">H/A 流通盘比</div><div class="num red">3.7%<span class="unit"> 仅 A 股零头</span></div></div>
+</div>
+
+<section>
+  <h2>一、现象：反常的「H 贵于 A」<span class="tag">背景</span></h2>
+  <p>长期以来，A 股相对 H 股存在 20%~40% 的溢价，几乎是两地市场的「定价铁律」。恒生沪深港通 AH 股溢价指数（HSAHP）长期在 120 点以上运行，意味着整体 A 股比 H 股贵约两成。但在这个铁律之下，以宁德时代为代表的一批硬科技龙头，却出现了<b> H 股价格反超 A 股</b>的「倒挂」奇观。</p>
+  <p>宁德时代 2025 年 5 月 20 日登陆港股，上市首日涨幅超 16%、H 股即较 A 股溢价超 7%。此后 H 股持续跑赢，<span class="em" style="color:#c0392b;font-weight:600;">溢价率一度突破 48%</span>；截至 2026 年 6 月初，溢价仍在 30% 以上高位运行。同期 A 股市值于 2026-04-16 首破 2 万亿元，成为 A 股首家站上 2 万亿的民营科技龙头，H 股盘中一度触及 745 港元。</p>
+  <div class="note">注意口径：市场中「A 股折价率 34.85%」与「H 股溢价率 34.85%」是同一件事的两面说法，均表示 H 股比 A 股贵 34.85%。下表按统一口径列出关键时点。</div>
+
+  <table>
+    <tr><th>时点</th><th>H 股溢价率（H 比 A 贵）</th><th>说明</th></tr>
+    <tr><td>2025-05-20 上市首日</td><td>&gt; 7%</td><td>首日收涨超 16%，即溢价</td></tr>
+    <tr><td>2025-05-22</td><td>10.75%</td><td>H 股 329.8 港元 ≈ 303 元；A 股 270.37 元</td></tr>
+    <tr><td>上市后某时峰值</td><td>&gt; 48%</td><td>证券时报报道「一度突破 48%」</td></tr>
+    <tr><td>2025-12-02 报道</td><td>约 13%</td><td>半年内曾超 30%，解禁后收窄</td></tr>
+    <tr><td>2026-04-21</td><td>30.57%</td><td>H 股收 736 港元；A 股收 440.69 元</td></tr>
+    <tr><td>2026-06-05</td><td>34.85%</td><td>Choice 口径，7 家 AH 倒挂之首</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>二、溢价从哪来：八大维度拆解<span class="tag">核心</span></h2>
+
+  <div class="reason w1">
+    <div class="rh">1. 外资掌握定价权（最核心推手）</div>
+    <div class="rb">兴业证券明确指出：<span class="em">外资持股占比与 AH 溢价率呈明显负相关</span>——外资越青睐，H 股相对 A 股越贵。外资（全球长线基金、主权基金、养老金、亚洲基金、科技成长基金、指数增强资金）集中投向少数能纳入全球可比框架的核心资产。证券时报梳理，外资借汇丰银行这一中介渠道持有港股宁德时代 <b>47.66%</b> 股份，花旗、高盛(亚洲)等中介持股也均在 10% 以上。外资的定价模型偏好「全球竞争力 + 高 ROE + 高治理透明度」，愿意给确定性付溢价。</div>
+  </div>
+
+  <div class="reason w2">
+    <div class="rh">2. 流通盘悬殊，供需极度失衡</div>
+    <div class="rb">宁德时代 H 股流通股本仅 <b>1.56 亿股</b>，A 股流通股本高达 <b>42.57 亿股</b>，H 股盘子只有 A 股的 <b>3.7%</b>。更小的流通盘叠加机构扎堆买入，少量资金就能把股价推高。这是「倒挂」个股的共同特征：H 股市值普遍是 A 股的几分之一甚至几十分之一，流动性稀缺放大了溢价。</div>
+  </div>
+
+  <div class="reason w3">
+    <div class="rh">3. 估值逻辑：国际对标 vs 本土「内卷」</div>
+    <div class="rb">A 股对科技股常陷「内卷」式压缩估值；而港股把硬科技与<b>全球可比公司</b>（如台积电）对标，愿意为技术壁垒、全球市场份额、业务确定性支付溢价。港股正从过去的「折扣店」转变为科技龙头的「价值发现平台」。参考台积电在 AI 周期获海外资金追捧，宁德时代作为全球电池龙头，海外资本更看重其稀缺性与长期成长性，而非短期锂电周期波动。</div>
+  </div>
+
+  <div class="reason w5">
+    <div class="rh">4. 纳入恒生指数，被动资金加持</div>
+    <div class="rb">宁德时代纳入恒生指数后，带来更广泛的全球机构投资者覆盖与被动资金（指数基金）配置，进一步提升流动性、市场关注度与全球品牌影响力，强化外资定价权重。</div>
+  </div>
+
+  <div class="reason w4">
+    <div class="rh">5. 南向资金提供「流动性承接」</div>
+    <div class="rb">南向资金并非简单跟风，而是为港股科技股提供最稀缺的资源——持续流动性、成交深度与估值承接。香港证监会数据：2025 年港股通日均成交 1211 亿港元，同比 +151%，占港股成交额比例由 2024 年的 18.3% 升至 24.2%。不过长城证券指出，内资对产生负溢价的港股定价权并不高，主导力量仍是外资。</div>
+  </div>
+
+  <div class="reason w3">
+    <div class="rh">6. 国际配售结构：中东与长线资本捧场</div>
+    <div class="rb">宁德时代采用 Regulation S 规则（排除美国境内投资者），非美外资占比高，科威特等中东资本加仓明显。国际配售吸引 428 名专业投资者、认购 15.17 倍；中金披露锚定订单超 500 亿美元、覆盖倍数超 30 倍，体现国际市场对中国优质资产的高度认可。「顶格定价 + 超额认购」本身就传递了港股愿意给优质资产更高定价的信号。</div>
+  </div>
+
+  <div class="reason w1">
+    <div class="rh">7. A 股投资者结构：偏好短炒、不愿长拿</div>
+    <div class="rb">曾毓群在股东大会上调侃（段子口径，非官方结论）：A 股「小庙没见过大猪头」、投资群体「不太愿意长期持股」。其潜台词是——A 股对巨无霸公司的长期价值定价不足，而港股的长线外资更愿为确定性支付时间溢价。这一结构差异是溢价长期存在的微观基础。</div>
+  </div>
+
+  <div class="reason w2">
+    <div class="rh">8. 基本面：全球电池龙头的稀缺性</div>
+    <div class="rb">宁德时代具备动力电池全球龙头地位、深厚技术壁垒与全产业链优势，是国际社会「很难找到对应标的」的稀缺资产。即便在 2022-2024 年 A 股下行周期中，北上资金仍持续增持。海外资本看重的不是短周期，而是其在全球能源转型时代的不可替代性。</div>
+  </div>
+</section>
+
+<section>
+  <h2>三、关键图表<span class="tag">可视化</span></h2>
+
+  <div class="chart-box">
+    <svg viewBox="0 0 680 320" width="100%" role="img" aria-label="A股与H股流通股本对比">
+      <text x="40" y="34" font-size="15" font-weight="600" fill="#1f2329">图1 ｜ 流通股本对比：H 股仅是 A 股的 3.7%</text>
+      <line x1="40" y1="80" x2="640" y2="80" stroke="#e8eaed" stroke-width="1"/>
+      <text x="40" y="74" font-size="13" fill="#3a3f47">A 股流通股本</text>
+      <rect x="40" y="90" width="560" height="34" rx="4" fill="#185fa5"/>
+      <text x="612" y="113" font-size="14" font-weight="700" fill="#185fa5">42.57 亿股</text>
+      <text x="40" y="150" font-size="13" fill="#3a3f47">H 股流通股本</text>
+      <rect x="40" y="160" width="20.7" height="34" rx="4" fill="#c0392b"/>
+      <text x="70" y="183" font-size="14" font-weight="700" fill="#c0392b">1.56 亿股（≈ A 股 3.7%）</text>
+      <text x="40" y="240" font-size="12.5" fill="#6b7280">结论：同样一家公司，港股可交易筹码极少，少量买盘即可显著推高价格，溢价由此被「杠杆化」。</text>
+      <line x1="40" y1="260" x2="640" y2="260" stroke="#e8eaed" stroke-width="1"/>
+      <text x="40" y="290" font-size="11" fill="#8a9099">数据来源：公司公告、证券时报梳理</text>
+    </svg>
+  </div>
+
+  <div class="chart-box">
+    <svg viewBox="0 0 680 340" width="100%" role="img" aria-label="宁德时代H股溢价率关键时点">
+      <text x="40" y="34" font-size="15" font-weight="600" fill="#1f2329">图2 ｜ H 股溢价率关键时点（H 比 A 贵 %）</text>
+      <line x1="60" y1="60" x2="60" y2="290" stroke="#c8ccd2" stroke-width="1"/>
+      <line x1="60" y1="290" x2="650" y2="290" stroke="#c8ccd2" stroke-width="1"/>
+      <text x="44" y="296" font-size="10" fill="#8a9099">0%</text>
+      <text x="38" y="200" font-size="10" fill="#8a9099">25%</text>
+      <text x="38" y="110" font-size="10" fill="#8a9099">50%</text>
+      <line x1="60" y1="200" x2="650" y2="200" stroke="#eee" stroke-width="1"/>
+      <line x1="60" y1="110" x2="650" y2="110" stroke="#eee" stroke-width="1"/>
+      <g fill="#185fa5">
+        <rect x="100" y="263" width="46" height="27" rx="2"/>
+        <rect x="190" y="259" width="46" height="31" rx="2"/>
+        <rect x="280" y="116" width="46" height="174" rx="2" fill="#c0392b"/>
+        <rect x="370" y="251" width="46" height="39" rx="2"/>
+        <rect x="460" y="219" width="46" height="71" rx="2"/>
+        <rect x="550" y="216" width="46" height="74" rx="2"/>
+      </g>
+      <g font-size="11" fill="#3a3f47" text-anchor="middle">
+        <text x="123" y="282">7%+</text>
+        <text x="213" y="282">11%</text>
+        <text x="303" y="135" fill="#fff">48%+</text>
+        <text x="393" y="270">13%</text>
+        <text x="483" y="238">31%</text>
+        <text x="573" y="235">35%</text>
+      </g>
+      <g font-size="10.5" fill="#6b7280" text-anchor="middle">
+        <text x="123" y="308">上市首日</text>
+        <text x="213" y="308">5/22</text>
+        <text x="303" y="308">峰值</text>
+        <text x="393" y="308">12月初</text>
+        <text x="483" y="308">4/21</text>
+        <text x="573" y="308">6/5</text>
+      </g>
+      <text x="40" y="330" font-size="11" fill="#8a9099">说明：峰值为媒体报道「一度突破 48%」的近似区间；溢价率在解禁后短暂收窄，2026 年随外资回流再度走高。</text>
+    </svg>
+  </div>
+
+  <div class="chart-box">
+    <svg viewBox="0 0 680 300" width="100%" role="img" aria-label="外资通过主要中介持有港股宁德时代比例">
+      <text x="40" y="34" font-size="15" font-weight="600" fill="#1f2329">图3 ｜ 外资通过主要中介持港股比例（示意）</text>
+      <text x="40" y="64" font-size="12" fill="#6b7280">港股实行中介机构代持，国际投行是外资的「通道」：</text>
+      <g font-size="12.5" fill="#3a3f47">
+        <text x="40" y="100">汇丰银行（中介）</text>
+        <text x="40" y="140">花旗银行（中介）</text>
+        <text x="40" y="180">高盛(亚洲)（中介）</text>
+        <text x="40" y="220">其他国际机构</text>
+      </g>
+      <g>
+        <rect x="180" y="88" width="376" height="22" rx="3" fill="#185fa5"/>
+        <text x="566" y="104" font-size="12" font-weight="700" fill="#185fa5">47.66%</text>
+        <rect x="180" y="128" width="90" height="22" rx="3" fill="#378add"/>
+        <text x="278" y="144" font-size="12" font-weight="700" fill="#185fa5">&gt;10%</text>
+        <rect x="180" y="168" width="90" height="22" rx="3" fill="#378add"/>
+        <text x="278" y="184" font-size="12" font-weight="700" fill="#185fa5">&gt;10%</text>
+        <rect x="180" y="208" width="140" height="22" rx="3" fill="#85b7eb"/>
+        <text x="328" y="224" font-size="12" font-weight="700" fill="#185fa5">其余</text>
+      </g>
+      <text x="40" y="262" font-size="11.5" fill="#6b7280">含义：少数国际中介集中持有近半筹码，外资买卖方向直接决定 H 股定价，这是溢价能长期维持的「资金底座」。</text>
+      <text x="40" y="288" font-size="11" fill="#8a9099">数据来源：证券时报基于港股披露中介机构持股统计</text>
+    </svg>
+  </div>
+</section>
+
+<section>
+  <h2>四、会收敛吗：风险与边界<span class="tag">理性</span></h2>
+  <p><span class="pill">解禁压力</span>随着 IPO 获配大机构退出、股份解禁，H 股流通量增加，溢价会被稀释。宁德时代自身就是例子：上市半年内溢价一度超 30%，随部分投资者解禁收窄至约 13%。这意味着流通盘扩张是溢价的天然「减压阀」。</p>
+  <p><span class="pill">非普遍现象</span>机构普遍认为，该溢价难以在所有硬科技公司普遍化。它只在「具备全球龙头地位 + 稀缺流通筹码 + 清晰全球竞争力」的少数核心企业身上，演变为<b>小范围系统性溢价</b>。整体 AH 溢价指数仍在 120 点附近，A 股溢价常态并未根本改变。</p>
+  <p><span class="pill">波动风险</span>溢价率本身波动剧烈（从 13% 到 48% 再到 30%+），受外资流向、地缘、解禁节奏多重影响。对投资者而言，H 股溢价≠无风险套利，两地价差回归的路径和时间高度不确定。</p>
+</section>
+
+<section>
+  <h2>五、结论与展望<span class="tag">判断</span></h2>
+  <p>宁德时代 H 股溢价，不是 A 股「跌出来的便宜」，而是港股被全球长线资本「买出来的贵」。它背后是三重结构变化：<b>①</b> 中国硬科技资产获得全球定价权重估；<b>②</b> 港股从「A 股折扣替代品」转向具备独立全球定价能力的平台；<b>③</b> 优质龙头的稀缺筹码被外资集中持有。</p>
+  <p>往前看，随着更多 A 股优质科技/制造企业赴港二次上市、海外资金加速回流中国，<b>H 股对 A 股溢价在少数全球龙头身上有望走向「常态化」</b>，但这不会是全局现象。对金融服务从业者，关键动作是：区分「真稀缺龙头溢价」与「跟风炒作溢价」，并持续跟踪外资中介持仓、解禁节奏与南向资金这三根指针。</p>
+</section>
+
+<section>
+  <h2>六、数据来源</h2>
+  <div class="src">
+    · 证券时报《中国硬科技迎来价值重估 港股溢价或成常态》《透视 AH 股折溢价 全球资本重估中国硬科技价值》《宁德时代等 AH 股倒挂 中国硬科技正迎全球性重估》《全球资本重构中国核心资产定价逻辑》等系列报道<br>
+    · 第一财经《6 家 AH 股「倒挂」背后：流通股比例小，外资更爱行业龙头》<br>
+    · 兴业证券、长城证券、光大证券国际、博时基金、汇生国际资本等机构观点与研报<br>
+    · 公司公告（H 股发行价 263 港元、流通股本）、香港证监会港股通成交数据、Wind / Choice 数据<br>
+    · 注：不同报道时点口径略有差异，本报告已统一为「H 股较 A 股溢价率」口径并标注时点。
+  </div>
+</section>
+
+<div class="footer">本报告基于公开资料整理，仅供研究参考，不构成投资建议。</div>
+
+</div>
+</body>
+</html>

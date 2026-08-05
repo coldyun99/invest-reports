@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>云铝股份(000807)商业模式与同业对比分析</title>
+<script src="./echarts.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         background:#f5f6f8; color:#1f2329; line-height:1.6; }
+  .wrap { max-width:960px; margin:0 auto; padding:18px 14px 60px; }
+  h1 { font-size:22px; margin:6px 0 2px; }
+  h2 { font-size:17px; margin:34px 0 8px; padding-left:9px; border-left:4px solid #2f6fed; }
+  .sub { color:#8a9099; font-size:13px; margin-bottom:6px; }
+  .card { background:#fff; border-radius:10px; padding:12px 10px 6px; margin:12px 0;
+          box-shadow:0 1px 4px rgba(0,0,0,.06); }
+  .chart { width:100%; height:330px; }
+  .note { background:#fff8e6; border:1px solid #ffe2a8; border-radius:8px; padding:10px 12px;
+          font-size:13px; color:#7a5b00; margin:10px 0; }
+  .insight { background:#eef4ff; border:1px solid #c9ddff; border-radius:8px; padding:10px 12px;
+             font-size:13.5px; color:#1c3a6e; margin:10px 0; }
+  .insight b, .note b { color:#c0392b; }
+  table { width:100%; border-collapse:collapse; font-size:13px; background:#fff; border-radius:8px;
+          overflow:hidden; box-shadow:0 1px 4px rgba(0,0,0,.06); margin:10px 0; }
+  th,td { border:1px solid #eceef1; padding:7px 8px; text-align:center; }
+  th { background:#f0f3f7; font-weight:600; }
+  td.l { text-align:left; }
+  .tag { display:inline-block; font-size:11px; padding:1px 6px; border-radius:4px; margin-left:4px; }
+  .t-red { background:#fde8e8; color:#c0392b; }
+  .t-green { background:#e6f7ec; color:#1a7f43; }
+  .t-gray { background:#eef0f3; color:#5a6470; }
+  footer { color:#9aa0a8; font-size:12px; margin-top:30px; text-align:center; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>云铝股份(000807):水电变铝锭的生意,账该怎么算</h1>
+  <div class="sub">含丰枯电价时间序列、云南限电减产复盘、神火/中孚同业对比 · 数据截至2026-08 · 部分吨净利为券商/财报推算口径</div>
+
+  <div class="insight">
+    <b>一句话结论:</b>云铝本质是"云南便宜绿电→铝锭"的转换器,电费差是相对河南/山东<b>火电</b>成立的;
+    但加权看,它的电价(~0.40元/度)其实<b>高于神火新疆自备煤电(0.236元/度)</b>,且枯水期会跳到0.46+。
+    绿电占比最高≠吨净利最高——利润由"铝价−氧化铝−电力"共同决定,电力只是其中一条腿。
+  </div>
+
+  <!-- 图1 -->
+  <h2>一、云铝加权电价:强季节性,枯丰价差约0.15元/度</h2>
+  <div class="sub">数据源:云铝季度财报"燃料及动力"科目 ÷ 用电量(雪球整理,含税加权均价)</div>
+  <div class="card"><div id="c1" class="chart"></div></div>
+  <div class="note">枯水期(Q1/Q4)电价 0.45–0.48,丰水期(Q3)稳定 0.33,季度最大差 <b>0.15元/度</b>。
+    按吨铝耗电13,350度测算,枯→丰单吨电力成本差约 <b>1,735元</b>,直接吃掉毛利率 4–6个百分点。</div>
+
+  <!-- 图2 -->
+  <h2>二、云南电网丰枯分时电价结构(220kV大工业,不含基金)</h2>
+  <div class="sub">数据源:云南电网分时电价表(2022年起执行),揭示制度性丰枯价差</div>
+  <div class="card"><div id="c2" class="chart"></div></div>
+  <div class="note">枯水期平段 0.420 vs 丰水期平段 0.297,制度性价差 <b>0.12元/度</b>;
+    叠加峰谷后,枯水期峰段高达 0.63,丰水期谷段仅 0.15。这是云铝季度利润波动的制度根源。</div>
+
+  <!-- 图3 -->
+  <h2>三、云南电解铝限电减产复盘:枯水期"断电"已常态化</h2>
+  <div class="sub">数据源:华泰期货/证券时报/云南工信厅/能源局公开信息(影响产能为当年各轮次累计估算)</div>
+  <div class="card"><div id="c3" class="chart"></div></div>
+  <div class="note"><b>核心风险:</b>2022减120万吨、2023上半年减约326万吨(≈40%)、2023末–2024初再减118万吨。
+    枯水期限电不是偶发,而是结构性常态——它让"赚电费差"在每年Q1/Q4出现断裂带。</div>
+
+  <!-- 图4 -->
+  <h2>四、三家绿电占比对比:云铝最纯,但神火整体被新疆煤电稀释</h2>
+  <div class="card"><div id="c4" class="chart"></div></div>
+  <table>
+    <tr><th>公司</th><th>电解铝产能</th><th>绿电占比</th><th>绿电构成</th></tr>
+    <tr><td class="l">云铝股份</td><td>308万吨</td><td><b>~87%</b></td><td class="l">云南纯水电(行业唯一高比例纯水电铝平台)</td></tr>
+    <tr><td class="l">中孚实业</td><td>75万吨</td><td>~67%</td><td class="l">四川广元50万吨水电 + 河南巩义25万吨火电</td></tr>
+    <tr><td class="l">神火股份</td><td>170万吨</td><td>~53%<span class="tag t-gray">整体</span></td><td class="l">新疆80万吨煤电 + 云南90万吨水电(云南基地绿电90%)</td></tr>
+  </table>
+
+  <!-- 图5 -->
+  <h2>五、电力成本梯队:云铝的水电并不绝对便宜</h2>
+  <div class="card"><div id="c5" class="chart"></div></div>
+  <div class="insight">
+    <b>关键修正你的原假设:</b>云铝加权电价(~0.40)高于神火新疆自备煤电(0.236)。
+    它的"便宜电"优势<b>只相对中东部火电(河南0.45–0.55)成立</b>,且因枯水期外购高价火电,全年加权并不比最便宜的煤电低。
+    所以"云铝赚电费差"的参照系应是<b>山东/河南火电铝</b>,而非新疆煤电铝。
+  </div>
+
+  <!-- 图6 -->
+  <h2>六、2025年吨净利对比:绿电占比高 ≠ 吨净利高</h2>
+  <div class="sub">口径:板块/归母净利 ÷ 电解铝产量(估算),仅用于横向量级比较</div>
+  <div class="card"><div id="c6" class="chart"></div></div>
+  <div class="note">神火新疆煤电吨净利最高(3,860),神火云南水电(3,238)、中孚四川水电(~2,700)相近,
+    云铝归母口径约2,000(含铝加工薄利拖累;电解铝板块本身更高,2026E达4,300–4,800)。
+    <b>煤电基地反而最赚钱</b>——因为新疆煤电太便宜,且铝价/氧化铝对利润的影响大于电力。</div>
+
+  <!-- 图7 -->
+  <h2>七、绿电占比 vs 吨净利:关系甚至是反向的</h2>
+  <div class="card"><div id="c7" class="chart"></div></div>
+  <div class="insight">
+    散点显示:绿电占比越高,吨净利<b>未必</b>越高(云铝87%→~2000;神火53%→~3531)。
+    真正决定吨净利的是 <b>铝价−氧化铝−电力综合成本</b>。云铝的独到价值不在"电费最低",
+    而在<b>碳资产稀缺性(CBAM/ASI)</b>与<b>4500万吨产能天花板下的308万吨稀缺牌照</b>——这是火电同行抄不走的。
+  </div>
+
+  <h2>八、给你的投资框架(修正版)</h2>
+  <div class="note">
+    云铝 = 看多 <b>(铝价−氧化铝价差) × 云南来水确定性 × 绿电稀缺溢价</b> 的杠杆头寸。<br>
+    ① 电费差是相对中东部火电的<b>结构性</b>优势,但枯水期会季节性失效甚至倒挂新疆煤电;<br>
+    ② 利润对铝价beta极大(铝价+1000→云铝净利+25–35亿),别当公用事业估值;<br>
+    ③ 真正的独占领地 = 稀缺产能牌照 + 纯水电碳资产,这两块在升值。
+  </div>
+
+  <footer>本报告基于公开资料与券商研报整理,吨净利等含推算口径,不构成投资建议。生成于 WorkBuddy。</footer>
+</div>
+
+<script>
+var C = { red:'#e74c3c', green:'#27ae60', blue:'#2f6fed', gray:'#95a0ad', orange:'#f39c12' };
+
+// 图1 云铝加权电价
+(function(){
+  var x = ['23Q1','23Q2','23Q3','23Q4','24Q1','24Q2','24Q3','24Q4','25Q1','25Q2','25Q3','25Q4'];
+  var y = [0.406,0.380,0.320,0.459,0.460,0.408,0.330,0.480,0.450,0.400,0.330,0.450];
+  var seasons = ['枯','平','丰','枯','枯','平','丰','枯','枯','平','丰','枯'];
+  var colors = seasons.map(function(s){ return s==='丰'?C.green:(s==='枯'?C.red:C.gray); });
+  echarts.init(document.getElementById('c1')).setOption({
+    tooltip:{trigger:'axis',valueFormatter:function(v){return v.toFixed(3)+' 元/度';}},
+    grid:{left:48,right:18,top:30,bottom:46},
+    xAxis:{type:'category',data:x,axisLabel:{rotate:38,fontSize:11}},
+    yAxis:{type:'value',name:'元/度',min:0.30,max:0.50,axisLabel:{formatter:'{value}'}},
+    series:[{
+      type:'line',data:y.map(function(v,i){return {value:v,itemStyle:{color:colors[i]}};}),
+      smooth:true,symbolSize:9,lineStyle:{width:3,color:C.blue},
+      label:{show:true,formatter:function(p){return seasons[p.dataIndex];},position:'top',fontSize:10,color:'#555'},
+      markPoint:{data:[{type:'min',name:'丰水最低'},{type:'max',name:'枯水最高'}],
+        itemStyle:{color:C.orange},label:{fontSize:10}},
+      markArea:{itemStyle:{color:'rgba(39,174,96,0.07)'},
+        data:[[{xAxis:'23Q3'},{xAxis:'23Q3'}],[{xAxis:'24Q3'},{xAxis:'24Q3'}],[{xAxis:'25Q3'},{xAxis:'25Q3'}]]}
+    }]
+  });
+})();
+
+// 图2 云南电网丰枯分时
+(function(){
+  var cat = ['枯水期','平水期','丰水期'];
+  echarts.init(document.getElementById('c2')).setOption({
+    tooltip:{trigger:'axis',valueFormatter:function(v){return v.toFixed(3)+' 元/度';}},
+    legend:{top:4,data:['峰段','平段','谷段']},
+    grid:{left:50,right:18,top:40,bottom:30},
+    xAxis:{type:'category',data:cat},
+    yAxis:{type:'value',name:'元/度',max:0.70},
+    series:[
+      {name:'峰段',type:'bar',data:[0.629,0.524,0.446],itemStyle:{color:C.red}},
+      {name:'平段',type:'bar',data:[0.420,0.350,0.297],itemStyle:{color:C.blue}},
+      {name:'谷段',type:'bar',data:[0.210,0.175,0.149],itemStyle:{color:C.green}}
+    ]
+  });
+})();
+
+// 图3 云南限电减产
+(function(){
+  var x = ['2021\n来水迟+双控','2022\n高温缺水','2023H1\n枯水期','2023末-24初\n枯水期','2024\n温和复产','2025\n基本满产'];
+  var y = [150,120,326,118,35,0];
+  echarts.init(document.getElementById('c3')).setOption({
+    tooltip:{trigger:'axis',valueFormatter:function(v){return v+' 万吨';}},
+    grid:{left:48,right:18,top:24,bottom:52},
+    xAxis:{type:'category',data:x,axisLabel:{fontSize:11,lineHeight:14}},
+    yAxis:{type:'value',name:'影响产能(万吨)'},
+    series:[{type:'bar',data:y.map(function(v,i){return {value:v,itemStyle:{color:i===5?C.green:C.red}};}),
+      barWidth:'52%',
+      label:{show:true,position:'top',formatter:function(p){return p.value===0?'满产':p.value;}}}]
+  });
+})();
+
+// 图4 绿电占比
+(function(){
+  var x = ['云铝股份','中孚实业','神火股份(整体)'];
+  var y = [87,67,53];
+  echarts.init(document.getElementById('c4')).setOption({
+    tooltip:{trigger:'axis',valueFormatter:function(v){return v+' %';}},
+    grid:{left:48,right:18,top:24,bottom:30},
+    xAxis:{type:'category',data:x},
+    yAxis:{type:'value',name:'绿电占比 %',max:100},
+    series:[{type:'bar',data:y,barWidth:'46%',
+      itemStyle:{color:function(p){return p.dataIndex===0?C.green:C.blue;}},
+      label:{show:true,position:'top',formatter:'{c}%'}}]
+  });
+})();
+
+// 图5 电力成本梯队
+(function(){
+  var x = ['新疆自备煤电\n(神火)','云南水电加权\n(云铝)','河南火电\n(中孚)'];
+  var y = [0.236,0.40,0.50];
+  echarts.init(document.getElementById('c5')).setOption({
+    tooltip:{trigger:'axis',valueFormatter:function(v){return v.toFixed(3)+' 元/度';}},
+    grid:{left:52,right:18,top:24,bottom:46},
+    xAxis:{type:'category',data:x,axisLabel:{fontSize:11,lineHeight:14}},
+    yAxis:{type:'value',name:'元/度',max:0.60},
+    series:[{type:'bar',data:y.map(function(v,i){return {value:v,itemStyle:{color:i===0?C.green:(i===1?C.orange:C.red)}};}),
+      barWidth:'50%',
+      label:{show:true,position:'top',formatter:function(p){return p.value.toFixed(3);}},
+      markLine:{silent:true,data:[{yAxis:0.40,lineStyle:{color:C.gray,type:'dashed'},
+        label:{formatter:'云铝加权 0.40'}}]}}]
+  });
+})();
+
+// 图6 吨净利对比
+(function(){
+  var x = ['神火·新疆(煤电)','神火·云南(水电)','中孚·四川(水电)','云铝(水电,归母口径)'];
+  var y = [3860,3238,2700,2000];
+  echarts.init(document.getElementById('c6')).setOption({
+    tooltip:{trigger:'axis',valueFormatter:function(v){return v+' 元/吨';}},
+    grid:{left:52,right:18,top:24,bottom:46},
+    xAxis:{type:'category',data:x,axisLabel:{fontSize:11,lineHeight:14}},
+    yAxis:{type:'value',name:'吨净利(元/吨)'},
+    series:[{type:'bar',data:y,barWidth:'50%',
+      itemStyle:{color:function(p){return [C.green,C.blue,C.blue,C.orange][p.dataIndex];}},
+      label:{show:true,position:'top',formatter:'{c}'}}]
+  });
+})();
+
+// 图7 绿电占比 vs 吨净利 散点
+(function(){
+  var data = [
+    {name:'云铝',value:[87,2000]},
+    {name:'中孚',value:[67,2700]},
+    {name:'神火',value:[53,3531]}
+  ];
+  echarts.init(document.getElementById('c7')).setOption({
+    tooltip:{formatter:function(p){return p.data.name+'<br>绿电占比 '+p.value[0]+'%<br>吨净利 ~'+p.value[1]+'元/吨';}},
+    grid:{left:56,right:24,top:24,bottom:44},
+    xAxis:{type:'value',name:'绿电占比 %',min:40,max:100},
+    yAxis:{type:'value',name:'吨净利(元/吨)',min:0,max:4000},
+    series:[{type:'scatter',data:data,symbolSize:22,
+      itemStyle:{color:function(p){return [C.orange,C.blue,C.green][p.dataIndex];}},
+      label:{show:true,formatter:function(p){return p.data.name;},position:'right',fontSize:12,fontWeight:'bold'},
+      markLine:{silent:true,data:[{type:'average',valueIndex:1,lineStyle:{type:'dashed',color:'#bbb'}}]}}]
+  });
+})();
+</script>
+</body>
+</html>

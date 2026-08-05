@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>赎回份额门槛为 30 万份的 A 股 ETF 筛选结果</title>
+<style>
+  :root{ --red:#d8392b; --ink:#1f2329; --muted:#6b7280; --line:#e5e7eb; --bg:#f7f8fa; --blue:#2563eb; }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;color:var(--ink);background:var(--bg);line-height:1.6}
+  .wrap{max-width:980px;margin:0 auto;padding:28px 20px 60px}
+  h1{font-size:22px;margin:0 0 6px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:20px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px;margin-bottom:18px}
+  .kpi{display:flex;gap:14px;flex-wrap:wrap}
+  .kpi .box{flex:1;min-width:150px;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+  .kpi .n{font-size:28px;font-weight:700;color:var(--red)}
+  .kpi .l{font-size:12px;color:var(--muted);margin-top:2px}
+  table{width:100%;border-collapse:collapse;font-size:13.5px}
+  th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+  th{background:var(--bg);color:var(--muted);font-weight:600;font-size:12.5px;white-space:nowrap}
+  td.code{font-family:ui-monospace,Menlo,Consolas,monospace;font-weight:600;white-space:nowrap}
+  td.unit{color:var(--red);font-weight:700;white-space:nowrap}
+  tr:hover td{background:#fafbfc}
+  .tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:6px;background:#fdecea;color:var(--red);border:1px solid #f6c9c2;margin-right:4px}
+  .note{font-size:13px;color:#374151}
+  .note b{color:var(--ink)}
+  .warn{background:#fffbeb;border:1px solid #fde68a;border-radius:10px;padding:14px 16px;font-size:13px;color:#92400e}
+  .ok{color:#047857}
+  code{background:#f1f3f5;padding:1px 5px;border-radius:5px;font-size:12px}
+  footer{color:var(--muted);font-size:12px;margin-top:24px;text-align:center}
+  a{color:var(--blue);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>赎回份额门槛 = 30 万份的 A 股 ETF 筛选结果</h1>
+  <div class="sub">数据日期：2026-07-17 ｜ 字段：最小申购赎回单位（CREATION_REDEMPTION_UNIT）｜ 来源：上交所 ETF 申购赎回清单（PCF）接口</div>
+
+  <div class="card">
+    <div class="kpi">
+      <div class="box"><div class="n">15</div><div class="l">上交所 ETF（30万份门槛）</div></div>
+      <div class="box"><div class="n">879</div><div class="l">上交所 ETF 全量扫描</div></div>
+      <div class="box"><div class="n">300,000</div><div class="l">最小申购赎回单位（份）</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <p class="note"><b>口径说明：</b>“赎回份额门槛”即 ETF 的<b>最小申购赎回单位</b>（一级市场申赎每笔必须是该整数倍）。
+    该字段为基金合同/招募说明书约定的<b>静态属性</b>，不在行情类工具（如 westock 的 <code>etf detail</code> 仅含“可申/可赎状态”，不含份额门槛）中提供，
+    因此本结果直接取自交易所每日发布的<b>申购赎回清单（PCF）</b>。上交所 PCF 接口字段为 <code>CREATION_REDEMPTION_UNIT</code>。</p>
+  </div>
+
+  <div class="card">
+    <h3 style="margin:0 0 12px;font-size:16px">上交所（SSE）符合要求的 15 只 ETF</h3>
+    <table>
+      <thead><tr><th>代码</th><th>名称</th><th>基金管理人</th><th>最小申赎单位</th><th>类别特征</th></tr></thead>
+      <tbody>
+        <tr><td class="code">510600</td><td>申万菱信上证50ETF</td><td>申万菱信基金</td><td class="unit">300,000 份</td><td><span class="tag">上证50</span><span class="tag">宽基</span></td></tr>
+        <tr><td class="code">510680</td><td>万家上证50ETF</td><td>万家基金</td><td class="unit">300,000 份</td><td><span class="tag">上证50</span><span class="tag">宽基</span></td></tr>
+        <tr><td class="code">510710</td><td>博时上证50ETF</td><td>博时基金</td><td class="unit">300,000 份</td><td><span class="tag">上证50</span><span class="tag">宽基</span></td></tr>
+        <tr><td class="code">512410</td><td>广发中证银行ETF</td><td>广发基金</td><td class="unit">300,000 份</td><td><span class="tag">银行</span><span class="tag">行业</span></td></tr>
+        <tr><td class="code">512820</td><td>中证银行ETF</td><td>汇添富基金</td><td class="unit">300,000 份</td><td><span class="tag">银行</span><span class="tag">行业</span></td></tr>
+        <tr><td class="code">513590</td><td>鹏华中证港股通消费ETF</td><td>鹏华基金</td><td class="unit">300,000 份</td><td><span class="tag">港股通</span><span class="tag">跨境</span></td></tr>
+        <tr><td class="code">515290</td><td>天弘中证银行ETF</td><td>天弘基金</td><td class="unit">300,000 份</td><td><span class="tag">银行</span><span class="tag">行业</span></td></tr>
+        <tr><td class="code">516210</td><td>华安中证银行ETF</td><td>华安基金</td><td class="unit">300,000 份</td><td><span class="tag">银行</span><span class="tag">行业</span></td></tr>
+        <tr><td class="code">516310</td><td>易方达中证银行ETF</td><td>易方达基金</td><td class="unit">300,000 份</td><td><span class="tag">银行</span><span class="tag">行业</span></td></tr>
+        <tr><td class="code">518600</td><td>广发上海金ETF</td><td>广发基金</td><td class="unit">300,000 份</td><td><span class="tag">黄金</span><span class="tag">商品</span></td></tr>
+        <tr><td class="code">518660</td><td>工银瑞信黄金ETF</td><td>工银瑞信基金</td><td class="unit">300,000 份</td><td><span class="tag">黄金</span><span class="tag">商品</span></td></tr>
+        <tr><td class="code">518850</td><td>华夏黄金ETF</td><td>华夏基金</td><td class="unit">300,000 份</td><td><span class="tag">黄金</span><span class="tag">商品</span></td></tr>
+        <tr><td class="code">518860</td><td>建信上海金ETF</td><td>建信基金</td><td class="unit">300,000 份</td><td><span class="tag">黄金</span><span class="tag">商品</span></td></tr>
+        <tr><td class="code">518890</td><td>中银上海金ETF</td><td>中银基金</td><td class="unit">300,000 份</td><td><span class="tag">黄金</span><span class="tag">商品</span></td></tr>
+        <tr><td class="code">561790</td><td>博时中证国新央企现代能源ETF</td><td>博时基金</td><td class="unit">300,000 份</td><td><span class="tag">央企</span><span class="tag">主题</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="warn">
+    <b>关于深交所（SZSE）：</b>深交所 ETF 的最小申购赎回单位同样发布于其官方 PCF，但其数据接口采用了 CDN 版本化保护
+    （<code>changeVertion</code> + <code>res.static.szse.cn</code> 版本哈希），无法在脚本中直接批量调用，故本结果<b>暂仅覆盖上交所</b>。
+    如需补齐深交所部分，可逐只通过深交所官网 PCF 页面核对；若你能提供可访问的深交所 PCF 接口（或开放的数据源），我可立即补齐并完成全市场合并去重。
+  </div>
+
+  <div class="card">
+    <p class="note"><b>观察：</b>上交所内 30 万份门槛的 ETF 主要集中在三类——<b>黄金/上海金 ETF</b>（5186xx/5188xx 系列）、
+    <b>中证银行 ETF</b>（5124xx/5152xx/5162xx/5163xx）与<b>上证50 ETF</b>（5106xx/5107xx），以及个别跨境/主题产品（如 513590、561790）。
+    多数宽基/行业 ETF 的最小申赎单位为 50 万或 100 万份，30 万份属于相对偏小的门槛档位。</p>
+  </div>
+
+  <footer>
+    数据来源：上海证券交易所 ETF 申购赎回清单（PCF）接口，字段 CREATION_REDEMPTION_UNIT ｜ 数据日期 2026-07-17<br>
+    本报告为客观市场数据筛选，不构成任何投资建议。投资有风险，决策需谨慎。
+  </footer>
+</div>
+</body>
+</html>

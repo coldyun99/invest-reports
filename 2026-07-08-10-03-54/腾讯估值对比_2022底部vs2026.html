@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>腾讯控股估值对比：2022年11月底部 vs 2026年7月</title>
+<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<style>
+  :root{
+    --bg:#f5f7fa; --card:#ffffff; --ink:#1f2733; --sub:#5b6675;
+    --blue:#0052d9; --blue-soft:#e8f0fe; --red:#e34d59; --green:#21a366;
+    --line:#e6eaf0; --amber:#d98c00;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,sans-serif;
+    background:var(--bg);color:var(--ink);line-height:1.6;padding:28px 16px}
+  .wrap{max-width:980px;margin:0 auto}
+  h1{font-size:24px;font-weight:700;margin-bottom:4px}
+  .meta{color:var(--sub);font-size:13px;margin-bottom:20px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;
+    padding:20px 22px;margin-bottom:18px;box-shadow:0 1px 3px rgba(20,40,80,.04)}
+  .lead{font-size:15px}
+  .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:16px}
+  .kpi{background:var(--blue-soft);border-radius:10px;padding:14px}
+  .kpi .n{font-size:22px;font-weight:700;color:var(--blue)}
+  .kpi .l{font-size:12px;color:var(--sub);margin-top:2px}
+  .up{color:var(--red)} .down{color:var(--green)}
+  h2{font-size:18px;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  h2::before{content:"";width:4px;height:18px;background:var(--blue);border-radius:2px}
+  table{width:100%;border-collapse:collapse;font-size:14px;margin-top:6px}
+  th,td{padding:10px 12px;text-align:right;border-bottom:1px solid var(--line)}
+  th:first-child,td:first-child{text-align:left}
+  thead th{background:#f0f4fa;color:var(--sub);font-weight:600;font-size:13px}
+  tbody tr:hover{background:#fafcff}
+  .hi{font-weight:700;color:var(--blue)}
+  .chart{width:100%;height:340px;margin-top:8px}
+  .note{font-size:12.5px;color:var(--sub);margin-top:10px;line-height:1.7}
+  .tag{display:inline-block;background:#fff3e0;color:var(--amber);
+    border:1px solid #ffe0b2;border-radius:6px;padding:1px 8px;font-size:12px;margin-right:6px}
+  .insight{font-size:14px}
+  .insight li{margin:8px 0 8px 18px}
+  .src{font-size:12px;color:#8a94a6;margin-top:6px}
+  b.b{color:var(--ink)}
+  @media(max-width:680px){.kpis{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>腾讯控股估值对比：2022年11月底部 vs 2026年7月</h1>
+  <div class="meta">数据时点：当前行情 2026-07-08 10:09（港股盘中）｜历史价格与财报来自 NeoData / 腾讯年报｜货币：股价/市值/PE/PB 为港元口径，净利润为人民币口径</div>
+
+  <div class="card lead">
+    <b class="b">一句话结论：</b>腾讯股价从 2022 年 11 月低点约 <b class="b">207.8 港元</b> 涨到当前 <b class="b">472.4 港元</b>（累计 <span class="up">+127%</span>），但这一波翻倍里，<b class="b">约三分之二来自估值修复（PE 从约 10 倍回到 16 倍），约三分之一来自盈利增长 + 持续回购的每股增厚</b>。换句话说，现在的价格里"情绪与预期"已经比 2022 年底部贵了约六成，但基本面也确实比当时扎实。
+    <div class="kpis">
+      <div class="kpi"><div class="n">+127%</div><div class="l">股价涨幅（低点→当前，不复权）</div></div>
+      <div class="kpi"><div class="n">~10 → 16.1</div><div class="l">PE(TTM) 估值扩张 ≈ +60%</div></div>
+      <div class="kpi"><div class="n">+19.5%</div><div class="l">归母净利(IFRS) 2022→2025</div></div>
+      <div class="kpi"><div class="n">-5.8%</div><div class="l">总股本（回购注销，2022→2026）</div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>一、核心数据对比</h2>
+    <table>
+      <thead>
+        <tr><th>指标</th><th>2022-11 低点</th><th>2026-07 当前</th><th>变化</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>股价（港元，不复权）</td><td>207.80（盘中最低）<br>227.40（收盘）</td><td class="hi">472.40</td><td class="up">+127% / +108%</td></tr>
+        <tr><td>总市值（亿港元）</td><td>~20,050 / 21,940</td><td class="hi">42,952</td><td class="up">+96% ~ +114%</td></tr>
+        <tr><td>市盈率 PE（TTM）</td><td>~9.8 ~ 10.7 倍</td><td class="hi">16.13 倍</td><td class="up">+50% ~ +65%</td></tr>
+        <tr><td>市净率 PB</td><td>~2.4 ~ 2.7 倍 *</td><td class="hi">3.41（盘中）</td><td class="up">+约 30% ~ 40%</td></tr>
+        <tr><td>归母净利润（IFRS，亿人民币）</td><td>1,882（2022 全年）</td><td class="hi">2,248（2025 全年）</td><td class="up">+19.5%</td></tr>
+        <tr><td>总股本（亿股）</td><td>~96.5</td><td class="hi">90.92</td><td class="down">-5.8%</td></tr>
+        <tr><td>股息率（TTM）</td><td>~1.5% ~ 2% **</td><td class="hi">1.13%</td><td>—</td></tr>
+      </tbody>
+    </table>
+    <div class="note">
+      * 2022 年 11 月 PB 为估算：按当时价格 × 当时股本得市值，除以腾讯 2022 年末归母净资产（约 7,600 亿人民币，据 2022 年报）折算港元后约为 2.5 倍区间。<br>
+      ** 2022 年股息率为当时按当年分红 / 股价估算，因股价极低而显得较高。当前股息率 1.13% 来自行情接口（2026-07-08）。<br>
+      说明：2022 年 11 月 1 日前复权最低价显示为 174.07 港元，该数值已被 2022 年 11 月"每 10 股派 1 股美团"的特别股息除权大幅拉低，不能直接用于市值计算；本报告统一采用<b class="b">不复权价格</b>。
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>二、股价与估值为何差这么多</h2>
+    <div id="c1" class="chart"></div>
+    <div class="note">左轴为股价（港元），右轴为 PE(TTM) 倍数。2022 年 11 月底部股价约 207.8 港元、PE 约 10 倍；当前 472.4 港元、PE 16.13 倍。两根柱子都变高，但 PE 那根"长高"的幅度小于股价，说明股价的上涨有一部分（约 1/3）不是估值贡献，而是盈利和股本变化。</div>
+  </div>
+
+  <div class="card">
+    <h2>三、净利润：不是一路向上，是"深 V"</h2>
+    <div id="c2" class="chart"></div>
+    <div class="note">归母净利润(IFRS，亿人民币)：2022 年 1,882 → 2023 年回落至 1,152（投资收益/减值拖累 IFRS 口径）→ 2024 年 1,941 → 2025 年 2,248。可见 2022 年底部时的"低 PE"有一部分是 IFRS 利润虚高（含处置收益），用 Non-IFRS（腾讯常用估值口径，剔除了投资收益等）看，2022 年的真实经营 PE 实际更低、更惨，而 2025 年盈利质量更干净。这也是为什么说"现在比 2022 年贵了六成"的同时，基本面确实更扎实。</div>
+  </div>
+
+  <div class="card">
+    <h2>四、量化拆解：+127% 涨幅是怎么来的</h2>
+    <div id="c3" class="chart"></div>
+    <div class="note">以 2022 年 11 月低点价 207.8 港元为起点（= PE 9.8 × EPS 21.2 港元）：<br>
+    · <b class="b">估值修复（PE 9.8→16.13）</b>单独贡献约 <b class="b">+134 港元</b>（股价到 ~342）；<br>
+    · <b class="b">盈利增长 + 回购（EPS 21.2→29.3 港元 TTM）</b>再贡献约 <b class="b">+130 港元</b>（股价到 472.4）。<br>
+    即 <b class="b">股价 +127% ≈ 估值扩张 +65% × 每股盈利 +38%</b>。约 2/3 是"估值钱"，约 1/3 是"业绩 + 回购钱"。</div>
+  </div>
+
+  <div class="card insight">
+    <h2>五、怎么理解这个估值差（PM 视角）</h2>
+    <ul>
+      <li><span class="tag">当时为什么只有 10 倍</span>2022 年底是"政策 + 基本面 + 流动性"三重压制：互联网监管、游戏版号暂停、南非大股东 Naspers 减持、美联储加息、中概退市担忧。当时市场给的是"价值陷阱 / 不可投资"的折价，PE 跌到个位数。</li>
+      <li><span class="tag">现在 16 倍反映了什么</span>监管常态化、版号恢复、美联储转鸽、南向资金持续买入、千亿级回购注销、AI（混元 / 微信生态）带来重新定价的想象空间。16 倍在腾讯自身 10 年区间里仍属<b class="b">中性偏低</b>（历史上 20~40 倍是常态，泡沫期曾 50 倍+）。</li>
+      <li><span class="tag">反向声音</span>今年迄今腾讯股价已 <b class="b">-20.43%</b>（从年初高位回落），说明当前 16 倍也并非"无人质疑"。若 AI 变现、游戏出海、广告复苏任何一条线证伪，PE 完全可能回到 13~14 倍；而 2022 年那种"个位数 PE + 系统性恐慌"的极端底部，需要政策/流动性危机同时触发，概率已显著降低。</li>
+      <li><span class="tag">给你的判断框架</span>现在买腾讯，赚的是"业绩 + 回购"的钱（EPS 仍在增长、股本在缩），估值扩张的钱已经兑现了大部分。若你判断未来 2~3 年 EPS 能保持 10%~15% 复合增长，当前 16 倍 PE 仍有性价比；若你认为增长会失速，那这 60% 的估值溢价就需要业绩来填。</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="src">数据来源：行情与历史价格来自 NeoData 金融数据（港股 00700.HK，更新于 2026-07-08 10:09）；2022/2023/2024/2025 年利润表来自腾讯控股年报（NeoData 利润表接口）。汇率口径：1 港元 ≈ 0.92 人民币，用于把人民币净利润折算为港元计算 EPS/PE。PE 采用国际准则(IFRS)口径；腾讯对外常用 Non-IFRS 口径，其 Non-IFRS 净利润通常低于 IFRS，对应 PE 会更高（本报告未引用具体 Non-IFRS 数字以免口径失真）。</div>
+  </div>
+
+</div>
+
+<script>
+(function(){
+  var blue='#0052d9', red='#e34d59', green='#21a366', amber='#d98c00', sub='#5b6675';
+  function mk(id){ var el=document.getElementById(id); var c=echarts.init(el); return c; }
+
+  // 图1：股价 + PE 双轴
+  var c1=mk('c1');
+  c1.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    legend:{data:['股价(港元)','PE(TTM)'],top:0},
+    grid:{left:60,right:60,top:40,bottom:30},
+    xAxis:{type:'category',data:['2022.11 低点','2026.07 当前']},
+    yAxis:[
+      {type:'value',name:'股价(港元)',position:'left',axisLabel:{formatter:'{value}'}},
+      {type:'value',name:'PE(倍)',position:'right',axisLabel:{formatter:'{value}'},splitLine:{show:false}}
+    ],
+    series:[
+      {name:'股价(港元)',type:'bar',yAxisIndex:0,barWidth:50,
+        data:[207.8,472.4],
+        itemStyle:{color:blue,borderRadius:[6,6,0,0]},
+        label:{show:true,position:'top',formatter:'{c}'}},
+      {name:'PE(TTM)',type:'line',yAxisIndex:1,symbol:'circle',symbolSize:12,
+        data:[9.8,16.13],
+        itemStyle:{color:red},
+        lineStyle:{width:3},
+        label:{show:true,position:'top',formatter:'{c}x'}}
+    ]
+  });
+
+  // 图2：净利润时间序列
+  var c2=mk('c2');
+  c2.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'}},
+    grid:{left:60,right:30,top:30,bottom:30},
+    xAxis:{type:'category',data:['2022','2023','2024','2025']},
+    yAxis:{type:'value',name:'归母净利(亿人民币)'},
+    series:[{
+      type:'bar',barWidth:50,
+      data:[
+        {value:1882.43,itemStyle:{color:blue}},
+        {value:1152.16,itemStyle:{color:sub}},
+        {value:1940.73,itemStyle:{color:green}},
+        {value:2248.42,itemStyle:{color:blue}}
+      ],
+      label:{show:true,position:'top',formatter:'{c}'},
+      itemStyle:{borderRadius:[6,6,0,0]}
+    }]
+  });
+
+  // 图3：涨幅瀑布拆解
+  var c3=mk('c3');
+  // 用堆叠柱模拟瀑布: 基础层 + 增量层
+  c3.setOption({
+    tooltip:{trigger:'axis',axisPointer:{type:'shadow'},
+      formatter:function(p){
+        var s=''; p.forEach(function(it){ if(it.seriesName!=='_base'&&it.value>0) s+=it.name+': '+it.value+' 港元<br>'; }); return s||p[0].name;
+      }},
+    grid:{left:60,right:30,top:30,bottom:30},
+    xAxis:{type:'category',data:['2022.11 低点','估值修复(PE)','盈利+回购(EPS)','2026.07 当前']},
+    yAxis:{type:'value',name:'股价(港元)'},
+    series:[
+      {name:'_base',type:'bar',stack:'t',itemStyle:{color:'transparent'},
+        data:[0,207.8,342.0,0],
+        tooltip:{show:false}},
+      {name:'增量',type:'bar',stack:'t',barWidth:55,
+        data:[
+          {value:207.8,itemStyle:{color:blue}},
+          {value:134.2,itemStyle:{color:red}},
+          {value:130.4,itemStyle:{color:amber}},
+          {value:472.4,itemStyle:{color:blue}}
+        ],
+        label:{show:true,position:'top',formatter:function(p){return p.value;}}
+      }
+    ]
+  });
+
+  window.addEventListener('resize',function(){c1.resize();c2.resize();c3.resize();});
+})();
+</script>
+</body>
+</html>

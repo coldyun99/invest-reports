@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>多账户打新中签监控看板</title>
+<style>
+  :root{
+    --bg:#F5F6F8; --card:#FFFFFF; --line:#E3E6EA; --text:#1F2329; --muted:#8A9099;
+    --blue:#185FA5; --blueBg:#E6F1FB; --red:#A32D2D; --redBg:#FCEBEB;
+    --amber:#854F0B; --amberBg:#FAEEDA; --green:#3B6D11; --greenBg:#EAF3DE;
+    --grayBg:#F1EFE8;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5;padding:20px}
+  h1{font-size:20px;font-weight:600;margin-bottom:4px}
+  .sub{color:var(--muted);font-size:13px;margin-bottom:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+  .card h2{font-size:15px;font-weight:600;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+  .stat{background:var(--grayBg);border-radius:10px;padding:12px 14px}
+  .stat .n{font-size:24px;font-weight:600}
+  .stat .l{font-size:12px;color:var(--muted);margin-top:2px}
+  .stat.red .n{color:var(--red)} .stat.red{background:var(--redBg)}
+  .stat.amber .n{color:var(--amber)} .stat.amber{background:var(--amberBg)}
+  .stat.green .n{color:var(--green)} .stat.green{background:var(--greenBg)}
+  .row{display:flex;flex-wrap:wrap;gap:10px;align-items:flex-end}
+  .field{display:flex;flex-direction:column;gap:4px}
+  .field label{font-size:12px;color:var(--muted)}
+  input,select{font-size:13px;padding:7px 9px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--text);min-width:120px}
+  input[type=number]{min-width:90px}
+  .chk{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text)}
+  button{cursor:pointer;font-size:13px;padding:8px 14px;border-radius:8px;border:1px solid var(--blue);background:var(--blue);color:#fff;font-weight:500}
+  button.ghost{background:#fff;color:var(--blue)}
+  button.danger{border-color:var(--red);background:#fff;color:var(--red)}
+  button.sm{padding:4px 9px;font-size:12px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th,td{text-align:left;padding:9px 8px;border-bottom:1px solid var(--line);white-space:nowrap}
+  th{color:var(--muted);font-weight:500;font-size:12px}
+  tr.unpaid{background:var(--redBg)}
+  tr.overdue{background:var(--redBg);box-shadow:inset 3px 0 0 var(--red)}
+  .tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:12px;font-weight:500}
+  .tag.wait{background:var(--redBg);color:var(--red)}
+  .tag.t2{background:var(--amberBg);color:var(--amber)}
+  .tag.ok{background:var(--greenBg);color:var(--green)}
+  .tag.idle{background:var(--grayBg);color:var(--muted)}
+  .tag.win{background:var(--blueBg);color:var(--blue)}
+  .muted{color:var(--muted)}
+  .alert{border:1px solid var(--amber);background:var(--amberBg);border-radius:10px;padding:12px 14px;font-size:13px;color:var(--amber);margin-bottom:16px}
+  .alert b{color:var(--red)}
+  .empty{color:var(--muted);font-size:13px;padding:20px;text-align:center}
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+  .foot{color:var(--muted);font-size:12px;margin-top:18px;line-height:1.7}
+  .foot code{background:var(--grayBg);padding:1px 5px;border-radius:4px}
+  a{color:var(--blue)}
+</style>
+</head>
+<body>
+  <h1>多账户打新中签监控看板</h1>
+  <div class="sub">同一界面监控所有账户的每只新股状态 · 数据存本地浏览器，刷新不丢 · T+2 缴款日自动高亮</div>
+
+  <div id="alertBox"></div>
+
+  <div class="card">
+    <h2>概览</h2>
+    <div class="stats" id="stats"></div>
+  </div>
+
+  <div class="card">
+    <h2>账户管理</h2>
+    <div class="row">
+      <div class="field"><label>姓名 / 账户名</label><input id="accName" placeholder="如：本人 / 配偶 / 父亲"></div>
+      <div class="field"><label>券商</label><input id="accBroker" placeholder="如：华泰 / 中信"></div>
+      <button onclick="addAccount()">+ 添加账户</button>
+    </div>
+    <div id="accList" style="margin-top:12px;display:flex;flex-wrap:wrap;gap:8px"></div>
+  </div>
+
+  <div class="card">
+    <h2>新增打新记录</h2>
+    <div class="row">
+      <div class="field"><label>账户</label><select id="rAcc"></select></div>
+      <div class="field"><label>股票名称</label><input id="rName" placeholder="如：某某股份"></div>
+      <div class="field"><label>代码</label><input id="rCode" placeholder="如：603xxx"></div>
+      <div class="field"><label>市场</label><select id="rMkt"><option value="沪市">沪市</option><option value="深市">深市</option><option value="科创板">科创板</option><option value="创业板">创业板</option></select></div>
+      <div class="field"><label>申购日(T日)</label><input id="rDate" type="date"></div>
+      <div class="field"><label>申购数量(股)</label><input id="rQty" type="number" min="0" value="0"></div>
+      <div class="field"><label>配号</label><input id="rLot" placeholder="可填多个,逗号分隔"></div>
+      <div class="field"><label>中签数量(股)</label><input id="rWin" type="number" min="0" value="0"></div>
+      <div class="field"><label>发行价(元)</label><input id="rPrice" type="number" min="0" step="0.01" placeholder="用于算缴款"></div>
+      <div class="field"><label>已缴款</label><label class="chk"><input id="rPaid" type="checkbox"> 是</label></div>
+    </div>
+    <div class="row" style="margin-top:12px">
+      <button onclick="addRecord()">+ 添加记录</button>
+      <span class="muted" id="payHint"></span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>监控列表</h2>
+    <div class="toolbar">
+      <select id="filterAcc" onchange="render()"><option value="">全部账户</option></select>
+      <button class="ghost sm" onclick="exportJSON()">导出备份</button>
+      <button class="ghost sm" onclick="importJSON()">导入备份</button>
+      <input type="file" id="fileInput" accept="application/json" style="display:none" onchange="doImport(event)">
+    </div>
+    <div id="tableWrap"></div>
+  </div>
+
+  <div class="foot">
+    <b>关键时间窗：</b>T日申购 → T+1 晚出配号与中签号 → <b>T+2 16:00 前缴款</b>。<br>
+    <b>风险提示：</b>网上打新 <code>连续12个月内累计3次中签但未足额缴款</code>，将被 <code>暂停网上申购半年（180天）</code>。账户越多越容易忘，请保证 T+2 各账户余额充足，或在券商开启「中签预缴款 / 余额保留」功能。<br>
+    同一身份证开多个券商账户不能增加额度（市值合并、申购共享），真正的"多账户"需用不同人的账户。
+  </div>
+
+<script>
+const KEY='ipo_monitor_v1';
+let state={accounts:[],records:[]};
+try{const s=localStorage.getItem(KEY);if(s)state=JSON.parse(s);}catch(e){}
+function save(){localStorage.setItem(KEY,JSON.stringify(state));}
+function todayStr(){const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+function dayDiff(a,b){const da=new Date(a+'T00:00:00');const db=new Date(b+'T00:00:00');return Math.round((db-da)/86400000);}
+// 中签数量变化或发行价变化时实时算需缴款
+function calcPay(r){return (Number(r.win)||0)*(Number(r.price)||0);}
+document.getElementById('rWin').addEventListener('input',updPayHint);
+document.getElementById('rPrice').addEventListener('input',updPayHint);
+function updPayHint(){const w=Number(document.getElementById('rWin').value)||0;const p=Number(document.getElementById('rPrice').value)||0;document.getElementById('payHint').textContent=w&&p?('预计需缴款：¥'+(w*p).toLocaleString()):'';}
+
+function addAccount(){
+  const name=document.getElementById('accName').value.trim();
+  const broker=document.getElementById('accBroker').value.trim();
+  if(!name){alert('请填写账户名');return;}
+  state.accounts.push({id:'a'+Date.now(),name,broker});
+  document.getElementById('accName').value='';document.getElementById('accBroker').value='';
+  save();render();
+}
+function addRecord(){
+  const accId=document.getElementById('rAcc').value;
+  if(!accId){alert('请先添加并选择账户');return;}
+  const r={
+    id:'r'+Date.now(),
+    accId,
+    name:document.getElementById('rName').value.trim(),
+    code:document.getElementById('rCode').value.trim(),
+    mkt:document.getElementById('rMkt').value,
+    date:document.getElementById('rDate').value||todayStr(),
+    qty:Number(document.getElementById('rQty').value)||0,
+    lot:document.getElementById('rLot').value.trim(),
+    win:Number(document.getElementById('rWin').value)||0,
+    price:Number(document.getElementById('rPrice').value)||0,
+    paid:document.getElementById('rPaid').checked
+  };
+  state.records.push(r);
+  ['rName','rCode','rLot','rQty','rWin','rPrice'].forEach(i=>document.getElementById(i).value='');
+  document.getElementById('rQty').value=0;document.getElementById('rWin').value=0;
+  document.getElementById('rPaid').checked=false;document.getElementById('payHint').textContent='';
+  save();render();
+}
+function statusOf(r){
+  const today=todayStr();
+  const diff=dayDiff(r.date,today); // T日=0
+  const win=Number(r.win)||0;
+  if(diff<1) return {key:'idle',label:'待配号(T+'+diff+')',cls:'idle'};
+  if(diff===1) return {key:'t1',label:'待查中签(今晚出号)',cls:'win'};
+  if(diff===2){
+    if(win>0&&!r.paid) return {key:'t2',label:'⚠ 缴款日待缴款',cls:'t2'};
+    if(win>0&&r.paid) return {key:'ok',label:'已缴款',cls:'ok'};
+    return {key:'ok',label:'未中签',cls:'ok'};
+  }
+  // diff>2
+  if(win>0&&!r.paid) return {key:'overdue',label:'✕ 中签未缴款(违规!)',cls:'wait'};
+  if(win>0&&r.paid) return {key:'ok',label:'已缴款',cls:'ok'};
+  return {key:'ok',label:'未中签',cls:'ok'};
+}
+function render(){
+  // account selects
+  const sel=document.getElementById('rAcc');const cur=sel.value;
+  sel.innerHTML=state.accounts.map(a=>`<option value="${a.id}">${a.name}${a.broker?'('+a.broker+')':''}</option>`).join('');
+  if(cur&&state.accounts.find(a=>a.id===cur))sel.value=cur;
+  const fsel=document.getElementById('filterAcc');
+  fsel.innerHTML='<option value="">全部账户</option>'+state.accounts.map(a=>`<option value="${a.id}">${a.name}</option>`).join('');
+  // account chips
+  document.getElementById('accList').innerHTML=state.accounts.length?state.accounts.map(a=>`<span style="display:inline-flex;align-items:center;gap:6px;background:var(--blueBg);color:var(--blue);border-radius:20px;padding:4px 10px;font-size:12px">${a.name}${a.broker?'·'+a.broker:''}<button class="danger sm" style="padding:0 6px;margin-left:2px" onclick="delAccount('${a.id}')">×</button></span>`).join(''):'<span class="muted">还没有账户，先添加一个。</span>';
+  // filter
+  const fa=fsel.value;
+  const recs=state.records.filter(r=>!fa||r.accId===fa).sort((a,b)=>b.date.localeCompare(a.date));
+  // stats
+  const accName=id=>(state.accounts.find(a=>a.id===id)||{}).name||'?';
+  const unpaid=state.records.filter(r=>{const s=statusOf(r);return s.key==='t2';});
+  const overdue=state.records.filter(r=>{const s=statusOf(r);return s.key==='overdue';});
+  const wins=state.records.filter(r=>(Number(r.win)||0)>0);
+  const paySum=unpaid.reduce((s,r)=>s+calcPay(r),0);
+  document.getElementById('stats').innerHTML=`
+    <div class="stat"><div class="n">${state.accounts.length}</div><div class="l">监控账户</div></div>
+    <div class="stat"><div class="n">${state.records.length}</div><div class="l">打新记录</div></div>
+    <div class="stat green"><div class="n">${wins.length}</div><div class="l">累计中签</div></div>
+    <div class="stat amber"><div class="n">${unpaid.length}</div><div class="l">今日待缴款</div></div>
+    <div class="stat red"><div class="n">${overdue.length}</div><div class="l">中签未缴款(风险)</div></div>
+    <div class="stat red"><div class="n">¥${paySum.toLocaleString()}</div><div class="l">待缴款金额</div></div>`;
+  // alert
+  let ab='';
+  if(overdue.length)ab+=`⚠ 有 <b>${overdue.length}</b> 笔中签超过 T+2 仍未缴款，已触发打新限制风险，请立即处理！`;
+  else if(unpaid.length)ab+=`⚠ 今天(T+2 缴款日)有 <b>${unpaid.length}</b> 笔待缴款，合计 <b>¥${paySum.toLocaleString()}</b>，请保证相关账户余额充足（16:00 前自动扣款）。`;
+  document.getElementById('alertBox').innerHTML=ab?`<div class="alert">${ab}</div>`:'';
+  // table
+  if(!recs.length){document.getElementById('tableWrap').innerHTML='<div class="empty">暂无记录，去上方添加一条打新记录吧。</div>';return;}
+  let html='<table><thead><tr><th>账户</th><th>股票</th><th>市场</th><th>申购日</th><th>进度</th><th>中签(股)</th><th>需缴款</th><th>已缴</th><th></th></tr></thead><tbody>';
+  recs.forEach(r=>{
+    const s=statusOf(r);const pay=calcPay(r);
+    const trCls=s.key==='overdue'?'overdue':(s.key==='t2'?'unpaid':'');
+    html+=`<tr class="${trCls}">
+      <td>${accName(r.accId)}</td>
+      <td>${r.name||'-'}${r.code?'<span class="muted"> '+r.code+'</span>':''}</td>
+      <td>${r.mkt}</td>
+      <td>${r.date}</td>
+      <td><span class="tag ${s.cls}">${s.label}</span></td>
+      <td>${r.win||0}</td>
+      <td>${pay?('¥'+pay.toLocaleString()):'-'}</td>
+      <td>${r.paid?'<span class="tag ok">已缴</span>':'<span class="muted">未缴</span>'}</td>
+      <td><button class="ghost sm" onclick="togglePaid('${r.id}')">${r.paid?'撤销':'标记已缴'}</button> <button class="danger sm" onclick="delRecord('${r.id}')">删</button></td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  document.getElementById('tableWrap').innerHTML=html;
+}
+function togglePaid(id){const r=state.records.find(x=>x.id===id);if(r){r.paid=!r.paid;save();render();}}
+function delRecord(id){state.records=state.records.filter(x=>x.id!==id);save();render();}
+function delAccount(id){
+  if(!confirm('删除该账户？其打新记录也会一并删除。'))return;
+  state.accounts=state.accounts.filter(a=>a.id!==id);
+  state.records=state.records.filter(r=>r.accId!==id);
+  save();render();
+}
+function exportJSON(){const blob=new Blob([JSON.stringify(state,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='打新监控备份.json';a.click();}
+function importJSON(){document.getElementById('fileInput').click();}
+function doImport(e){const f=e.target.files[0];if(!f)return;const rd=new FileReader();rd.onload=()=>{try{state=JSON.parse(rd.result);save();render();alert('导入成功');}catch(err){alert('文件格式错误');}e.target.value='';};rd.readAsText(f);}
+// init
+document.getElementById('rDate').value=todayStr();
+render();
+</script>
+</body>
+</html>

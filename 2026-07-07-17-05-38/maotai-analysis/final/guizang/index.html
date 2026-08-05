@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!--
+  ============================================================================
+  贵州茅台（600519）：穿越周期的确定性  ·  guizang 电子杂志 × 电子墨水 风格
+  ----------------------------------------------------------------------------
+  单文件、离线可双击打开；无外部 CDN / 字体文件依赖。
+  配色：茅台绛红 + 暖金 + 米白 + 墨黑（CSS 变量复用）。
+  图表：全部 HTML + 内联 SVG / 轻量 JS 绘制，无第三方图表库。
+  字体：Noto Serif SC / Noto Sans SC 优先，缺失时回退系统宋体/黑体（离线安全）。
+
+  【导出 PDF 方法】
+  1) 浏览器打开本文件；2) 翻到想导出的页（建议 16:9 横向）；
+  3) Ctrl/Cmd + P → 目标选“另存为 PDF”→ 布局“横向”→ 边距“无”→ 缩放“适合”；
+  4) 想一次导出全部 14 页：保持默认打印设置即可，本文件已内置打印样式（每页一屏）。
+  更多说明见页面内按 H 键唤出的“导出 PDF 说明”，或同目录 README.md。
+  ============================================================================
+-->
+<title>贵州茅台（600519）：穿越周期的确定性 · 基本面与估值分析</title>
+<style>
+  :root{
+    /* ====== 茅台配色令牌（渲染端复用，禁止自造/混搭） ====== */
+    --maotai-red:#9E1B1B;
+    --maotai-red-deep:#6E1212;
+    --gold:#C9A86A;
+    --gold-soft:#E2CB97;
+    --paper:#F5F0E6;
+    --ink:#1C1A17;
+    --muted:#6B635A;
+    --ink-rgb:28,26,23;
+    --paper-rgb:245,240,230;
+    --red-rgb:158,27,27;
+    --gold-rgb:201,168,106;
+
+    /* ====== 字体（无 Web 字体，离线回退系统字体） ====== */
+    --serif-zh:"Noto Serif SC","Source Han Serif SC","Songti SC","SimSun",serif;
+    --sans-zh:"Noto Sans SC","Source Han Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+    --mono:"IBM Plex Mono","SF Mono",ui-monospace,"Cascadia Mono","Consolas",monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;height:100%;overflow:hidden;background:var(--ink);color:var(--paper);font-family:var(--sans-zh);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+  /* ============ WebGL 流体背景（双画布，主题切换） ============ */
+  canvas.bg{position:fixed;inset:0;width:100vw;height:100vh;z-index:0;display:block;transition:opacity 1.2s ease}
+  canvas#bg-light{opacity:0}
+  canvas#bg-dark{opacity:1}
+  body.light-bg canvas#bg-light{opacity:1}
+  body.light-bg canvas#bg-dark{opacity:0}
+
+  /* ============ Deck 容器 + 翻页 ============ */
+  #deck{position:fixed;inset:0;width:1400vw;height:100vh;display:flex;flex-wrap:nowrap;transition:transform .9s cubic-bezier(.77,0,.175,1);z-index:10;will-change:transform}
+  .slide{width:100vw;height:100vh;flex:0 0 100vw;position:relative;padding:6vh 6vw 9vh 6vw;display:flex;flex-direction:column;overflow:hidden;background:var(--paper)}
+  .slide.light{color:var(--ink);background:var(--paper)}
+  .slide.dark{color:var(--paper);background:var(--ink)}
+  .slide.hero.dark{background:#15110E}
+  .slide.hero.light{background:var(--paper)}
+
+  /* 遮罩：普通页厚、hero 页薄，让 WebGL 流体透出 */
+  .slide::before{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;transition:background .7s ease}
+  .slide.light::before{background:rgba(var(--paper-rgb),.82);backdrop-filter:blur(2px)}
+  .slide.dark::before{background:rgba(var(--ink-rgb),.84);backdrop-filter:blur(2px)}
+  .slide.hero.light::before{background:rgba(var(--paper-rgb),.20);backdrop-filter:none}
+  .slide.hero.dark::before{background:rgba(var(--ink-rgb),.15);backdrop-filter:none}
+  .slide.hero::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none}
+  .slide.hero.light::after{background:linear-gradient(180deg,rgba(var(--paper-rgb),.30) 0%,rgba(var(--paper-rgb),0) 14%,rgba(var(--paper-rgb),0) 86%,rgba(var(--paper-rgb),.30) 100%)}
+  .slide.hero.dark::after{background:linear-gradient(180deg,rgba(var(--ink-rgb),.34) 0%,rgba(var(--ink-rgb),0) 14%,rgba(var(--ink-rgb),0) 86%,rgba(var(--ink-rgb),.34) 100%)}
+
+  /* ============ Magazine chrome / foot ============ */
+  .chrome{display:flex;justify-content:space-between;align-items:flex-start;font-family:var(--mono);font-size:max(11px,.78vw);letter-spacing:.2em;text-transform:uppercase;opacity:.62}
+  .chrome .left,.chrome .right{display:flex;gap:1.6em;align-items:center}
+  .chrome .sep{width:34px;height:1px;background:currentColor;opacity:.4}
+  .foot{margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end;font-family:var(--mono);font-size:max(11px,.78vw);letter-spacing:.16em;text-transform:uppercase;opacity:.5}
+  .foot .ptitle{font-family:var(--serif-zh);font-weight:400;letter-spacing:.04em;text-transform:none;opacity:.78;font-size:13px}
+
+  .kicker{font-family:var(--mono);font-size:max(11px,.8vw);letter-spacing:.3em;text-transform:uppercase;opacity:.62;margin-bottom:2.4vh;color:var(--maotai-red)}
+  .slide.dark .kicker{color:var(--gold)}
+  .rule{width:100%;height:1px;background:currentColor;opacity:.22;margin:2.6vh 0}
+  .tag{display:inline-block;font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;padding:5px 13px;border:1px solid currentColor;opacity:.8;border-radius:2px}
+
+  /* ============ 字体层级 ============ */
+  .h-hero{font-family:var(--serif-zh);font-weight:900;font-size:10vw;line-height:.96;letter-spacing:-.02em}
+  .h-xl{font-family:var(--serif-zh);font-weight:700;font-size:5.2vw;line-height:1.12;letter-spacing:-.01em}
+  .h-sub{font-family:var(--serif-zh);font-weight:500;font-size:3vw;line-height:1.25;opacity:.72}
+  .h-md{font-family:var(--serif-zh);font-weight:600;font-size:2.2vw;line-height:1.3}
+  .lead{font-family:var(--serif-zh);font-weight:400;font-size:1.7vw;line-height:1.5;opacity:.86}
+  .body{font-family:var(--sans-zh);font-weight:400;font-size:max(15px,1.12vw);line-height:1.72;opacity:.82}
+  .body.sm{font-size:max(13px,.98vw);opacity:.7}
+  .meta{font-family:var(--mono);font-size:max(11px,.82vw);letter-spacing:.14em;text-transform:uppercase;opacity:.6}
+  .num{font-family:var(--serif-zh);font-variant-numeric:tabular-nums;font-feature-settings:"tnum" 1;letter-spacing:-.01em}
+
+  /* ============ 布局 ============ */
+  .col{display:flex;flex-direction:column;gap:2.2vh}
+  .row{display:flex;align-items:center;gap:2vw}
+  .split{display:grid;grid-template-columns:1fr 1fr;gap:4vw;flex:1;align-items:center}
+  .grid-2-6-6{display:grid;grid-template-columns:1fr 1fr;gap:3.5vw 4vw;flex:1;align-items:stretch}
+  .grid-4{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(2,1fr);gap:3.4vh 4vw;flex:1;align-content:center}
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:3vw;flex:1;align-content:center}
+  .center{align-items:center;justify-content:center;text-align:center}
+  .fill{flex:1}
+
+  /* ============ stat-card（数据卡） ============ */
+  .stat-card{display:flex;flex-direction:column;gap:.6vh;align-items:flex-start;padding-top:1.6vh;border-top:1px solid currentColor;border-color:rgba(127,127,127,.32)}
+  .stat-card .stat-label{font-family:var(--mono);font-size:max(10px,.76vw);letter-spacing:.22em;text-transform:uppercase;opacity:.55}
+  .stat-card .stat-nb{font-family:var(--serif-zh);font-weight:800;font-size:4.6vw;line-height:.9;letter-spacing:-.02em;font-variant-numeric:tabular-nums;margin-top:.4vh}
+  .stat-card .stat-nb .u{font-family:var(--sans-zh);font-weight:500;font-size:.34em;letter-spacing:0;opacity:.7;margin-left:.12em}
+  .stat-card .stat-note{font-family:var(--sans-zh);font-weight:400;font-size:max(13px,1vw);line-height:1.5;opacity:.74;margin-top:.5vh}
+  .neg{color:var(--maotai-red) !important}
+  .slide.dark .neg{color:#E08A8A !important}
+  .pos{color:#3c7a4a !important}
+  .slide.dark .pos{color:#9FD0A6 !important}
+  .gold-n{color:var(--gold) !important}
+
+  /* ============ callout / 列表 ============ */
+  .callout{padding:2.6vh 2vw;border-left:3px solid var(--maotai-red);font-family:var(--serif-zh);font-size:max(15px,1.18vw);line-height:1.55;opacity:.92;background:rgba(var(--red-rgb),.06)}
+  .slide.dark .callout{background:rgba(var(--gold-rgb),.08);border-color:var(--gold)}
+  .ul{list-style:none;display:flex;flex-direction:column;gap:1.5vh}
+  .ul li{position:relative;padding-left:1.6em;font-family:var(--sans-zh);font-size:max(14px,1.08vw);line-height:1.55;opacity:.86}
+  .ul li::before{content:"";position:absolute;left:0;top:.62em;width:.55em;height:.55em;background:var(--maotai-red);transform:rotate(45deg)}
+  .slide.dark .ul li::before{background:var(--gold)}
+  .ul.gold li::before{background:var(--gold)}
+  .slide.light .ul.gold li::before{background:var(--maotai-red)}
+
+  /* ============ 图标（内联 SVG 线条） ============ */
+  .ico{width:1em;height:1em;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:0 0 auto}
+  .ico-lg{width:2.6vw;height:2.6vw;stroke-width:1.3}
+  .ico-md{width:1.9vw;height:1.9vw;stroke-width:1.4}
+
+  /* ============ 通用图表骨架 ============ */
+  .chart-cap{display:flex;justify-content:space-between;align-items:baseline;gap:1vw;margin-top:.8vh;font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.16em;text-transform:uppercase;opacity:.66}
+  .axis-note{font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.12em;opacity:.55;margin-top:1vh}
+
+  /* 横向条 */
+  .hbar-track{position:relative;height:2.6vh;min-height:18px;background:rgba(127,127,127,.18);border-radius:3px;overflow:hidden}
+  .slide.dark .hbar-track{background:rgba(255,255,255,.12)}
+  .hbar{position:absolute;left:0;top:0;bottom:0;height:100%;width:var(--w);background:linear-gradient(90deg,var(--maotai-red),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform .95s cubic-bezier(.22,1,.36,1)}
+  .slide.is-active .hbar{transform:scaleX(1)}
+  .hbar.gold{background:linear-gradient(90deg,var(--gold),var(--gold-soft))}
+  .hbar.mut{background:rgba(127,127,127,.5)}
+
+  /* 竖向条 */
+  .vtrack{height:22vh;display:flex;align-items:flex-end;gap:6%;border-bottom:1px solid rgba(127,127,127,.3);padding-bottom:0}
+  .slide.dark .vtrack{border-color:rgba(255,255,255,.2)}
+  .vcol{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .vbar{width:72%;height:var(--h);background:linear-gradient(180deg,var(--gold),var(--maotai-red));transform:scaleY(0);transform-origin:bottom;transition:transform .95s cubic-bezier(.22,1,.36,1);border-radius:3px 3px 0 0}
+  .slide.dark .vbar{background:linear-gradient(180deg,var(--gold-soft),var(--maotai-red))}
+  .slide.is-active .vbar{transform:scaleY(1)}
+  .vcol .vval{font-family:var(--serif-zh);font-weight:700;font-size:1.5vw;margin-bottom:.6vh;font-variant-numeric:tabular-nums}
+  .vcol .vlab{font-family:var(--mono);font-size:max(10px,.76vw);letter-spacing:.1em;opacity:.66;margin-top:.8vh;text-align:center}
+
+  /* 环形进度 */
+  .donut{position:relative;display:inline-flex;align-items:center;justify-content:center}
+  .donut .ctr{position:absolute;text-align:center}
+  .donut .ctr .big{font-family:var(--serif-zh);font-weight:800;font-size:3.4vw;line-height:1;color:var(--gold);font-variant-numeric:tabular-nums}
+  .slide.light .donut .ctr .big{color:var(--maotai-red)}
+  .donut .ctr .sm{font-family:var(--mono);font-size:max(10px,.8vw);letter-spacing:.16em;text-transform:uppercase;opacity:.66;margin-top:.4vh}
+  .ring-fill{transition:stroke-dashoffset 1.1s cubic-bezier(.22,1,.36,1)}
+  .slide.is-active .ring-fill{stroke-dashoffset:var(--to-off)}
+  .ring-track{opacity:.18}
+
+  /* PE 区间轴 */
+  .pe-axis{position:relative;height:16vh;margin:3vh 0 1vh}
+  .pe-track{position:absolute;top:50%;left:0;right:0;height:6px;transform:translateY(-50%);background:rgba(127,127,127,.28);border-radius:3px}
+  .slide.dark .pe-track{background:rgba(255,255,255,.18)}
+  .pe-band{position:absolute;top:50%;transform:translateY(-50%);height:12px;background:var(--gold);opacity:.4;border-radius:3px}
+  .pe-mark{position:absolute;top:50%;transform:translate(-50%,-50%);width:2px;height:20px;background:currentColor}
+  .pe-mark span{position:absolute;top:-2.6em;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--mono);font-size:max(10px,.78vw);letter-spacing:.06em;opacity:.82}
+  .pe-mark.below span{top:auto;bottom:-2.4em}
+  .pe-now{background:var(--maotai-red)}
+  .slide.dark .pe-now{background:var(--gold)}
+  .pe-now span{color:var(--maotai-red);font-weight:700}
+  .slide.dark .pe-now span{color:var(--gold)}
+
+  /* 情景估值条 */
+  .scn-row{position:relative;display:grid;grid-template-columns:9vw 1fr;gap:1.6vw;align-items:center;margin:2vh 0}
+  .scn-name{font-family:var(--serif-zh);font-weight:700;font-size:1.8vw}
+  .scn-name small{display:block;font-family:var(--mono);font-size:max(10px,.74vw);letter-spacing:.12em;opacity:.6;font-weight:400;margin-top:.4vh;text-transform:uppercase}
+  .scn-track{position:relative;height:3.4vh;min-height:24px;background:rgba(127,127,127,.16);border-radius:4px}
+  .slide.dark .scn-track{background:rgba(255,255,255,.10)}
+  .scn-fill{position:absolute;top:0;bottom:0;left:53.9%;width:var(--w);background:linear-gradient(90deg,var(--maotai-red),var(--gold));transform:scaleX(0);transform-origin:left;transition:transform 1s cubic-bezier(.22,1,.36,1)}
+  .slide.is-active .scn-fill{transform:scaleX(1)}
+  .scn-fill.opt{background:linear-gradient(90deg,var(--gold),var(--gold-soft))}
+  .scn-val{position:absolute;right:.8vw;top:50%;transform:translateY(-50%);font-family:var(--serif-zh);font-weight:700;font-size:1.4vw;color:#fff;font-variant-numeric:tabular-nums;text-shadow:0 1px 2px rgba(0,0,0,.3)}
+  .slide.dark .scn-val{color:var(--ink)}
+  .scn-now{position:absolute;top:-1vh;bottom:-1vh;left:53.9%;width:0;border-left:2px dashed var(--maotai-red);z-index:3}
+  .slide.dark .scn-now{border-color:var(--gold)}
+  .scn-now span{position:absolute;top:-1.8em;left:50%;transform:translateX(-50%);white-space:nowrap;font-family:var(--mono);font-size:max(10px,.74vw);letter-spacing:.1em;color:var(--maotai-red);font-weight:700}
+  .slide.dark .scn-now span{color:var(--gold)}
+
+  /* ============ 动效系统（无外部库，纯 CSS + 激活态） ============ */
+  [data-anim]{opacity:0;transform:translateY(14px);transition:opacity .7s ease var(--d,0s),transform .7s cubic-bezier(.22,1,.36,1) var(--d,0s)}
+  .slide.is-active [data-anim]{opacity:1;transform:none}
+  [data-anim="left"]{transform:translateX(-26px)}
+  .slide.is-active [data-anim="left"]{transform:none}
+  [data-anim="right"]{transform:translateX(26px)}
+  .slide.is-active [data-anim="right"]{transform:none}
+  .pop{transform:scale(.82);opacity:0;transition:transform .8s cubic-bezier(.34,1.56,.64,1) var(--d,0s),opacity .6s ease var(--d,0s)}
+  .slide.is-active .pop{transform:none;opacity:1}
+  .neg-hi{opacity:1}
+  .slide.is-active .neg-hi{animation:softpulse 1.1s ease .9s 2}
+  @keyframes softpulse{0%,100%{opacity:1}50%{opacity:.45}}
+  .reveal-line{transform:scaleX(0);transform-origin:left;transition:transform 1s ease .3s}
+  .slide.is-active .reveal-line{transform:scaleX(1)}
+
+  /* ============ 导航 ============ */
+  #nav{position:fixed;left:50%;bottom:2.4vh;transform:translateX(-50%);z-index:30;display:flex;gap:9px;padding:7px 13px;border-radius:999px;background:rgba(0,0,0,.20);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  #nav .dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.32);cursor:pointer;transition:all .3s ease;border:0;padding:0}
+  #nav .dot:hover{background:rgba(255,255,255,.55);transform:scale(1.15)}
+  #nav .dot.active{background:rgba(255,255,255,.95);width:22px;border-radius:999px}
+  body.light-bg #nav{background:rgba(255,255,255,.28)}
+  body.light-bg #nav .dot{background:rgba(var(--ink-rgb),.26)}
+  body.light-bg #nav .dot.active{background:rgba(var(--ink-rgb),.92)}
+  #hint{position:fixed;bottom:2.8vh;right:2.4vw;z-index:30;font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;opacity:.4;color:#bbb;mix-blend-mode:difference}
+
+  /* ============ ESC 索引 ============ */
+  #overview{position:fixed;inset:0;z-index:100;background:rgba(var(--ink-rgb),.94);backdrop-filter:blur(12px);display:none;overflow-y:auto;padding:4vh 4vw}
+  #overview .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:2vh 1.6vw;max-width:92vw;margin:0 auto}
+  #overview .card{cursor:pointer;border-radius:6px;overflow:hidden;border:2px solid rgba(var(--paper-rgb),.15);transition:border-color .2s;background:var(--ink)}
+  #overview .card .wrap{width:100%;aspect-ratio:16/9;overflow:hidden;position:relative;pointer-events:none}
+  #overview .card .lab{padding:6px 10px;font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--paper);opacity:.72}
+  #overview .card.active{border-color:rgba(var(--paper-rgb),.85)}
+
+  /* ============ PDF 说明浮层 ============ */
+  #pdfhelp{position:fixed;inset:0;z-index:120;background:rgba(var(--ink-rgb),.96);color:var(--paper);display:none;align-items:center;justify-content:center;padding:6vh 8vw}
+  #pdfhelp .box{max-width:680px;border:1px solid rgba(var(--paper-rgb),.25);border-radius:8px;padding:5vh 4vw;background:rgba(var(--paper-rgb),.04)}
+  #pdfhelp h2{font-family:var(--serif-zh);font-weight:700;font-size:2.4vw;margin-bottom:2vh;color:var(--gold)}
+  #pdfhelp ol{margin:0 0 0 1.4em;display:flex;flex-direction:column;gap:1.4vh}
+  #pdfhelp li{font-family:var(--sans-zh);font-size:max(14px,1.05vw);line-height:1.6;opacity:.9}
+  #pdfhelp .dis{margin-top:2.4vh;font-family:var(--mono);font-size:max(11px,.82vw);letter-spacing:.1em;opacity:.6}
+  #pdfhelp .close{margin-top:3vh;text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.2em;opacity:.7}
+
+  /* ============ 响应式 ============ */
+  @media (max-width:900px){
+    .h-hero{font-size:13vw}
+    .h-xl{font-size:7.4vw}
+    .grid-2-6-6,.split{grid-template-columns:1fr}
+    .grid-4{grid-template-columns:1fr 1fr}
+    .donut .ctr .big{font-size:6vw}
+  }
+
+  /* ============ 无障碍 / 偏好降级 ============ */
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+    [data-anim],[data-anim="left"],[data-anim="right"],.pop{opacity:1 !important;transform:none !important}
+    .hbar,.vbar,.scn-fill{transform:none !important}
+    .ring-fill{stroke-dashoffset:var(--to-off) !important}
+    .reveal-line{transform:scaleX(1) !important}
+    .neg-hi{animation:none !important}
+  }
+
+  /* ============ 打印 / 导出 PDF ============ */
+  @media print{
+    @page{size:1280px 720px;margin:0}
+    html,body{overflow:visible;height:auto;background:#fff}
+    canvas.bg{display:none !important}
+    #deck{position:static;transform:none !important;width:auto !important;height:auto !important;display:block}
+    .slide{width:100% !important;height:720px;page-break-after:always;break-after:page;transform:none !important;opacity:1 !important;padding:48px 64px}
+    .slide::before,.slide::after{display:none !important}
+    .slide.light{background:var(--paper) !important;color:var(--ink) !important}
+    .slide.dark{background:var(--ink) !important;color:var(--paper) !important}
+    .slide.hero.dark{background:var(--ink) !important}
+    [data-anim],[data-anim="left"],[data-anim="right"],.pop{opacity:1 !important;transform:none !important}
+    .hbar,.vbar,.scn-fill{transform:none !important}
+    .ring-fill{stroke-dashoffset:var(--to-off) !important}
+    .reveal-line{transform:scaleX(1) !important}
+    #nav,#hint,#overview,#pdfhelp{display:none !important}
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bg-dark" class="bg"></canvas>
+<canvas id="bg-light" class="bg"></canvas>
+<div id="hint">← → 翻页 · ESC 索引 · H 导出PDF</div>
+
+<div id="deck">
+
+<!-- ============ S1 · 封面（hero dark） ============ -->
+<section class="slide hero dark" data-theme="dark">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>基本面与估值分析</span></div>
+    <div class="right"><span>Vol.01 · 穿越周期</span></div>
+  </div>
+  <div class="fill center" style="justify-content:center">
+    <div class="kicker" data-anim style="--d:.1s">2025 年报 + 2026-07 估值快照</div>
+    <h1 class="h-hero gold-n" data-anim style="--d:.25s;white-space:nowrap">穿越周期的确定性</h1>
+    <p class="lead" data-anim style="--d:.5s;max-width:62vw;margin:3vh auto 0">一份关于“为什么它慢下来，却依然确定”的<br>基本面与估值分析</p>
+    <div class="reveal-line" style="width:34vw;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);margin:4vh auto 0"></div>
+  </div>
+  <div class="foot">
+    <span class="meta">01 / 14</span>
+    <span class="ptitle">个人投资者 · 投研自用</span>
+  </div>
+</section>
+
+<!-- ============ S2 · 钩子：反常的真相（dark） ============ -->
+<section class="slide dark" data-theme="dark">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>反常的真相</span></div>
+    <div class="right"><span>Hook</span></div>
+  </div>
+  <div class="split" style="align-items:center">
+    <div class="col" style="gap:3vh">
+      <div class="kicker" data-anim>一个反常的事实</div>
+      <h2 class="h-xl" data-anim style="--d:.15s">毛利率 90%、ROE 32.5% 的公司，刚交了史上<span class="gold-n">第一份营收下滑年报</span></h2>
+      <p class="body" data-anim style="--d:.3s">先看数字，不下结论——这是崩塌，还是它主动按下的减速键？</p>
+    </div>
+    <div class="col" style="gap:2vh;align-items:stretch">
+      <div class="stat-card" data-anim style="--d:.35s">
+        <span class="stat-label">毛利率</span>
+        <span class="stat-nb gold-n num">90<span class="u">%</span></span>
+        <span class="stat-note">行业顶级，类奢侈品属性</span>
+      </div>
+      <div class="stat-card" data-anim style="--d:.5s">
+        <span class="stat-label">加权 ROE</span>
+        <span class="stat-nb gold-n num">32.53<span class="u">%</span></span>
+        <span class="stat-note">仍处高位，领跑行业</span>
+      </div>
+      <div class="stat-card" data-anim style="--d:.65s">
+        <span class="stat-label">2025 营收同比</span>
+        <span class="stat-nb num neg-hi neg">-1.21<span class="u">%</span></span>
+        <span class="stat-note">上市以来首次年度营收下滑</span>
+      </div>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="meta">02 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S3 · 框架：两条时间线（light） ============ -->
+<section class="slide light" data-theme="light">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>阅读框架</span></div>
+    <div class="right"><span>Framework</span></div>
+  </div>
+  <div class="kicker" data-anim>别只盯一个季度</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:80vw">要看两条时间线：短期阵痛，与长期护城河</h2>
+  <div class="split" style="align-items:stretch;margin-top:3vh;position:relative">
+    <div class="col" data-anim="left" style="--d:.2s;gap:2.4vh;padding-right:3vw;border-right:1px solid rgba(127,127,127,.3)">
+      <div class="row" style="gap:1vw"><span class="ico ico-md"><svg class="ico" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></span><h3 class="h-md">短期阵痛</h3></div>
+      <ul class="ul">
+        <li>营收 / 净利双降</li>
+        <li>系列酒承压、以价换量</li>
+        <li>渠道去库存、结构调账</li>
+      </ul>
+    </div>
+    <div class="col" data-anim="right" style="--d:.4s;gap:2.4vh;padding-left:3vw">
+      <div class="row" style="gap:1vw"><span class="ico ico-md"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7z"/></svg></span><h3 class="h-md gold-n">长期护城河</h3></div>
+      <ul class="ul gold">
+        <li>品牌 / 产区 / 工艺不可复制</li>
+        <li>定价权、先款后货</li>
+        <li>高 ROE、高分红、产能储备</li>
+      </ul>
+    </div>
+  </div>
+  <p class="body sm" data-anim style="--d:.6s;margin-top:2.4vh;opacity:.7">本片不替你做买卖决定，只把这两条线讲清。</p>
+  <div class="foot">
+    <span class="meta">03 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S4 · 直面 2025：主动降速（light） ============ -->
+<section class="slide light" data-theme="light">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>直面 2025</span></div>
+    <div class="right"><span>2025 年报</span></div>
+  </div>
+  <div class="kicker" data-anim>双降是真的</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:82vw">但它是“主动按下减速键”，不是失速</h2>
+  <div class="grid-4" style="margin-top:3vh">
+    <div class="stat-card" data-anim style="--d:.2s">
+      <span class="stat-label">营业总收入</span>
+      <span class="stat-nb num">1688.38<span class="u">亿</span></span>
+      <span class="stat-note neg">同比 -1.21%</span>
+    </div>
+    <div class="stat-card" data-anim style="--d:.32s">
+      <span class="stat-label">归母净利润</span>
+      <span class="stat-nb num">823.20<span class="u">亿</span></span>
+      <span class="stat-note neg">同比 -4.53%</span>
+    </div>
+    <div class="stat-card" data-anim style="--d:.44s">
+      <span class="stat-label">扣非归母净利润</span>
+      <span class="stat-nb num">822.93<span class="u">亿</span></span>
+      <span class="stat-note neg">同比 -4.58%</span>
+    </div>
+    <div class="stat-card" data-anim style="--d:.56s">
+      <span class="stat-label">每股收益 EPS</span>
+      <span class="stat-nb num gold-n">65.66<span class="u">元</span></span>
+      <span class="stat-note">总营收口径约 1721 亿</span>
+    </div>
+  </div>
+  <p class="body sm" data-anim style="--d:.7s;margin-top:2.6vh"><span class="gold-n">定性：</span>原文“主动降速，谋求确定性”——是主动，不是需求崩塌。</p>
+  <div class="foot">
+    <span class="meta">04 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S5 · 分产品：稳基本盘 vs 以价换量（dark） ============ -->
+<section class="slide dark" data-theme="dark">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>分产品</span></div>
+    <div class="right"><span>By Segment</span></div>
+  </div>
+  <div class="kicker" data-anim>结构选择，不是崩盘</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:84vw">茅台酒没提价就稳住了基本盘，系列酒在“以价换量”</h2>
+  <div class="grid-2-6-6" style="margin-top:3vh">
+    <div class="col" data-anim style="--d:.22s;gap:1.6vh">
+      <h3 class="h-md">茅台酒</h3>
+      <div class="row" style="gap:1.4vw"><span class="stat-nb num" style="font-size:3vw">1465.00<span class="u" style="font-size:.34em">亿</span></span><span class="meta pos">营收 +0.39%</span></div>
+      <div class="hbar-track"><div class="hbar gold" style="--w:18%"></div></div>
+      <div class="row" style="gap:1.4vw"><span class="meta">销量约 4.68 万吨</span><span class="meta pos">+0.73%</span></div>
+      <div class="hbar-track"><div class="hbar gold" style="--w:22%"></div></div>
+      <p class="body sm" style="margin-top:1vh;color:var(--gold)">未提价，守住基本盘</p>
+    </div>
+    <div class="col" data-anim style="--d:.38s;gap:1.6vh">
+      <h3 class="h-md">系列酒</h3>
+      <div class="row" style="gap:1.4vw"><span class="stat-nb num" style="font-size:3vw">222.75<span class="u" style="font-size:.34em">亿</span></span><span class="meta neg">营收 -9.76%</span></div>
+      <div class="hbar-track"><div class="hbar" style="--w:62%"></div></div>
+      <div class="row" style="gap:1.4vw"><span class="meta">销量约 3.84 万吨</span><span class="meta pos">+3.88%</span></div>
+      <div class="hbar-track"><div class="hbar gold" style="--w:24%"></div></div>
+      <p class="body sm" style="margin-top:1vh;color:var(--gold)">以价换量，护城河作用持续</p>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="meta">05 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S6 · 支柱一：高 ROE（light） ============ -->
+<section class="slide light" data-theme="light">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>支柱一 · 盈利质量</span></div>
+    <div class="right"><span>Pillar 01</span></div>
+  </div>
+  <div class="kicker" data-anim>高 ROE 是盈利质量的硬指标</div>
+  <div class="row center" style="gap:3vw;justify-content:center;margin-top:1vh">
+    <h2 class="num pop" data-anim style="--d:.1s;font-family:var(--serif-zh);font-weight:800;font-size:15vw;line-height:.9;color:var(--maotai-red)">32.53%</h2>
+    <p class="lead" data-anim style="--d:.3s;max-width:30vw;text-align:left">意味着每 100 块本钱，一年帮股东赚回 <span class="gold-n">32 块</span>。毛利率 90%+ 行业顶级；低负债、先款后货。</p>
+  </div>
+  <p class="body sm" data-anim style="--d:.45s;margin-top:1vh">行业对比示意（非精确）：</p>
+  <div class="col" data-anim style="--d:.55s;gap:1.6vh;margin-top:1vh">
+    <div class="row" style="gap:1.4vw"><span class="meta" style="width:11em">茅台</span><div class="hbar-track" style="flex:1"><div class="hbar gold" style="--w:100%"></div></div><span class="num" style="font-weight:700">32.5%</span></div>
+    <div class="row" style="gap:1.4vw"><span class="meta" style="width:11em">白酒行业均值（示意）</span><div class="hbar-track" style="flex:1"><div class="hbar mut" style="--w:55%"></div></div><span class="num">~18%</span></div>
+    <div class="row" style="gap:1.4vw"><span class="meta" style="width:11em">次高端代表（示意）</span><div class="hbar-track" style="flex:1"><div class="hbar mut" style="--w:37%"></div></div><span class="num">~12%</span></div>
+  </div>
+  <div class="foot">
+    <span class="meta">06 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S7 · 支柱二：高分红（dark） ============ -->
+<section class="slide dark" data-theme="dark">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>支柱二 · 分红</span></div>
+    <div class="right"><span>Pillar 02</span></div>
+  </div>
+  <div class="kicker" data-anim>高分红，像一张稳稳的息票</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:80vw">每赚 100 块，拿出 <span class="gold-n">79 块</span> 分给股东</h2>
+  <div class="split" style="align-items:center;margin-top:2.5vh">
+    <div class="center" data-anim style="--d:.25s">
+      <div class="donut">
+        <svg width="240" height="240" viewBox="0 0 240 240">
+          <circle class="ring-track" cx="120" cy="120" r="92" fill="none" stroke="currentColor" stroke-width="20"/>
+          <circle class="ring-fill" cx="120" cy="120" r="92" fill="none" stroke="var(--gold)" stroke-width="20" stroke-linecap="round"
+                  stroke-dasharray="578.05" stroke-dashoffset="578.05" style="--to-off:121.39" transform="rotate(-90 120 120)"/>
+        </svg>
+        <div class="ctr"><div class="big">79%</div><div class="sm">分红率</div></div>
+      </div>
+      <div class="chart-cap"><span>2025 全年派现 650.33 亿</span><span>每股 28.02 元</span></div>
+    </div>
+    <div class="col" data-anim style="--d:.4s;gap:2.4vh">
+      <div class="row" style="gap:1vw"><span class="ico ico-md"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h3.2a1.8 1.8 0 010 3.6h-2.4a1.8 1.8 0 000 3.6h3.2"/></svg></span><h3 class="h-md">类债属性增强</h3></div>
+      <p class="body">2024–2026 分红规划：每年不低于净利 <span class="gold-n">75%</span>（年度 + 中期）；2025 分红率较上年 +4pct。</p>
+      <div class="row" style="gap:1.2vw"><span class="meta">股息率</span>
+        <div style="flex:1;position:relative;height:10px;background:rgba(255,255,255,.12);border-radius:5px">
+          <div style="position:absolute;left:18%;width:24%;top:0;bottom:0;background:linear-gradient(90deg,var(--gold),var(--gold-soft));border-radius:5px"></div>
+        </div>
+        <span class="num gold-n" style="font-weight:700">2.4–2.8%</span>
+      </div>
+      <p class="body sm" style="opacity:.66">熊市里，这是一张稳稳的息票。</p>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="meta">07 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S8 · 支柱三：低估值（light） ============ -->
+<section class="slide light" data-theme="light">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>支柱三 · 估值</span></div>
+    <div class="right"><span>Pillar 03</span></div>
+  </div>
+  <div class="kicker" data-anim>低估值，历史低分位的安全边际</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:84vw">18 倍 PE，对比 31 倍的历史均值，<span class="gold-n">便宜不是错觉</span></h2>
+  <div class="pe-axis" data-anim style="--d:.3s">
+    <div class="pe-track"></div>
+    <div class="pe-band" style="left:15.4%;width:1.8%"></div>
+    <div class="pe-mark" style="left:8.4%"><span>最低 8.83x</span></div>
+    <div class="pe-mark pe-now" style="left:16.3%"><span>当前 16.6–18x</span></div>
+    <div class="pe-mark below" style="left:29.4%"><span>均值 30.88x</span></div>
+    <div class="pe-mark below" style="left:96.9%"><span>最高 101.79x · 2007-10</span></div>
+  </div>
+  <div class="row" data-anim style="--d:.5s;gap:2.4vw;flex-wrap:wrap">
+    <span class="meta">PE(TTM) 18.05x</span><span class="meta">PE(静) 18.14x</span><span class="meta">扣非 PE 17.97x</span>
+    <span class="meta">PB 5.29–5.51x（低于十年中枢）</span>
+  </div>
+  <p class="body sm" data-anim style="--d:.62s;margin-top:1.6vh;opacity:.68">注：PEG -4.36 因短期负增长失真，不宜单看。当前估值处历史很低分位。</p>
+  <div class="foot">
+    <span class="meta">08 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S9 · 三支柱合成：确定性（hero dark） ============ -->
+<section class="slide hero dark" data-theme="dark">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>三支柱合成</span></div>
+    <div class="right"><span>Synthesis</span></div>
+  </div>
+  <div class="kicker" data-anim>确定性从哪来</div>
+  <h2 class="h-xl gold-n" data-anim style="--d:.12s">高 ROE × 高分红 × 低估值 = <span style="white-space:nowrap">穿越周期的确定性</span></h2>
+  <div class="grid-3" style="margin-top:3vh">
+    <div class="col center" data-anim style="--d:.3s;gap:1.2vh">
+      <span class="ico ico-lg"><svg class="ico" viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8"/><path d="M21 7v5h-5"/></svg></span>
+      <h3 class="h-md">高 ROE</h3><p class="num" style="font-size:2.4vw;font-weight:800">32.5%</p>
+      <p class="body sm" style="opacity:.72">赚钱效率高</p>
+    </div>
+    <div class="col center" data-anim style="--d:.45s;gap:1.2vh">
+      <span class="ico ico-lg"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h3.2a1.8 1.8 0 010 3.6h-2.4a1.8 1.8 0 000 3.6h3.2"/></svg></span>
+      <h3 class="h-md">高分红</h3><p class="num" style="font-size:2.4vw;font-weight:800">79%</p>
+      <p class="body sm" style="opacity:.72">拿着有息</p>
+    </div>
+    <div class="col center" data-anim style="--d:.6s;gap:1.2vh">
+      <span class="ico ico-lg"><svg class="ico" viewBox="0 0 24 24"><path d="M4 18V8m5 10V5m5 13v-7m5 7V9"/></svg></span>
+      <h3 class="h-md">低估值</h3><p class="num" style="font-size:2.4vw;font-weight:800">PE≈18x</p>
+      <p class="body sm" style="opacity:.72">长期有底（vs 均值 31x）</p>
+    </div>
+  </div>
+  <p class="lead gold-n" data-anim style="--d:.75s;margin-top:3vh;text-align:center">三者共振：跌了有人接 · 拿着有息 · 长期有底</p>
+  <div class="foot">
+    <span class="meta">09 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S10 · 渠道变革：直销首超批发（light） ============ -->
+<section class="slide light" data-theme="light">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>渠道变革</span></div>
+    <div class="right"><span>Channel</span></div>
+  </div>
+  <div class="kicker" data-anim>主动权回收</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:84vw">它把卖酒主动权，更多握回了自己手里</h2>
+  <div class="split" style="align-items:center;margin-top:2.5vh">
+    <div class="center" data-anim style="--d:.25s">
+      <div class="donut">
+        <svg width="240" height="240" viewBox="0 0 240 240">
+          <circle class="ring-track" cx="120" cy="120" r="92" fill="none" stroke="currentColor" stroke-width="22"/>
+          <!-- 批发 45%（r=92 → C=578.05；45%=260.12） -->
+          <circle cx="120" cy="120" r="92" fill="none" stroke="rgba(127,127,127,.45)" stroke-width="22" stroke-linecap="butt"
+                  stroke-dasharray="260.12 578.05" transform="rotate(108 120 120)"/>
+          <!-- 直销 55%（55%=317.93；dashoffset 578.05→0 填充） -->
+          <circle class="ring-fill" cx="120" cy="120" r="92" fill="none" stroke="var(--gold)" stroke-width="22" stroke-linecap="butt"
+                  stroke-dasharray="317.93 578.05" stroke-dashoffset="578.05" style="--to-off:0" transform="rotate(-90 120 120)"/>
+        </svg>
+        <div class="ctr"><div class="big">55%</div><div class="sm">直销占比</div></div>
+      </div>
+      <div class="chart-cap"><span>批发 45%</span><span>直销 55%（示意）</span></div>
+    </div>
+    <div class="col" data-anim style="--d:.4s;gap:2vh">
+      <div class="callout"><span class="gold-n" style="font-weight:700">i 茅台 ≈ 40%</span> 在直销中单独高亮——自营 APP 直接触达消费者，吨价与利润结构更优。</div>
+      <p class="body">2026 Q1 直销占比接近 <span class="gold-n">55%</span>、i 茅台占比近 <span class="gold-n">40%</span>；直销首超批发。</p>
+      <p class="body sm" style="opacity:.68">渠道掌控力增强，是内生增长的信号（示意，非精确值）。</p>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="meta">10 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S11 · 产能奠基：基酒增长（light） ============ -->
+<section class="slide light" data-theme="light">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>产能奠基</span></div>
+    <div class="right"><span>Capacity</span></div>
+  </div>
+  <div class="kicker" data-anim>内生增长的底气</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:84vw">基酒产能还在长，这是未来销量的“粮草”</h2>
+  <div class="split" style="align-items:center;margin-top:2.5vh">
+    <div class="grid-2-6-6" data-anim style="--d:.25s;flex:none;width:100%">
+      <div class="vcol">
+        <span class="vval num">5.85<span style="font-size:.6em">万吨</span></span>
+        <div class="vtrack"><div class="vbar" style="--h:100%"></div></div>
+        <span class="vlab">茅台酒基酒<br>+3.91%</span>
+      </div>
+      <div class="vcol">
+        <span class="vval num">5.77<span style="font-size:.6em">万吨</span></span>
+        <div class="vtrack"><div class="vbar" style="--h:98.6%"></div></div>
+        <span class="vlab">系列酒基酒<br>+19.82%</span>
+      </div>
+    </div>
+    <div class="col" data-anim style="--d:.4s;gap:2vh">
+      <div class="row" style="gap:.8vw;color:var(--maotai-red);font-family:var(--serif-zh);font-size:1.8vw">
+        <span class="ico ico-md"><svg class="ico" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        <span>产能 → 未来销量</span>
+      </div>
+      <p class="body">2025 茅台酒基酒 <span class="gold-n">5.85 万吨</span>（+3.91%）、系列酒基酒 <span class="gold-n">5.77 万吨</span>（+19.82%）。</p>
+      <p class="body sm" style="opacity:.68">基酒是后续销量与中长期增长的“粮草”，储备仍在累积。</p>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="meta">11 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S12 · 合同负债释疑：表面 vs 实质（dark） ============ -->
+<section class="slide dark" data-theme="dark">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>释疑</span></div>
+    <div class="right"><span>Clarify</span></div>
+  </div>
+  <div class="kicker" data-anim>把问号，变成句号</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:84vw">预收账款少了 18 亿，但原因没那么吓人</h2>
+  <div class="split" style="align-items:stretch;margin-top:3vh">
+    <div class="col" data-anim style="--d:.25s;gap:2vh;padding:3vh 2vw;border:1px solid rgba(255,255,255,.18);border-radius:6px">
+      <div class="row" style="gap:1vw;align-items:baseline">
+        <span class="num" style="font-size:5vw;font-weight:800;opacity:.5">?</span>
+        <h3 class="h-md">表面：合同负债 -18.13 亿</h3>
+      </div>
+      <p class="body" style="opacity:.78">乍看像“没人打款了”，容易解读为需求塌方。</p>
+    </div>
+    <div class="col" data-anim style="--d:.45s;gap:2vh;padding:3vh 2vw;border:1px solid var(--gold);border-radius:6px;background:rgba(var(--gold-rgb),.06)">
+      <div class="row" style="gap:1vw;align-items:baseline">
+        <span class="num gold-n" style="font-size:5vw;font-weight:800">.</span>
+        <h3 class="h-md gold-n">实质：渠道结构性调整</h3>
+      </div>
+      <ul class="ul gold">
+        <li>加大 i 茅台投放，自营占比提升</li>
+        <li>推行“物权不转移”代售合作</li>
+        <li>属结构性调账，非需求崩塌</li>
+      </ul>
+    </div>
+  </div>
+  <div class="foot">
+    <span class="meta">12 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S13 · 风险与看空（dark） ============ -->
+<section class="slide dark" data-theme="dark">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>风险与看空</span></div>
+    <div class="right"><span>Risk</span></div>
+  </div>
+  <div class="kicker" data-anim>把风险摊开给你看</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:82vw">不是没有风险，是把风险摊开给你看</h2>
+  <div class="grid-4" style="margin-top:3vh;align-content:start">
+    <div class="col" data-anim style="--d:.22s;gap:1.2vh">
+      <div class="row" style="gap:.8vw"><span class="ico ico-md"><svg class="ico" viewBox="0 0 24 24"><path d="M4 20V10m5 10V4m5 16v-7m5 7V8"/></svg></span><h3 class="h-md">经营面</h3></div>
+      <ul class="ul"><li>短期业绩双降</li><li>系列酒承压（-9.76%）</li></ul>
+    </div>
+    <div class="col" data-anim style="--d:.34s;gap:1.2vh">
+      <div class="row" style="gap:.8vw"><span class="ico ico-md"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><h3 class="h-md">行业面</h3></div>
+      <ul class="ul"><li>行业去库存</li><li>社会渠道信心待修复</li></ul>
+    </div>
+    <div class="col" data-anim style="--d:.46s;gap:1.2vh">
+      <div class="row" style="gap:.8vw"><span class="ico ico-md"><svg class="ico" viewBox="0 0 24 24"><path d="M12 3v18M5 7h14M5 7l-2 6h4zM19 7l-2 6h4z"/></svg></span><h3 class="h-md">政策面</h3></div>
+      <ul class="ul"><li>消费税改革不确定性</li><li>公务消费约束</li></ul>
+    </div>
+    <div class="col" data-anim style="--d:.58s;gap:1.2vh">
+      <div class="row" style="gap:.8vw"><span class="ico ico-md"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg></span><h3 class="h-md">长期面</h3></div>
+      <ul class="ul"><li>年轻群体白酒偏好弱化</li><li>合同负债下降需观察</li></ul>
+    </div>
+  </div>
+  <p class="body sm" data-anim style="--d:.7s;margin-top:2.4vh;opacity:.66">以上为真问题，不回避；风险客观呈现，只为建立信任。</p>
+  <div class="foot">
+    <span class="meta">13 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+<!-- ============ S14 · 情景估值与结论（hero light） ============ -->
+<section class="slide hero light" data-theme="light">
+  <div class="chrome" data-anim>
+    <div class="left"><span>贵州茅台 · 600519</span><span class="sep"></span><span>情景估值与结论</span></div>
+    <div class="right"><span>Valuation</span></div>
+  </div>
+  <div class="kicker" data-anim>低估，但需要耐心</div>
+  <h2 class="h-xl" data-anim style="--d:.12s;max-width:80vw;color:var(--maotai-red)">被低估是事实，耐心是护城河的一部分</h2>
+  <div class="col" data-anim style="--d:.28s;gap:1.6vh;margin-top:1.5vh">
+    <div class="scn-row">
+      <div class="scn-name">保守<small>EPS≈63 · PE≈20x</small></div>
+      <div class="scn-track"><div class="scn-fill" style="--w:3.4%"></div><span class="scn-val">≈1260</span><div class="scn-now"><span>当前价 ≈1186（52周 1151–1540）</span></div></div>
+    </div>
+    <div class="scn-row">
+      <div class="scn-name">中性<small>EPS≈68 · PE≈25x</small></div>
+      <div class="scn-track"><div class="scn-fill" style="--w:23.4%"></div><span class="scn-val">≈1700</span><div class="scn-now"></div></div>
+    </div>
+    <div class="scn-row">
+      <div class="scn-name">乐观<small>EPS≈72 · PE≈30x</small></div>
+      <div class="scn-track"><div class="scn-fill opt" style="--w:44.3%"></div><span class="scn-val">≈2160</span><div class="scn-now"></div></div>
+    </div>
+  </div>
+  <p class="body sm" data-anim style="--d:.5s;margin-top:1.6vh;opacity:.7">当前 PE≈18x 落在“保守~中性”下沿；安全边际 = 低估值 + 高分红（股息率 2.4–2.8%）+ 高 ROE。<br>虚线为当前价；柱体为各情景目标上行空间。所有假设为主观情景测算，<span class="gold-n">非预测、非投资建议</span>。</p>
+  <p class="lead gold-n" data-anim style="--d:.7s;margin-top:1.6vh;text-align:center;font-weight:700">低估，但需要耐心。</p>
+  <div class="foot">
+    <span class="meta">14 / 14</span>
+    <span class="ptitle">穿越周期的确定性</span>
+  </div>
+</section>
+
+</div>
+
+<div id="nav"></div>
+
+<!-- ============ PDF 说明浮层 ============ -->
+<div id="pdfhelp">
+  <div class="box">
+    <h2>导出 PDF 方法</h2>
+    <ol>
+      <li>用浏览器（Chrome / Edge / Safari）打开本 HTML 文件。</li>
+      <li>翻到想导出的页面；想一次导出全部 14 页，保持默认即可。</li>
+      <li>按下 Ctrl / Cmd + P，目标选择“另存为 PDF”。</li>
+      <li>布局选“横向”，边距选“无”，缩放选“适合”（建议 16:9）。</li>
+      <li>点击“保存”，即可得到可分享的 PDF 讲稿。</li>
+    </ol>
+    <p class="dis">本文件已内置打印样式：每页一屏、保留配色与图表，离线可用。</p>
+    <p class="close">按 H 或 Esc 关闭</p>
+  </div>
+</div>
+
+<script>
+/* =============== WebGL 流体背景（茅台配色，内联无依赖） ===============
+   深色页：深暖墨底 + 绛红流光 + 暖金高光（Holographic Dispersion 变体）
+   浅色页：米白/奶油底 + 极淡暖金流动（域扭曲，无中心）
+*/
+const VS = `attribute vec2 position;void main(){gl_Position=vec4(position,0.0,1.0);}`;
+
+const FS_DARK = `precision highp float;
+uniform vec2 u_resolution;uniform float u_time;uniform vec2 u_mouse;
+void main(){
+  vec2 uv=gl_FragCoord.xy/u_resolution.xy;
+  vec2 p=uv*2.0-1.0;p.x*=u_resolution.x/u_resolution.y;
+  vec2 m=u_mouse*2.0-1.0;m.x*=u_resolution.x/u_resolution.y;
+  float md=length(p-m);
+  float mr=sin(md*12.0-u_time*3.0)*exp(-md*3.5);p+=mr*0.06;
+  vec2 p0=p;
+  for(float i=1.0;i<4.0;i++){
+    p.x+=0.10/i*sin(i*2.6*p.y+u_time*0.35)+0.05;
+    p.y+=0.10/i*cos(i*2.2*p.x+u_time*0.28)-0.04;
+  }
+  float r=length(p);
+  float flow=sin(r*4.0+p0.x*0.6+u_time*0.4)*0.5+0.5;
+  vec3 base=vec3(0.090,0.082,0.072);
+  vec3 crimson=vec3(0.62,0.105,0.105);
+  vec3 gold=vec3(0.79,0.66,0.42);
+  vec3 col=base;
+  col+=crimson*flow*0.10;
+  float hi=pow(flow,6.0);
+  col+=gold*hi*0.07;
+  col+=crimson*exp(-md*2.5)*0.05;
+  gl_FragColor=vec4(col,1.0);
+}`;
+
+const FS_LIGHT = `precision highp float;
+uniform vec2 u_resolution;uniform float u_time;
+float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
+float noise(vec2 p){vec2 i=floor(p),f=fract(p);float a=hash(i),b=hash(i+vec2(1,0)),c=hash(i+vec2(0,1)),d=hash(i+vec2(1,1));vec2 u=f*f*(3.0-2.0*f);return mix(a,b,u.x)+(c-a)*u.y*(1.0-u.x)+(d-b)*u.x*u.y;}
+float fbm(vec2 p){float v=0.0,a=0.5;mat2 m=mat2(0.80,0.60,-0.60,0.80);for(int i=0;i<5;i++){v+=a*noise(p);p=m*p*2.02;a*=0.5;}return v;}
+void main(){
+  vec2 uv=gl_FragCoord.xy/u_resolution.xy;
+  vec2 p=uv;p.x*=u_resolution.x/u_resolution.y;
+  vec2 q=vec2(fbm(p*1.8+u_time*0.06),fbm(p*1.8+vec2(5.2,1.3)+u_time*0.05));
+  vec2 r=vec2(fbm(p*2.0+q*1.3+vec2(1.7,9.2)+u_time*0.04),fbm(p*2.0+q*1.3+vec2(8.3,2.8)+u_time*0.035));
+  float f=fbm(p*2.2+r*1.5);
+  vec3 paper=vec3(0.961,0.941,0.902);
+  vec3 cream=vec3(0.90,0.86,0.78);
+  vec3 gold=vec3(0.79,0.66,0.42);
+  vec3 col=mix(paper,cream,f*0.6);
+  float ph=r.x*2.2+u_time*0.3;
+  col+=gold*sin(ph)*0.035;
+  float hl=smoothstep(0.55,0.95,f);
+  col+=hl*0.04;
+  gl_FragColor=vec4(col,1.0);
+}`;
+
+const mouse={x:0.5,y:0.5};
+addEventListener('mousemove',e=>{mouse.x=e.clientX/innerWidth;mouse.y=e.clientY/innerHeight});
+
+function bootGL(canvasId, fsSrc, useMouse){
+  const canvas=document.getElementById(canvasId);
+  let gl;
+  try{ gl=canvas.getContext('webgl',{alpha:false,antialias:true}); }catch(e){ gl=null; }
+  if(!gl) return ()=>false;
+  const mk=(t,s)=>{const sh=gl.createShader(t);gl.shaderSource(sh,s);gl.compileShader(sh);return sh};
+  const prog=gl.createProgram();
+  gl.attachShader(prog,mk(gl.VERTEX_SHADER,VS));
+  gl.attachShader(prog,mk(gl.FRAGMENT_SHADER,fsSrc));
+  gl.linkProgram(prog);gl.useProgram(prog);
+  const buf=gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]),gl.STATIC_DRAW);
+  const pos=gl.getAttribLocation(prog,'position');
+  gl.enableVertexAttribArray(pos);gl.vertexAttribPointer(pos,2,gl.FLOAT,false,0,0);
+  const lRes=gl.getUniformLocation(prog,'u_resolution');
+  const lT=gl.getUniformLocation(prog,'u_time');
+  const lM=useMouse?gl.getUniformLocation(prog,'u_mouse'):null;
+  const resize=()=>{const d=Math.min(window.devicePixelRatio||1,2);canvas.width=innerWidth*d;canvas.height=innerHeight*d;gl.viewport(0,0,canvas.width,canvas.height);};
+  addEventListener('resize',resize);resize();
+  return (tSec)=>{
+    gl.uniform2f(lRes,canvas.width,canvas.height);
+    gl.uniform1f(lT,tSec);
+    if(lM) gl.uniform2f(lM,mouse.x,1-mouse.y);
+    gl.drawArrays(gl.TRIANGLES,0,6);
+    return true;
+  };
+}
+const drawDark=bootGL('bg-dark',FS_DARK,true);
+const drawLight=bootGL('bg-light',FS_LIGHT,false);
+const t0=Date.now();
+(function loop(){
+  const t=(Date.now()-t0)/1000;
+  drawDark(t);drawLight(t);
+  requestAnimationFrame(loop);
+})();
+
+/* =============== 导航（翻页 / 圆点 / 键盘 / 滚轮 / 触屏 / ESC 索引） =============== */
+const deck=document.getElementById('deck');
+const slides=[...deck.querySelectorAll('.slide')];
+const nav=document.getElementById('nav');
+let idx=0,total=slides.length,lock=false;
+deck.style.width=(total*100)+'vw';
+
+slides.forEach((s,i)=>{
+  const b=document.createElement('button');
+  b.className='dot';b.dataset.i=i;b.setAttribute('aria-label','Page '+(i+1));
+  b.onclick=()=>go(i);
+  nav.appendChild(b);
+});
+
+function go(n){
+  n=Math.max(0,Math.min(total-1,n));
+  idx=n;
+  deck.style.transform=`translateX(${-idx*100}vw)`;
+  slides.forEach((s,i)=>s.classList.toggle('is-active',i===idx));
+  const el=slides[idx];
+  const th=el.dataset.theme || (el.classList.contains('light')?'light':'dark');
+  document.body.classList.toggle('light-bg',th==='light');
+  nav.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+  lock=true;setTimeout(()=>lock=false,720);
+}
+
+/* ESC 索引视图 */
+let overviewOn=false;
+const ov=document.createElement('div');
+ov.id='overview';
+ov.innerHTML='<div class="grid"></div>';
+document.body.appendChild(ov);
+function buildOverview(){
+  const grid=ov.querySelector('.grid');
+  grid.innerHTML='';
+  slides.forEach((s,i)=>{
+    const card=document.createElement('div');
+    card.className='card'+(i===idx?' active':'');
+    const wrap=document.createElement('div');wrap.className='wrap';
+    const clone=s.cloneNode(true);
+    clone.style.cssText='width:100vw;height:100vh;transform:scale(0.222);transform-origin:top left;position:absolute;top:0;left:0;pointer-events:none';
+    wrap.appendChild(clone);
+    const lab=document.createElement('div');lab.className='lab';
+    lab.textContent=(i+1)+' / '+total;
+    card.appendChild(wrap);card.appendChild(lab);
+    card.onclick=()=>{toggleOverview();go(i)};
+    grid.appendChild(card);
+  });
+}
+function toggleOverview(){
+  overviewOn=!overviewOn;
+  if(overviewOn){buildOverview();ov.style.display='block';}
+  else{ov.style.display='none';}
+}
+
+/* PDF 说明浮层 */
+const pdfhelp=document.getElementById('pdfhelp');
+let pdfOpen=false;
+function togglePdf(){pdfOpen=!pdfOpen;pdfhelp.style.display=pdfOpen?'flex':'none';}
+
+/* 键盘 */
+addEventListener('keydown',e=>{
+  if(e.key==='h'||e.key==='H'){e.preventDefault();togglePdf();return;}
+  if(pdfOpen && (e.key==='Escape')){togglePdf();return;}
+  if(e.key==='Escape'){e.preventDefault();toggleOverview();return;}
+  if(overviewOn||pdfOpen)return;
+  if(e.key==='ArrowRight'||e.key==='PageDown'||e.key===' '||e.key==='ArrowDown'){go(idx+1);return;}
+  if(e.key==='ArrowLeft'||e.key==='PageUp'||e.key==='ArrowUp'){go(idx-1);return;}
+  if(e.key==='Home')go(0);
+  if(e.key==='End')go(total-1);
+});
+
+/* 滚轮 */
+let wheelTO=null,wheelAcc=0;
+addEventListener('wheel',e=>{
+  if(overviewOn||pdfOpen)return;
+  wheelAcc+=e.deltaY+e.deltaX;
+  if(Math.abs(wheelAcc)>50){go(idx+(wheelAcc>0?1:-1));wheelAcc=0;}
+  clearTimeout(wheelTO);wheelTO=setTimeout(()=>wheelAcc=0,150);
+},{passive:true});
+
+/* 触屏 */
+let tx=0,ty=0;
+addEventListener('touchstart',e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY},{passive:true});
+addEventListener('touchend',e=>{
+  if(overviewOn||pdfOpen)return;
+  const dx=(e.changedTouches[0].clientX-tx);
+  const dy=(e.changedTouches[0].clientY-ty);
+  if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy))go(idx+(dx<0?1:-1));
+},{passive:true});
+
+/* 初始页（支持 ?slide=N 单页跳转） */
+const params=new URLSearchParams(location.search);
+const forced=parseInt(params.get('slide')||'',10);
+const initialSlide=(Number.isFinite(forced)&&forced>=1&&forced<=total)?forced-1:0;
+go(initialSlide);
+</script>
+</body>
+</html>
