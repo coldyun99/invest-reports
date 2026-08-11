@@ -3,111 +3,49 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>个人 + AI 投研分享</title>
+<title>WorkBuddy 作品集 · 投资研究分析</title>
 <style>
-:root{
-  --bg:#f4f6fb; --card:#ffffff; --ink:#1c2333; --sub:#6b7280;
-  --pri:#4f46e5; --pri2:#7c3aed; --line:#e6e9f2; --accent:#0ea5e9;
-}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
-  background:var(--bg);color:var(--ink);line-height:1.65;-webkit-font-smoothing:antialiased}
-a{color:inherit}
-/* 头部 */
-header{position:relative;overflow:hidden;color:#fff;
-  background:linear-gradient(135deg,#1e3a8a 0%,#4f46e5 55%,#7c3aed 100%);
-  padding:46px 20px 40px}
-header::after{content:"";position:absolute;right:-60px;top:-60px;width:260px;height:260px;
-  background:radial-gradient(circle,rgba(255,255,255,.18),transparent 70%);border-radius:50%}
-header .inner{max-width:1000px;margin:0 auto;position:relative;z-index:1}
-header h1{margin:0;font-size:30px;font-weight:700;letter-spacing:.5px}
-header h1 .plus{opacity:.85;font-weight:400;margin:0 6px}
-header p{margin:10px 0 0;opacity:.92;font-size:14.5px}
-header .tags{margin-top:16px;display:flex;gap:8px;flex-wrap:wrap}
-header .tags span{font-size:12px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.25);
-  padding:4px 11px;border-radius:999px}
-/* 锚点导航 */
-nav.toc{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.82);
-  backdrop-filter:saturate(180%) blur(10px);border-bottom:1px solid var(--line);
-  padding:10px 16px;overflow-x:auto;white-space:nowrap}
-nav.toc .inner{max-width:1000px;margin:0 auto;display:flex;gap:9px}
-.chip{display:inline-block;text-decoration:none;font-size:13px;font-weight:600;color:var(--ink);
-  background:#fff;border:1px solid var(--line);padding:6px 14px;border-radius:999px;
-  transition:.15s;cursor:pointer}
-.chip:hover{border-color:var(--pri);color:var(--pri);transform:translateY(-1px)}
-.chip .n{color:var(--pri);margin-right:5px}
-/* 主体 */
-.wrap{max-width:1000px;margin:0 auto;padding:22px 20px 10px}
-.bar{display:flex;gap:12px;align-items:center;margin:6px 0 26px;flex-wrap:wrap}
-.bar input{flex:1;min-width:220px;padding:11px 15px;border:1px solid var(--line);border-radius:11px;
-  font-size:14px;background:#fff;outline:none;transition:.15s}
-.bar input:focus{border-color:var(--pri);box-shadow:0 0 0 3px rgba(79,70,229,.12)}
-.bar .stat{font-size:13px;color:var(--sub);background:#fff;border:1px solid var(--line);
-  padding:8px 14px;border-radius:11px;font-weight:600}
-.sec{margin:30px 0 8px;scroll-margin-top:60px}
-.cat{display:flex;align-items:center;gap:11px;margin:0 0 15px}
-.badge{display:inline-flex;align-items:center;justify-content:center;min-width:34px;height:34px;
-  padding:0 8px;border-radius:10px;font-weight:700;font-size:15px;color:#fff;
-  background:linear-gradient(135deg,var(--pri),var(--pri2))}
-.cat h2{margin:0;font-size:19px;font-weight:700}
-.cnt{font-size:13px;color:var(--sub);background:#fff;border:1px solid var(--line);
-  padding:3px 10px;border-radius:999px}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:14px}
-.card{position:relative;display:flex;flex-direction:column;gap:7px;text-decoration:none;
-  background:var(--card);border:1px solid var(--line);border-radius:15px;padding:16px 17px 15px;
-  transition:.18s;overflow:hidden}
-.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;
-  background:linear-gradient(var(--pri),var(--pri2));opacity:0;transition:.18s}
-.card:hover{border-color:var(--pri);box-shadow:0 10px 26px rgba(79,70,229,.14);transform:translateY(-3px)}
-.card:hover::before{opacity:1}
-.card .code{align-self:flex-start;font-size:11px;font-weight:700;color:var(--pri);
-  background:rgba(79,70,229,.09);padding:2px 8px;border-radius:6px}
-.card .date{font-size:12px;color:var(--sub)}
-.card .title{font-size:14.5px;font-weight:600;line-height:1.45}
-.card .go{margin-top:2px;font-size:12.5px;color:var(--accent);font-weight:600;opacity:0;transition:.18s}
-.card:hover .go{opacity:1}
-footer{max-width:1000px;margin:34px auto 0;padding:20px;text-align:center;color:#9aa1ad;font-size:12.5px;
-  border-top:1px solid var(--line)}
-.empty{display:none;text-align:center;color:var(--sub);padding:40px;font-size:14px}
+body{margin:0;font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:#f5f6f8;color:#1f2329;line-height:1.6}
+header{background:#185fa5;color:#fff;padding:32px 20px 26px}
+header .inner{max-width:960px;margin:0 auto}
+header h1{margin:0 0 6px;font-size:22px;font-weight:600}
+header p{margin:0;opacity:.9;font-size:14px}
+.wrap{max-width:960px;margin:0 auto;padding:20px}
+.bar{display:flex;gap:10px;align-items:center;margin:4px 0 22px;flex-wrap:wrap}
+.bar input{flex:1;min-width:200px;padding:9px 12px;border:1px solid #d0d3d9;border-radius:8px;font-size:14px;background:#fff}
+.bar .stat{font-size:13px;color:#5f5e5a}
+.cat{font-size:16px;font-weight:600;margin:26px 0 12px;padding-left:10px;border-left:4px solid #185fa5}
+.cnt{color:#888;font-weight:400;font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.card{display:block;text-decoration:none;background:#fff;border:1px solid #e6e8eb;border-radius:12px;padding:14px 16px;transition:.15s;color:inherit}
+.card:hover{border-color:#185fa5;box-shadow:0 4px 14px rgba(24,95,165,.12);transform:translateY(-2px)}
+.card .date{font-size:12px;color:#888;margin-bottom:6px}
+.card .title{font-size:14px;font-weight:500;margin-bottom:8px}
+.card .path{font-size:11px;color:#b0b3b8;word-break:break-all}
+footer{max-width:960px;margin:30px auto;padding:0 20px;color:#9aa0a6;font-size:12px}
 </style>
 </head>
 <body>
 <header><div class="inner">
-<h1>个人<span class="plus">+</span>AI 投研分享</h1>
-<p>用 AI 辅助完成的投资研究笔记 · 公开分享版 · 更新于 2026-08-05</p>
-<div class="tags"><span>个股深度</span><span>打新·IPO</span><span>期货·大宗</span><span>指数·ETF</span></div>
+<h1>WorkBuddy 作品集 · 投资研究分析</h1>
+<p>用 WorkBuddy 生成的研究报告合集 · 公开分享版</p>
 </div></header>
-<nav class="toc"><div class="inner">
-<a class="chip" href="#sec-01" onclick="go('01')">01 个股深度</a><a class="chip" href="#sec-02" onclick="go('02')">02 打新·IPO</a><a class="chip" href="#sec-03" onclick="go('03')">03 期货·大宗</a><a class="chip" href="#sec-04" onclick="go('04')">04 指数·ETF</a>
-</div></nav>
 <div class="wrap">
-<div class="bar"><input id="q" placeholder="筛选标题或分类关键词…" oninput="f()">
-<span class="stat" id="stat">16 篇</span></div>
-<div id="list">
-<section id="sec-01" class="sec"><div class="cat"><span class="badge">01</span><h2>个股深度</h2><span class="cnt">6 篇</span></div><div class="grid"><a class="card" href="2026-07-07-17-05-38/maotai-analysis/final/guizang/index.html" target="_blank" rel="noopener" title="2026-07-07-17-05-38/maotai-analysis/final/guizang/index.html"><span class="code">01-1</span><span class="date">2026-07-07</span><span class="title">贵州茅台基本面与估值分析</span><span class="go">查看 →</span></a><a class="card" href="2026-07-07-17-05-38/maotai-analysis/final/frontend-slides/index.html" target="_blank" rel="noopener" title="2026-07-07-17-05-38/maotai-analysis/final/frontend-slides/index.html"><span class="code">01-2</span><span class="date">2026-07-07</span><span class="title">贵州茅台·穿越周期的确定性（幻灯片版）</span><span class="go">查看 →</span></a><a class="card" href="2026-07-08-10-03-54/腾讯估值对比_2022底部vs2026.html" target="_blank" rel="noopener" title="2026-07-08-10-03-54/腾讯估值对比_2022底部vs2026.html"><span class="code">01-3</span><span class="date">2026-07-08</span><span class="title">腾讯控股：2022底部 vs 2026估值对比</span><span class="go">查看 →</span></a><a class="card" href="2026-07-16-11-04-31/宁德时代H股溢价分析.html" target="_blank" rel="noopener" title="2026-07-16-11-04-31/宁德时代H股溢价分析.html"><span class="code">01-4</span><span class="date">2026-07-16</span><span class="title">宁德时代H股溢价深度分析</span><span class="go">查看 →</span></a><a class="card" href="2026-07-16-17-19-56/google_vs_tencent_analysis.html" target="_blank" rel="noopener" title="2026-07-16-17-19-56/google_vs_tencent_analysis.html"><span class="code">01-5</span><span class="date">2026-07-16</span><span class="title">谷歌 vs 腾讯 财务对比分析</span><span class="go">查看 →</span></a><a class="card" href="2026-08-03-16-01-01/yunlu_analysis/report.html" target="_blank" rel="noopener" title="2026-08-03-16-01-01/yunlu_analysis/report.html"><span class="code">01-6</span><span class="date">2026-08-03</span><span class="title">云铝股份商业模式与同业对比</span><span class="go">查看 →</span></a></div></section><section id="sec-02" class="sec"><div class="cat"><span class="badge">02</span><h2>打新·IPO</h2><span class="cnt">1 篇</span></div><div class="grid"><a class="card" href="2026-07-08-10-03-54/长鑫科技打新预测.html" target="_blank" rel="noopener" title="2026-07-08-10-03-54/长鑫科技打新预测.html"><span class="code">02-1</span><span class="date">2026-07-08</span><span class="title">长鑫科技（长鑫存储）打新预测</span><span class="go">查看 →</span></a></div></section><section id="sec-03" class="sec"><div class="cat"><span class="badge">03</span><h2>期货·大宗</h2><span class="cnt">4 篇</span></div><div class="grid"><a class="card" href="2026-07-08-10-03-54/纸浆期货相关性分析.html" target="_blank" rel="noopener" title="2026-07-08-10-03-54/纸浆期货相关性分析.html"><span class="code">03-1</span><span class="date">2026-07-08</span><span class="title">纸浆期货相关性分析</span><span class="go">查看 →</span></a><a class="card" href="2026-07-10-09-04-18/oil_corr_report.html" target="_blank" rel="noopener" title="2026-07-10-09-04-18/oil_corr_report.html"><span class="code">03-2</span><span class="date">2026-07-10</span><span class="title">原油强相关期货品种·相关系数</span><span class="go">查看 →</span></a><a class="card" href="2026-07-10-10-24-17/期货期权品种分类.html" target="_blank" rel="noopener" title="2026-07-10-10-24-17/期货期权品种分类.html"><span class="code">03-3</span><span class="date">2026-07-10</span><span class="title">有期权的期货品种·相关性/产业链分类</span><span class="go">查看 →</span></a><a class="card" href="2026-07-13-10-44-51/武汉车位投资分析报告.html" target="_blank" rel="noopener" title="2026-07-13-10-44-51/武汉车位投资分析报告.html"><span class="code">03-4</span><span class="date">2026-07-13</span><span class="title">武汉车位投资分析报告</span><span class="go">查看 →</span></a></div></section><section id="sec-04" class="sec"><div class="cat"><span class="badge">04</span><h2>指数·ETF</h2><span class="cnt">5 篇</span></div><div class="grid"><a class="card" href="2026-07-20-13-38-38/report.html" target="_blank" rel="noopener" title="2026-07-20-13-38-38/report.html"><span class="code">04-1</span><span class="date">2026-07-20</span><span class="title">中证500 vs 中证1000 差值/比值分析</span><span class="go">查看 →</span></a><a class="card" href="2026-07-20-13-38-38/hs300_vs_zz1000.html" target="_blank" rel="noopener" title="2026-07-20-13-38-38/hs300_vs_zz1000.html"><span class="code">04-2</span><span class="date">2026-07-20</span><span class="title">沪深300 vs 中证1000 差值/比值分析</span><span class="go">查看 →</span></a><a class="card" href="2026-07-20-13-38-38/sz50_vs_zz1000.html" target="_blank" rel="noopener" title="2026-07-20-13-38-38/sz50_vs_zz1000.html"><span class="code">04-3</span><span class="date">2026-07-20</span><span class="title">上证50 vs 中证1000 差值/比值分析</span><span class="go">查看 →</span></a><a class="card" href="2026-07-20-13-38-38/overview.html" target="_blank" rel="noopener" title="2026-07-20-13-38-38/overview.html"><span class="code">04-4</span><span class="date">2026-07-20</span><span class="title">中证1000基准·多指数对比总览</span><span class="go">查看 →</span></a><a class="card" href="Claw/zz500-vs-zz1000-20260721.html" target="_blank" rel="noopener" title="Claw/zz500-vs-zz1000-20260721.html"><span class="code">04-5</span><span class="date">Claw</span><span class="title">中证500 vs 中证1000 走势差异分析</span><span class="go">查看 →</span></a></div></section>
+<div class="bar">
+<input id="q" placeholder="筛选标题或分类…" oninput="f()">
+<span class="stat">5 篇</span>
 </div>
-<div class="empty" id="empty">没有匹配的报告 🔍</div>
-</div>
-<footer>本页为自包含静态导航，可单独保存离线查看；报告内容版权归作者所有。</footer>
+<h2 class="cat">指数ETF <span class="cnt">5</span></h2><div class="grid"><a class="card" href="hs300_vs_zz1000.html" target="_blank" rel="noopener"><div class="date"></div><div class="title">沪深300 vs 中证1000 差值/比值分析</div><div class="path">hs300_vs_zz1000.html</div></a><a class="card" href="overview.html" target="_blank" rel="noopener"><div class="date"></div><div class="title">中证1000 基准 · 多指数对比总览</div><div class="path">overview.html</div></a><a class="card" href="report.html" target="_blank" rel="noopener"><div class="date"></div><div class="title">中证500 vs 中证1000 差值/比值分析</div><div class="path">report.html</div></a><a class="card" href="sz50_vs_zz1000.html" target="_blank" rel="noopener"><div class="date"></div><div class="title">上证50 vs 中证1000 差值/比值分析</div><div class="path">sz50_vs_zz1000.html</div></a><a class="card" href="dist/index.html" target="_blank" rel="noopener"><div class="date"></div><div class="title">中证500 vs 中证1000 差值/比值分析</div><div class="path">dist/index.html</div></a></div></div>
+<footer>本页为自包含静态导航，可单独保存；报告内容版权归作者所有。</footer>
 <script>
-function f(){
-  var k=document.getElementById('q').value.trim().toLowerCase();
-  var shown=0;
-  document.querySelectorAll('.sec').forEach(function(s){
-    var cards=[].slice.call(s.querySelectorAll('.card'));
-    var n=0;
-    cards.forEach(function(c){
-      var hit=c.textContent.toLowerCase().indexOf(k)>=0;
-      c.style.display=hit?'':'none'; if(hit)n++;
-    });
-    s.style.display=n?'':'none';
-    shown+=n;
-  });
-  document.getElementById('stat').textContent=shown+' 篇';
-  document.getElementById('empty').style.display=shown?'none':'block';
-}
-function go(code){ /* 平滑滚动由 CSS scroll-behavior 处理 */ }
+function f(){var k=document.getElementById('q').value.trim().toLowerCase();
+document.querySelectorAll('.card').forEach(function(c){
+var t=c.textContent.toLowerCase();c.style.display=t.indexOf(k)>=0?'':'none';});
+document.querySelectorAll('.cat').forEach(function(h){
+var n=h.nextElementSibling;if(!n)return;
+var v=[].slice.call(n.children).filter(function(x){return x.style.display!=='none';}).length;
+h.style.display=v?'':'none';});}
 </script>
 </body>
 </html>
