@@ -1,0 +1,377 @@
+<!DOCTYPE html><html lang="zh-CN" data-page-node-id="e4b1O7yz89u5MhzJ2VIojM"><head data-page-node-id="GN4DAlxlWr87pxuJv92GX6"><meta charset="utf-8" data-page-node-id="TnoFHAVlD4le7XfQhY8AfZ"><title>沪银主连AGL8 日内尾段做空策略 整合分析报告</title>
+<style>
+body{font-family:'Segoe UI','Microsoft YaHei',Arial;margin:0;color:#222;background:#fff;line-height:1.65}
+.wrap{max-width:920px;margin:0 auto;padding:32px 24px 64px}
+h1{font-size:24px;margin:0 0 6px} .sub{color:#888;font-size:13px;margin-bottom:22px}
+h2{font-size:19px;margin:34px 0 12px;padding-bottom:6px;border-bottom:2px solid #1f8a4c}
+h3{font-size:15px;margin:18px 0 8px;color:#1a1a1a}
+p{margin:8px 0} .lead{font-size:15px}
+table{border-collapse:collapse;width:100%;margin:10px 0} 
+td,th{border:1px solid #e3e3e3;padding:6px 10px;font-size:13.5px;text-align:left}
+td:first-child{background:#f6f8f7;width:40%}
+.kv td:first-child{width:46%}
+.chart{border:1px solid #eee;border-radius:10px;padding:14px 16px;margin:14px 0;background:#fcfcfc}
+.cap{color:#777;font-size:12px;margin-top:6px}
+.box{border-left:4px solid #1f8a4c;background:#f3f8f4;padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0}
+.warn{border-left:4px solid #c0392b;background:#fdf0ee;padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0}
+.kf{background:#fff8e6;border:1px solid #f0d98a;border-radius:10px;padding:16px 18px;margin:20px 0}
+.kf li{margin:6px 0}
+code{background:#f0f0f0;padding:1px 5px;border-radius:3px;font-size:12.5px}
+.toc{background:#f6f8f7;border-radius:8px;padding:12px 18px;font-size:13.5px}
+.toc a{color:#1f6f4c;text-decoration:none} .toc a:hover{text-decoration:underline}
+.small{font-size:12px;color:#999}
+</style></head><body data-page-node-id="o8EhBwIyG1AviV8tlIsy2c"><div class="wrap" data-page-node-id="Xtxlc0spHBjAAS6v9AWYK3">
+<h1 data-page-node-id="gh56fsHxZgvBVRgtCNvgFZ">沪银主连 AGL8 · 日内「14:28卖 / 14:31买」策略整合分析报告</h1>
+<div class="sub" data-page-node-id="dJsmoXYCmrwwJMb0BXgFCV">数据源：通达信 1 分钟主连 <code data-page-node-id="Uk214OLawmD4aWll2Z1tZG">30#AGL8.lc1</code> ｜ 整合 8 轮回测/统计检验 ｜ 生成于 2026-09-15</div>
+
+<div class="toc" data-page-node-id="WWe8BL39YMYZ571zgfeL7O">
+<b data-page-node-id="1sxLoMKo1uGviNOKEtonWq">目录</b><br data-page-node-id="Lhjl7BP0q01WVNZnImuBIp">
+1. <a href="#s1" data-page-node-id="hsRY4g01APhL2y6rNruNGV">数据概览与方法</a> ｜ 2. <a href="#s2" data-page-node-id="9xZ0dMKLVnVP7HAeP92onn">核心回测结果</a> ｜ 3. <a href="#s3" data-page-node-id="jQCK2IOU4cmyeftbzBsYUV">胜率偏高现象聚焦</a> ｜ 4. <a href="#s4" data-page-node-id="GbyFbzK05hGZA5Hp3c8YNn">机制分析：为何胜率高</a><br data-page-node-id="g4Nd8lT7e9TjI608DAJvA8">
+5. <a href="#s5" data-page-node-id="3LU9u7T5LdGq2tbONIPYgu">参数敏感性（卖/买点网格）</a> ｜ 6. <a href="#s6" data-page-node-id="FO7kxQfLshuikFUbyOazuF">极端日与年度拆解</a> ｜ 7. <a href="#s7" data-page-node-id="kY7vLmRyp2D6Pnp8Xod2Zz">关键发现与结论</a> ｜ 8. <a href="#s8" data-page-node-id="s4hCDqKKLB2dycOsqrsse2">方法局限</a>
+</div>
+
+<div class="kf" data-page-node-id="ogDJOVWKCxCuZnznbERTAO"><b data-page-node-id="ri2SlbUvSEOe1ird7WI2lB">一句话结论：</b>尾段（14:28→14:31）做空的方向胜率确实<b data-page-node-id="ZHmCIiD92vBBRau8h73P68">统计显著偏高</b>（全样本 58.3% vs 其他固定时段≈51%，且下跌市中达 63.4%）；但这种"偏高"是<b data-page-node-id="fbs77DL57kI5Gehvh6zLCm">结构性尾段卖压 + 下跌趋势放大 + 少数极端尾部日</b>共同造成的，并非稳定可外推的 alpha。全样本扣费后净收益仅 +1263 元/手（年化 2.8%），且<b data-page-node-id="rFPJ1WXGGISpP5C7CRZ6FZ">几乎全部由 2025-12~2026-03 一个白银剧震季度的 7 个极端日撑起</b>；2024、2025 两年合计净亏约 19568 元。
+</div>
+
+<h2 id="s1" data-page-node-id="3N8Ecm8int6Pv448xpwX4v">1. 数据概览与方法</h2>
+<table class="kv" data-page-node-id="CxcxbHCF99n9k1wUbuk29y"><tr data-page-node-id="dtWjHkxBgJdEEYpOB5fIEU"><td data-page-node-id="KYbrCjzPmHobYTxTzm75RC">样本区间</td><td data-page-node-id="lLJB787RGCXflCg44poaCh">2024-01-02 ~ 2026-09-15</td></tr><tr data-page-node-id="TiN6B1nDWLMTQXAToUUuF5"><td data-page-node-id="4So8KTXATyP8LSRe0LVlU2">交易日数</td><td data-page-node-id="TF4yEr9l9tWDbXpf5SSbZp">656</td></tr><tr data-page-node-id="gYBEe0OQ8ALnox42WjYeQQ"><td data-page-node-id="rfPWDg4GeSPtvLh8vyu9XI">原始记录数</td><td data-page-node-id="xJLCjKIZC7nBvvv0DE6HTj">357772</td></tr><tr data-page-node-id="Q4G1pGRyJvNFfv54BstuHI"><td data-page-node-id="W9C54iayTAWXRLCSv345zT">合约</td><td data-page-node-id="KSpNQeQjf1iR45Bb3iGJcj">沪银主连 AGL8（乘数15千克/手）</td></tr><tr data-page-node-id="Ente8SoWztK4WBvDIbjy3U"><td data-page-node-id="xzitAcu2TGA2cOEtwIgMSh">目标窗口</td><td data-page-node-id="PY4dUExLfTBJUfhMf0imSu">14:28 卖 / 14:31 买（日内独立空头回合）</td></tr><tr data-page-node-id="johsYNR7Uy1le6RtuEvlCz"><td data-page-node-id="4mS4JAaQfaS4HBVU8d2qQ3">成本模型</td><td data-page-node-id="FrRfAdF7zgBqDgOGcOKwDG">手续费万0.5/边 + 滑点1点/边 + 保证金10%</td></tr><tr data-page-node-id="QmYX7GexnT5KrAMp58K5l8"><td data-page-node-id="jCHDFcUBh0vqNXqGWgKS3U">全样本毛点</td><td data-page-node-id="CWqJSif5NSrKnC6tDVtHCr">2121</td></tr><tr data-page-node-id="9UHRO6FYTqrNFfoZAwj1H1"><td data-page-node-id="f7e1Mh4PaViVxHVTYHIIWV">全样本毛RMB</td><td data-page-node-id="3HUzNQITXW9vDRvQmEaCMp">31815</td></tr><tr data-page-node-id="rlJvSXlvy2cJgBLoJIx2bh"><td data-page-node-id="SOTTOVFAO9iEZghZD06kxW">全样本净RMB</td><td data-page-node-id="09rx4UI8AL9wGAvP9fFWfj">1263（年化 2.8%）</td></tr><tr data-page-node-id="kDncYljU0ABF5KQ8Ivynhq"><td data-page-node-id="lLj5HUwqybxAVPW7rEP1DQ">剔极端净RMB</td><td data-page-node-id="5JqcNfVlGDB2EyDCFLItC4">-15999（年化 -35.7%）</td></tr><tr data-page-node-id="kbkqXteRXqDLDE8pe8pHoe"><td data-page-node-id="1tewCq6WfqSBzTLKx5SqcB">方向胜率(全)</td><td data-page-node-id="lbSwi9FONFAR9vCw0NAdaM">58.3%</td></tr><tr data-page-node-id="OJ3eCoHkJspKRQDbVll1kk"><td data-page-node-id="6sMQ83XwlWcVHMqBkqdkbe">总日胜率(全)</td><td data-page-node-id="SJffaMcSV4GPHQA2eImOZo">52.4%</td></tr><tr data-page-node-id="2qA5CBECp6W7wE3pPBznO9"><td data-page-node-id="RVxpQHTsolQBvEeMIxV4gC">极端日数</td><td data-page-node-id="L8rEniqUwuVdp8wnKEsBy6">7（全为正，阈值|点差|>92）</td></tr><tr data-page-node-id="igtCMCPtenhMMpFHNZFpTe"><td data-page-node-id="b2fqVIKMB2ZDiNWf6AcpQ6">2026五九月方向胜率</td><td data-page-node-id="GG8XpdEr9MEaIf0fYNjPpD">75.0%（n=94, vs其余 p=1.1e-05）</td></tr><tr data-page-node-id="EDGgaTmqVVeAHcCOQJBsT6"><td data-page-node-id="3IeNPUBFo4qPXFoSaHWDqu">下跌市尾段胜率</td><td data-page-node-id="ZWf4ughF24qT92FFeiMB4m">63.4%（vs涨市 54.6%, p=0.025）</td></tr></table>
+<p class="small" data-page-node-id="1AtKTram9MfODxYchZh61j">胜率分母约定：本报告"方向胜率"= 盈利日 /(盈利日+亏损日)（剔除平局），与早期"胜率/总交易日"口径不同；全样本方向胜率 58.3% 对应总日胜率 52.4%。极端日判定：当日点差 |14:28−14:31| &gt; 4×总体标准差（=92 点）。用户已确认源数据无日内换约，前后日价格台阶为真实行情，故极端日属<b data-page-node-id="vnliIPtsmEE0TROpoA7cqF">真实极端尾段下跌</b>而非数据污染。</p>
+
+<h2 id="s2" data-page-node-id="GgCs1eXfgDrbDqGIGT1xLK">2. 核心回测结果</h2>
+<p data-page-node-id="PlObO2DpUhbGZOhtSwXkgG">每交易日独立做空回合：14:28 卖出、14:31 买回，不持仓过夜。全样本 656 个交易日，毛点差累计 2121 点（≈31815 元/手），日均毛点 3.23。扣费（万0.5/边 + 滑点1点/边 + 保证金10%）后净 +1263 元/手，年化约 2.8%。</p>
+<div class="chart" data-page-node-id="zUvQxBV7f3j4444BkymHLH"><h3 data-page-node-id="O0pQA33mGSVZCqUlyqE8mC">累计毛点差权益曲线（红点=7个极端日）</h3><svg viewBox="0 0 760 300" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="11" data-page-node-id="9RC39lwTh30CQFTt5ao0oM"><rect width="760" height="300" fill="#fff" data-page-node-id="epzDHfEZ0qHCJ0flhX3Nf5"/>
+<line x1="55" y1="15.0" x2="745" y2="15.0" stroke="#eee" data-page-node-id="hyAeO4lGflSQp2aB1oHp3r"/>
+<text x="49" y="19.0" fill="#888" text-anchor="end" data-page-node-id="9GEmbRZVvHdDPwBnpflIML">2121</text>
+<line x1="55" y1="142.5" x2="745" y2="142.5" stroke="#eee" data-page-node-id="DAFylAPX4A6NxBtaIvAb3H"/>
+<text x="49" y="146.5" fill="#888" text-anchor="end" data-page-node-id="OahPGD1eq07U3sCcU8jWiJ">1062</text>
+<line x1="55" y1="270.0" x2="745" y2="270.0" stroke="#eee" data-page-node-id="P0pBok2DWsJkdK5wTP2j5g"/>
+<text x="49" y="274.0" fill="#888" text-anchor="end" data-page-node-id="hwAMGeHIwGhiZAnrHnPb99">2</text>
+<text x="55.0" y="290" fill="#888" text-anchor="middle" data-page-node-id="AxJ83zxI1F8UgpNuNXE6bA">2024-01</text>
+<text x="226.7" y="290" fill="#888" text-anchor="middle" data-page-node-id="zqK6bLKk7zqNptmTzvmJn8">2024-09</text>
+<text x="399.5" y="290" fill="#888" text-anchor="middle" data-page-node-id="JXkGHl5RwknXu6yKNYRR9k">2025-05</text>
+<text x="572.2" y="290" fill="#888" text-anchor="middle" data-page-node-id="akCTZh5A5kqmtoJeIHIU4l">2026-01</text>
+<text x="745.0" y="290" fill="#888" text-anchor="middle" data-page-node-id="ZMM5BcpmzAMWvhCVN1CeKS">2026-09</text>
+<line x1="55" y1="270.2" x2="745" y2="270.2" stroke="#bbb" stroke-dasharray="4 3" data-page-node-id="AxMs7yd3DpkGyy1QFT1yLf"/>
+<circle cx="562.8" cy="231.7" r="3.2" fill="#c0392b" opacity="0.8" data-page-node-id="JLRRk0hVAzMYrgsD9QOv7H"/>
+<circle cx="575.4" cy="210.0" r="3.2" fill="#c0392b" opacity="0.8" data-page-node-id="j7lXf0vKSpD78E9hyUjWus"/>
+<circle cx="585.9" cy="169.0" r="3.2" fill="#c0392b" opacity="0.8" data-page-node-id="jxweLJ4E8QoTxewkXaJ7sj"/>
+<circle cx="588.0" cy="155.8" r="3.2" fill="#c0392b" opacity="0.8" data-page-node-id="XZOCCDFWkmNZGq8JuzQoei"/>
+<circle cx="615.4" cy="130.9" r="3.2" fill="#c0392b" opacity="0.8" data-page-node-id="92QUvvxkuSeFK0uorgt5mp"/>
+<circle cx="617.5" cy="104.3" r="3.2" fill="#c0392b" opacity="0.8" data-page-node-id="nADr6fw4FE0yUmn48EiNnH"/>
+<circle cx="618.6" cy="89.7" r="3.2" fill="#c0392b" opacity="0.8" data-page-node-id="SJvfkBEZhu6ed6Jm5NvRaK"/>
+<path d="M 55.0,270.0 L 56.1,270.0 L 57.1,269.4 L 58.2,269.2 L 59.2,269.0 L 60.3,269.0 L 61.3,269.2 L 62.4,268.8 L 63.4,268.6 L 64.5,268.6 L 65.5,268.3 L 66.6,268.4 L 67.6,268.2 L 68.7,268.2 L 69.7,267.8 L 70.8,267.6 L 71.9,267.7 L 72.9,268.1 L 74.0,267.8 L 75.0,267.8 L 76.1,268.0 L 77.1,267.8 L 78.2,267.6 L 79.2,267.8 L 80.3,267.6 L 81.3,266.9 L 82.4,266.5 L 83.4,266.6 L 84.5,266.6 L 85.5,266.6 L 86.6,266.8 L 87.7,266.8 L 88.7,266.5 L 89.8,266.8 L 90.8,266.8 L 91.9,266.8 L 92.9,266.8 L 94.0,266.6 L 95.0,266.5 L 96.1,266.4 L 97.1,266.0 L 98.2,265.3 L 99.2,265.5 L 100.3,265.3 L 101.4,265.2 L 102.4,265.2 L 103.5,264.9 L 104.5,264.1 L 105.6,264.0 L 106.6,264.2 L 107.7,264.1 L 108.7,264.0 L 109.8,263.0 L 110.8,262.3 L 111.9,262.3 L 112.9,261.9 L 114.0,261.9 L 115.0,262.2 L 116.1,262.4 L 117.2,264.2 L 118.2,264.0 L 119.3,263.7 L 120.3,264.8 L 121.4,264.7 L 122.4,264.5 L 123.5,264.6 L 124.5,265.3 L 125.6,262.4 L 126.6,262.9 L 127.7,262.4 L 128.7,262.1 L 129.8,261.3 L 130.8,260.7 L 131.9,261.1 L 133.0,261.1 L 134.0,260.6 L 135.1,259.3 L 136.1,259.5 L 137.2,258.4 L 138.2,257.6 L 139.3,257.0 L 140.3,257.1 L 141.4,257.6 L 142.4,257.0 L 143.5,255.9 L 144.5,255.6 L 145.6,254.2 L 146.6,253.9 L 147.7,253.9 L 148.8,254.1 L 149.8,254.6 L 150.9,256.8 L 151.9,258.6 L 153.0,258.4 L 154.0,258.7 L 155.1,258.8 L 156.1,258.1 L 157.2,258.4 L 158.2,259.4 L 159.3,258.0 L 160.3,257.5 L 161.4,257.2 L 162.5,260.1 L 163.5,259.8 L 164.6,259.5 L 165.6,260.5 L 166.7,260.3 L 167.7,260.3 L 168.8,258.9 L 169.8,258.3 L 170.9,257.6 L 171.9,256.4 L 173.0,256.5 L 174.0,256.5 L 175.1,258.0 L 176.1,258.4 L 177.2,258.2 L 178.3,257.8 L 179.3,257.4 L 180.4,257.6 L 181.4,256.4 L 182.5,255.7 L 183.5,256.2 L 184.6,255.9 L 185.6,256.5 L 186.7,255.7 L 187.7,254.2 L 188.8,254.4 L 189.8,254.1 L 190.9,254.1 L 191.9,255.0 L 193.0,254.8 L 194.1,253.9 L 195.1,254.5 L 196.2,254.7 L 197.2,254.4 L 198.3,254.0 L 199.3,254.0 L 200.4,253.4 L 201.4,253.4 L 202.5,253.3 L 203.5,253.5 L 204.6,254.1 L 205.6,256.4 L 206.7,256.4 L 207.7,255.8 L 208.8,255.6 L 209.9,258.7 L 210.9,257.8 L 212.0,258.3 L 213.0,258.6 L 214.1,259.0 L 215.1,259.2 L 216.2,259.3 L 217.2,259.4 L 218.3,258.6 L 219.3,258.2 L 220.4,258.8 L 221.4,259.5 L 222.5,260.1 L 223.5,259.8 L 224.6,260.9 L 225.7,260.4 L 226.7,259.9 L 227.8,258.8 L 228.8,258.7 L 229.9,258.1 L 230.9,257.6 L 232.0,258.6 L 233.0,258.0 L 234.1,256.5 L 235.1,257.7 L 236.2,257.0 L 237.2,256.8 L 238.3,257.1 L 239.4,258.2 L 240.4,257.8 L 241.5,258.2 L 242.5,257.7 L 243.6,258.1 L 244.6,259.4 L 245.7,259.2 L 246.7,259.2 L 247.8,259.3 L 248.8,258.7 L 249.9,257.8 L 250.9,258.6 L 252.0,258.1 L 253.0,260.3 L 254.1,260.3 L 255.2,260.6 L 256.2,260.0 L 257.3,258.3 L 258.3,259.0 L 259.4,260.4 L 260.4,259.2 L 261.5,259.3 L 262.5,259.8 L 263.6,257.6 L 264.6,257.5 L 265.7,258.1 L 266.7,258.4 L 267.8,253.0 L 268.8,252.2 L 269.9,250.9 L 271.0,251.2 L 272.0,251.7 L 273.1,251.3 L 274.1,251.8 L 275.2,252.8 L 276.2,252.6 L 277.3,252.1 L 278.3,251.8 L 279.4,251.3 L 280.4,252.4 L 281.5,253.0 L 282.5,254.2 L 283.6,254.4 L 284.6,254.2 L 285.7,255.0 L 286.8,254.5 L 287.8,254.4 L 288.9,253.5 L 289.9,253.3 L 291.0,253.8 L 292.0,252.9 L 293.1,253.3 L 294.1,252.4 L 295.2,252.6 L 296.2,252.1 L 297.3,251.2 L 298.3,251.5 L 299.4,251.1 L 300.5,251.1 L 301.5,251.1 L 302.6,251.3 L 303.6,250.6 L 304.7,250.1 L 305.7,250.4 L 306.8,250.4 L 307.8,250.1 L 308.9,250.1 L 309.9,250.1 L 311.0,249.8 L 312.0,249.7 L 313.1,250.4 L 314.1,249.9 L 315.2,249.9 L 316.3,249.3 L 317.3,249.3 L 318.4,248.9 L 319.4,248.9 L 320.5,248.5 L 321.5,248.1 L 322.6,247.4 L 323.6,246.5 L 324.7,246.8 L 325.7,246.7 L 326.8,246.9 L 327.8,247.7 L 328.9,246.4 L 329.9,246.4 L 331.0,245.5 L 332.1,244.7 L 333.1,243.8 L 334.2,244.2 L 335.2,244.1 L 336.3,243.5 L 337.3,244.4 L 338.4,244.6 L 339.4,244.2 L 340.5,243.9 L 341.5,244.5 L 342.6,244.7 L 343.6,243.9 L 344.7,243.0 L 345.7,243.4 L 346.8,243.0 L 347.9,243.0 L 348.9,243.0 L 350.0,243.3 L 351.0,243.0 L 352.1,243.5 L 353.1,243.5 L 354.2,243.6 L 355.2,243.4 L 356.3,243.4 L 357.3,243.4 L 358.4,244.0 L 359.4,243.6 L 360.5,243.5 L 361.5,243.4 L 362.6,243.4 L 363.7,243.4 L 364.7,242.9 L 365.8,243.0 L 366.8,243.2 L 367.9,242.9 L 368.9,243.9 L 370.0,243.4 L 371.0,243.6 L 372.1,241.7 L 373.1,243.0 L 374.2,242.9 L 375.2,242.9 L 376.3,242.4 L 377.4,242.3 L 378.4,242.2 L 379.5,241.8 L 380.5,242.2 L 381.6,242.6 L 382.6,242.8 L 383.7,241.8 L 384.7,241.7 L 385.8,241.7 L 386.8,242.3 L 387.9,242.3 L 388.9,242.2 L 390.0,242.2 L 391.0,241.4 L 392.1,241.5 L 393.2,241.5 L 394.2,241.2 L 395.3,241.6 L 396.3,241.4 L 397.4,242.0 L 398.4,242.2 L 399.5,242.1 L 400.5,242.6 L 401.6,242.6 L 402.6,242.9 L 403.7,243.0 L 404.7,243.3 L 405.8,242.9 L 406.8,242.6 L 407.9,242.1 L 409.0,241.7 L 410.0,242.0 L 411.1,242.4 L 412.1,242.6 L 413.2,242.9 L 414.2,242.9 L 415.3,243.8 L 416.3,244.2 L 417.4,245.1 L 418.4,245.3 L 419.5,245.1 L 420.5,245.3 L 421.6,245.6 L 422.6,245.8 L 423.7,245.2 L 424.8,243.3 L 425.8,243.4 L 426.9,243.8 L 427.9,243.2 L 429.0,242.8 L 430.0,243.0 L 431.1,243.0 L 432.1,242.4 L 433.2,242.6 L 434.2,242.1 L 435.3,242.1 L 436.3,242.9 L 437.4,242.7 L 438.5,243.6 L 439.5,243.6 L 440.6,243.5 L 441.6,243.0 L 442.7,243.4 L 443.7,243.8 L 444.8,243.8 L 445.8,243.6 L 446.9,244.8 L 447.9,244.1 L 449.0,243.9 L 450.0,244.5 L 451.1,243.4 L 452.1,243.4 L 453.2,243.9 L 454.3,242.4 L 455.3,243.4 L 456.4,243.4 L 457.4,243.4 L 458.5,243.4 L 459.5,243.0 L 460.6,242.6 L 461.6,242.4 L 462.7,242.8 L 463.7,242.2 L 464.8,242.1 L 465.8,242.1 L 466.9,242.0 L 467.9,242.0 L 469.0,242.2 L 470.1,242.0 L 471.1,242.3 L 472.2,242.6 L 473.2,242.7 L 474.3,242.6 L 475.3,242.7 L 476.4,242.4 L 477.4,242.4 L 478.5,242.7 L 479.5,241.0 L 480.6,241.4 L 481.6,241.5 L 482.7,243.5 L 483.7,244.8 L 484.8,245.2 L 485.9,246.1 L 486.9,247.1 L 488.0,247.0 L 489.0,247.5 L 490.1,248.0 L 491.1,248.0 L 492.2,248.0 L 493.2,248.9 L 494.3,248.2 L 495.3,248.0 L 496.4,247.5 L 497.4,247.3 L 498.5,247.7 L 499.5,251.1 L 500.6,252.3 L 501.7,252.6 L 502.7,253.2 L 503.8,252.6 L 504.8,254.5 L 505.9,262.3 L 506.9,260.6 L 508.0,262.2 L 509.0,261.6 L 510.1,260.4 L 511.1,260.0 L 512.2,259.2 L 513.2,259.0 L 514.3,259.5 L 515.4,258.8 L 516.4,257.8 L 517.5,259.7 L 518.5,260.3 L 519.6,262.1 L 520.6,262.7 L 521.7,262.2 L 522.7,261.8 L 523.8,261.2 L 524.8,260.5 L 525.9,259.9 L 526.9,258.9 L 528.0,261.1 L 529.0,259.8 L 530.1,262.7 L 531.2,262.8 L 532.2,262.8 L 533.3,262.5 L 534.3,264.5 L 535.4,262.5 L 536.4,261.9 L 537.5,260.4 L 538.5,259.0 L 539.6,258.0 L 540.6,257.6 L 541.7,259.0 L 542.7,254.8 L 543.8,255.2 L 544.8,258.1 L 545.9,253.6 L 547.0,254.5 L 548.0,253.3 L 549.1,256.0 L 550.1,257.0 L 551.2,256.9 L 552.2,255.2 L 553.3,252.2 L 554.3,255.3 L 555.4,253.8 L 556.4,252.7 L 557.5,252.2 L 558.5,254.8 L 559.6,257.0 L 560.6,258.6 L 561.7,258.0 L 562.8,231.7 L 563.8,234.6 L 564.9,235.1 L 565.9,233.1 L 567.0,235.5 L 568.0,232.5 L 569.1,236.2 L 570.1,239.1 L 571.2,235.8 L 572.2,236.2 L 573.3,228.2 L 574.3,223.8 L 575.4,210.0 L 576.5,212.4 L 577.5,205.5 L 578.6,204.1 L 579.6,206.1 L 580.7,203.1 L 581.7,202.6 L 582.8,193.6 L 583.8,192.7 L 584.9,200.6 L 585.9,169.0 L 587.0,169.0 L 588.0,155.8 L 589.1,156.6 L 590.1,160.0 L 591.2,163.9 L 592.3,160.0 L 593.3,159.6 L 594.4,154.6 L 595.4,149.1 L 596.5,145.4 L 597.5,140.4 L 598.6,135.3 L 599.6,138.3 L 600.7,142.2 L 601.7,139.8 L 602.8,136.4 L 603.8,133.3 L 604.9,134.4 L 605.9,133.7 L 607.0,136.3 L 608.1,135.6 L 609.1,135.9 L 610.2,136.9 L 611.2,143.3 L 612.3,139.8 L 613.3,139.3 L 614.4,145.1 L 615.4,130.9 L 616.5,132.6 L 617.5,104.3 L 618.6,89.7 L 619.6,95.4 L 620.7,103.0 L 621.7,102.0 L 622.8,96.8 L 623.9,97.8 L 624.9,97.8 L 626.0,100.3 L 627.0,98.9 L 628.1,99.5 L 629.1,95.9 L 630.2,98.4 L 631.2,99.2 L 632.3,100.4 L 633.3,100.8 L 634.4,102.8 L 635.4,102.8 L 636.5,99.5 L 637.5,100.0 L 638.6,98.5 L 639.7,101.6 L 640.7,102.0 L 641.8,103.6 L 642.8,98.6 L 643.9,101.0 L 644.9,97.7 L 646.0,105.4 L 647.0,104.1 L 648.1,106.9 L 649.1,108.4 L 650.2,112.6 L 651.2,112.1 L 652.3,110.5 L 653.4,109.5 L 654.4,114.5 L 655.5,110.7 L 656.5,106.8 L 657.6,101.5 L 658.6,100.3 L 659.7,103.9 L 660.7,103.2 L 661.8,100.2 L 662.8,101.2 L 663.9,100.6 L 664.9,99.2 L 666.0,99.2 L 667.0,99.4 L 668.1,99.1 L 669.2,99.0 L 670.2,100.4 L 671.3,96.1 L 672.3,92.9 L 673.4,90.9 L 674.4,84.6 L 675.5,80.2 L 676.5,77.7 L 677.6,75.7 L 678.6,75.0 L 679.7,77.6 L 680.7,76.1 L 681.8,73.0 L 682.8,70.1 L 683.9,69.3 L 685.0,71.9 L 686.0,69.4 L 687.1,71.9 L 688.1,71.3 L 689.2,70.0 L 690.2,72.0 L 691.3,72.5 L 692.3,72.4 L 693.4,71.9 L 694.4,71.4 L 695.5,70.4 L 696.5,71.8 L 697.6,73.0 L 698.6,68.2 L 699.7,67.7 L 700.8,69.8 L 701.8,71.0 L 702.9,70.5 L 703.9,69.8 L 705.0,69.5 L 706.0,67.1 L 707.1,67.3 L 708.1,67.0 L 709.2,68.1 L 710.2,66.5 L 711.3,64.5 L 712.3,64.0 L 713.4,61.8 L 714.5,62.8 L 715.5,61.2 L 716.6,57.4 L 717.6,58.0 L 718.7,52.3 L 719.7,51.1 L 720.8,51.1 L 721.8,47.0 L 722.9,47.5 L 723.9,45.4 L 725.0,43.0 L 726.0,42.0 L 727.1,39.2 L 728.1,39.1 L 729.2,35.7 L 730.3,34.0 L 731.3,33.5 L 732.4,33.9 L 733.4,31.6 L 734.5,30.0 L 735.5,27.2 L 736.6,26.0 L 737.6,23.7 L 738.7,22.6 L 739.7,19.7 L 740.8,19.3 L 741.8,19.2 L 742.9,15.7 L 743.9,15.1 L 745.0,15.0" fill="none" stroke="#1f8a4c" stroke-width="1.2" data-page-node-id="0axu8wT4MuqPpnCUFYY9vc"/>
+<text x="748" y="27" fill="#1f8a4c" font-size="12" font-weight="bold" data-page-node-id="gEdAchdBzCcVV3L1wTZgGl">累计 2121 点</text>
+<text x="59" y="27" fill="#c0392b" font-size="10" data-page-node-id="l6t8gYjS0j0DuU4fT2g8qb">红点=7个极端日</text>
+</svg><div class="cap" data-page-node-id="GHV5f1cq68cUsJ9inVW9rY">曲线长期向上但极不平坦：约 90% 的累计涨幅由 7 个红点日贡献，其余交易日近乎横盘甚至回撤。</div></div>
+<div class="warn" data-page-node-id="CfVamF3090MzL6A58KavLR"><b data-page-node-id="IjtOvCK89EmFpgBqIpZLu9">读图要点：</b>日均毛点 3.23 点 &lt; 往返成本约 3.1 点 → 普通交易日扣费后近乎盈亏平衡或微亏；策略的"微利"完全依赖少数尾部日。</div>
+
+<h2 id="s3" data-page-node-id="oMmGz8pUjflAaSwm5rt5yj">3. 胜率偏高现象聚焦</h2>
+<p data-page-node-id="311M23hQjEbIpTOfu1mop5">用户最关心的"胜率明显偏高"，用三组对比拆解：</p>
+<h3 data-page-node-id="PI6oD2ntsVFHSRUSbNAt93">3.1 结构性：尾段窗口显著优于其他固定时段</h3>
+<div class="chart" data-page-node-id="0r9XrwOsQN9YCqJZxTJVru"><h3 data-page-node-id="lvUw6bExte8NMeJvRCvZkt">四固定时段方向胜率对比</h3><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="11" data-page-node-id="PpC39WcQk4f643Hs4BcBZq"><rect width="760" height="260" fill="#fff" data-page-node-id="pHnfkjawiGDhFqwMy2ZSY0"/>
+<text x="55" y="18" fill="#222" font-size="12" font-weight="bold" data-page-node-id="k4rvWXlk3LR1cHGbsZWMRI">四固定时段「做空方向胜率」对比(全样本)</text>
+<line x1="55" y1="215.0" x2="745" y2="215.0" stroke="#bbb" data-page-node-id="Ecx9txGI9ae3PgkOuQ44rD"/>
+<rect x="89.5" y="64.7" width="103.5" height="150.3" fill="#9bbcd6" rx="2" data-page-node-id="0HHYUUqxagOSnBmhpkuBHm"/>
+<text x="141.2" y="59.7" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="pF1GgEQFacitSDv8G3EWKi">47.4%</text>
+<text x="141.2" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="LhzjqvVzAK8toAlJUefPVb">开盘 09:01</text>
+<rect x="262.0" y="53.0" width="103.5" height="162.0" fill="#9bbcd6" rx="2" data-page-node-id="dQImwFB6IyKHAJxOhqCULC"/>
+<text x="313.8" y="48.0" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="gObglbBuyjV1hnHIwF8pdF">51.0%</text>
+<text x="313.8" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="CjGs51LBbbjoI5bZyIpRoO">午前 10:00</text>
+<rect x="434.5" y="52.0" width="103.5" height="163.0" fill="#9bbcd6" rx="2" data-page-node-id="LMNMryoEaHFWtBfXNlMA41"/>
+<text x="486.2" y="47.0" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="SdMomm3AuIzgDJ2Z9wEZ5x">51.4%</text>
+<text x="486.2" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="dV1W7Y9aqIdfDPQszyrTvg">午后开 13:31</text>
+<rect x="607.0" y="30.0" width="103.5" height="185.0" fill="#1f8a4c" rx="2" data-page-node-id="LfJm2BblXfeuTXx9mHXvUg"/>
+<text x="658.8" y="25.0" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="VPBZdVgEWSmjoRr2YRYMAY">58.3%</text>
+<text x="658.8" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="T80zckW0V3xh0EZQJkVL6x">尾段 14:28</text>
+<text x="658.8" y="254" fill="#1f8a4c" text-anchor="middle" font-size="9.5" data-page-node-id="x6qdsIUDtoNwgI4phqDvrS">58.3% 显著高于其余≈51%</text>
+</svg><div class="cap" data-page-node-id="4BqPLpUEZASdq9L80COHOi">开盘 09:01 / 午前 10:00 / 午后开 13:31 三窗口均≈51%（接近随机），唯独尾段 14:28→14:31 达 58.3%，说明存在真实的尾段偏弱微观结构，而非'全天随便空都赚'。</div></div>
+<h3 data-page-node-id="LYx7la3ZJDRhfxoYiMiK6K">3.2 阶段性：2026 年 5–9 月胜率飙到 75%</h3>
+<div class="chart" data-page-node-id="CG4N53kpoUdPyZMvFHCE0k"><h3 data-page-node-id="FunBAaeb4I93Qstfe8OyFF">2026年5-9月 vs 其余时段 vs 随机50%</h3><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="11" data-page-node-id="zKr5GMeHWluDAboEA19FxV"><rect width="760" height="260" fill="#fff" data-page-node-id="UvaCGupotOsEGpI6hgAP04"/>
+<text x="55" y="18" fill="#222" font-size="12" font-weight="bold" data-page-node-id="An1YvYO8axbpgDfnxQQTCH">2026年5-9月 vs 其余时段 方向胜率</text>
+<line x1="55" y1="215.0" x2="745" y2="215.0" stroke="#bbb" data-page-node-id="5E7H1ZmODny1UG94Z35RlD"/>
+<rect x="101.0" y="30.0" width="138.0" height="185.0" fill="#c0392b" rx="2" data-page-node-id="B28vQihLG8PvVjiX67d66s"/>
+<text x="170.0" y="25.0" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="rJiYSg1EO37obYLhBOW8NK">75.0%</text>
+<text x="170.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="wnZOZ9qOeEwdhZPeDhU9KM">2026年5-9月</text>
+<rect x="331.0" y="78.8" width="138.0" height="136.2" fill="#9bbcd6" rx="2" data-page-node-id="wATa6sqDOYCXes5luBG17h"/>
+<text x="400.0" y="73.8" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="kA4F7xhGpAs141u1LyeSsN">55.2%</text>
+<text x="400.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="Lm68H6poeogG4XUvxFjjN6">其余时段</text>
+<rect x="561.0" y="91.7" width="138.0" height="123.3" fill="#cccccc" rx="2" data-page-node-id="DILwv1Epy4q8ynCzUD2Kex"/>
+<text x="630.0" y="86.7" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="hxKLlFwcxG4VclpLGZHUJg">50.0%</text>
+<text x="630.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="Da0sVAPGMrOUFTM5kIATRp">随机50%</text>
+<text x="170.0" y="254" fill="#c0392b" text-anchor="middle" font-size="9.5" data-page-node-id="hRgEFGHerTrlJl8VtCQShD">p=1.1e-05 vs其余</text>
+<text x="170.0" y="254" fill="#c0392b" text-anchor="middle" font-size="9.5" data-page-node-id="rWAJpoMCXNX7cH8LY6o0J2">p=2.8e-06 vs50%</text>
+</svg><div class="cap" data-page-node-id="k5IhELouViJJeX9PMSwiaK">2026五九月方向胜率 75.0%（n=94）vs 其余时段 55.2%（n=562），两比例 z=4.40、p=1.1e-05（极显著）；vs 随机50% 单边 p=2.8e-06。这是全样本偏高的核心来源。</div></div>
+<h3 data-page-node-id="xNBPqxVk8oNC5mlzQBm57C">3.3 是否日历季节性？—— 否</h3>
+<div class="chart" data-page-node-id="HcMNoCAmiQIhGr68QHHjD5"><h3 data-page-node-id="hMpN1DdPwbhYudEDoswGRt">逐月方向胜率（红线为2026年5-9月）</h3><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="11" data-page-node-id="4K3jVD2WegQzRg3rwXvqlW"><rect width="760" height="260" fill="#fff" data-page-node-id="qbbtP0xhflxW6vQDXRCpD3"/>
+<text x="55" y="18" fill="#222" font-size="12" font-weight="bold" data-page-node-id="QouJiLBUHjNhUcD3o2Voq7">逐月方向胜率(全样本)</text>
+<line x1="55" y1="213.2" x2="745" y2="213.2" stroke="#bbb" stroke-dasharray="4 3" data-page-node-id="F6Y9eYxV328VjA1G8jYuHj"/>
+<text x="745" y="209.2" fill="#999" font-size="9" text-anchor="end" data-page-node-id="Z7VXoB0krpwkePbG5LOO4h">基准 50%</text>
+<path d="M 65.5,152.1 L 86.4,165.7 L 107.3,179.3 L 128.2,111.4 L 149.1,97.9 L 170.0,138.6 L 190.9,125.0 L 211.8,30.0 L 232.7,125.0 L 253.6,111.4 L 274.5,70.7 L 295.5,138.6 L 316.4,165.7 L 337.3,138.6 L 358.2,125.0 L 379.1,138.6 L 400.0,84.3 L 420.9,57.1 L 441.8,97.9 L 462.7,125.0 L 483.6,30.0 L 504.5,111.4 L 525.5,152.1 L 546.4,57.1 L 567.3,125.0 L 588.2,152.1 L 609.1,84.3 L 630.0,43.6 L 650.9,138.6 L 671.8,152.1 L 692.7,111.4 L 713.6,165.7 L 734.5,220.0" fill="none" stroke="#2c6fbb" stroke-width="1.4" data-page-node-id="w48KUSfTmMN5d62NkU6Xns"/>
+<circle cx="65.5" cy="152.1" r="2.5" fill="#2c6fbb" data-page-node-id="IDyTuZzT6jMuP7fUhKYipN"/>
+<text x="65.5" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="sRL0WZlgDNd1VusMrw6Pku">2024-01</text>
+<circle cx="86.4" cy="165.7" r="2.5" fill="#2c6fbb" data-page-node-id="XRId2HnFuZ62EaB9MrwQdu"/>
+<circle cx="107.3" cy="179.3" r="2.5" fill="#2c6fbb" data-page-node-id="OOiElGk6lrNfCuRHLCNqtY"/>
+<text x="107.3" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="4Z5bACoVwsgMDLqOUiAvml">2024-03</text>
+<circle cx="128.2" cy="111.4" r="2.5" fill="#2c6fbb" data-page-node-id="80VSHBPu5CWJdBHcpFJcL7"/>
+<circle cx="149.1" cy="97.9" r="2.5" fill="#2c6fbb" data-page-node-id="Vvd3vZKWaeMLKksVVARRxQ"/>
+<text x="149.1" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="yGxtZTxYJqHKnJFH27mNpa">2024-05</text>
+<circle cx="170.0" cy="138.6" r="2.5" fill="#2c6fbb" data-page-node-id="NHMSVvAsjS9dkGJtFVMhtj"/>
+<circle cx="190.9" cy="125.0" r="2.5" fill="#2c6fbb" data-page-node-id="SQlGHGksteC5QQEHu3BIAr"/>
+<text x="190.9" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="7sY4rIq6YaDSAlqV1EsMSg">2024-07</text>
+<circle cx="211.8" cy="30.0" r="2.5" fill="#2c6fbb" data-page-node-id="9eP8Wf0s45sZ4w3wjcu6jN"/>
+<circle cx="232.7" cy="125.0" r="2.5" fill="#2c6fbb" data-page-node-id="DhcdmBuBkYiQHPmdYkBTGn"/>
+<text x="232.7" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="dbVL3eRmkIFHMDBPwGgxEL">2024-09</text>
+<circle cx="253.6" cy="111.4" r="2.5" fill="#2c6fbb" data-page-node-id="pBRkcuUX61YonrHGVdKuap"/>
+<circle cx="274.5" cy="70.7" r="2.5" fill="#2c6fbb" data-page-node-id="JqzRv8pZOBGa7bBK9TRrI8"/>
+<text x="274.5" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="yUvwXPrSJMuAxL7cVItPXL">2024-11</text>
+<circle cx="295.5" cy="138.6" r="2.5" fill="#2c6fbb" data-page-node-id="qK51psfDHkQpO1VGDh1stm"/>
+<circle cx="316.4" cy="165.7" r="2.5" fill="#2c6fbb" data-page-node-id="Js7pNXyDbwyTWxKFFU8O8F"/>
+<text x="316.4" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="fQTN7SgI1HVqSwrubMIWf1">2025-01</text>
+<circle cx="337.3" cy="138.6" r="2.5" fill="#2c6fbb" data-page-node-id="15DvByHO7AmVX35fUHYFX9"/>
+<circle cx="358.2" cy="125.0" r="2.5" fill="#2c6fbb" data-page-node-id="vKRjiyL8jWJqfjI6MZsce4"/>
+<text x="358.2" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="gt4Q65ycAOMaW54ZKkx0ro">2025-03</text>
+<circle cx="379.1" cy="138.6" r="2.5" fill="#2c6fbb" data-page-node-id="PIUeTv0rUJKAaHCwuYLCvK"/>
+<circle cx="400.0" cy="84.3" r="2.5" fill="#2c6fbb" data-page-node-id="9GrMjIF2F0IyhDFXQFBs7a"/>
+<text x="400.0" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="B6iKl5DBLANVp1uIKwuirS">2025-05</text>
+<circle cx="420.9" cy="57.1" r="2.5" fill="#2c6fbb" data-page-node-id="j7lOzXEz6EHztW3vdCGiSY"/>
+<circle cx="441.8" cy="97.9" r="2.5" fill="#2c6fbb" data-page-node-id="jHPuDubqIElPm72QIFFG0h"/>
+<text x="441.8" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="Kc7mFwxIAumxFwXmHpQQkf">2025-07</text>
+<circle cx="462.7" cy="125.0" r="2.5" fill="#2c6fbb" data-page-node-id="CA1bUGF5KcuK6vHJaiwCOH"/>
+<circle cx="483.6" cy="30.0" r="2.5" fill="#2c6fbb" data-page-node-id="FwTABDUF1wklCF2nCNcSJD"/>
+<text x="483.6" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="60ZQpZPZtcEa0rmdsoo691">2025-09</text>
+<circle cx="504.5" cy="111.4" r="2.5" fill="#2c6fbb" data-page-node-id="HcIiFKOr7sp632vADerztM"/>
+<circle cx="525.5" cy="152.1" r="2.5" fill="#2c6fbb" data-page-node-id="7LcIDHRSr6l8QrxMVY4jZv"/>
+<text x="525.5" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="o3uFxGK4SzdUbrKK2qYxdd">2025-11</text>
+<circle cx="546.4" cy="57.1" r="2.5" fill="#2c6fbb" data-page-node-id="WGwlgycuzu7wDhgKFcaVPU"/>
+<circle cx="567.3" cy="125.0" r="2.5" fill="#2c6fbb" data-page-node-id="hRgifDz7a6ii9EbEjozveh"/>
+<text x="567.3" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="S9bUZH5zKlqXFq88p41EuS">2026-01</text>
+<circle cx="588.2" cy="152.1" r="2.5" fill="#2c6fbb" data-page-node-id="gAm7DKwlvuyLhb5tZDsJyu"/>
+<circle cx="609.1" cy="84.3" r="2.5" fill="#2c6fbb" data-page-node-id="1FBFbK31NtjXzF7tZv0nwT"/>
+<text x="609.1" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="OSZGEDP9QWwsOMq3cz5Xmh">2026-03</text>
+<circle cx="630.0" cy="43.6" r="2.5" fill="#2c6fbb" data-page-node-id="ZCi5Kr5jbOJwajh2azcYw5"/>
+<circle cx="650.9" cy="138.6" r="2.5" fill="#2c6fbb" data-page-node-id="xubn5rjZWNBS8gmL9QvgOZ"/>
+<text x="650.9" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="3mWbyrXB9076673Sa3MH27">2026-05</text>
+<circle cx="671.8" cy="152.1" r="2.5" fill="#2c6fbb" data-page-node-id="WohuNpJRZyg7wV2seXwAJi"/>
+<circle cx="692.7" cy="111.4" r="2.5" fill="#2c6fbb" data-page-node-id="xNGcFPI7G0FLk4w01YWqPa"/>
+<text x="692.7" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="FDycQMN2Q1EwZTjXptdmNN">2026-07</text>
+<circle cx="713.6" cy="165.7" r="2.5" fill="#2c6fbb" data-page-node-id="gPmEupVy9I1s9ka0nsTkuS"/>
+<circle cx="734.5" cy="220.0" r="2.5" fill="#2c6fbb" data-page-node-id="4QD6FXkPS2z1l7dDFaZ6Jo"/>
+<text x="734.5" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="RiST7DTftDa7FZtsroqqWk">2026-09</text>
+</svg><div class="cap" data-page-node-id="hyolvJ9ewEpRzCYKmdtoyB">胜率在时间上高度聚集于 2026 年中段，并非每年同月重复出现。</div></div>
+<div class="chart" data-page-node-id="1xlODvg18NoNUa57uixFQX"><h3 data-page-node-id="Y0ejDZfNJppDF90jfNeDgk">年×月方向胜率热力图(%)</h3><svg viewBox="0 0 760 142" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="10" data-page-node-id="xHniy1djfYEekyS3F0cARL"><rect width="760" height="142" fill="#fff" data-page-node-id="CVLuL6BezUY8DLNHy0I16d"/>
+<text x="70" y="20" fill="#222" font-size="12" font-weight="bold" data-page-node-id="ObHOuLdzoEKKp59v2NrED9">年×月 方向胜率热力图(%)</text>
+<text x="98.1" y="28" fill="#666" text-anchor="middle" data-page-node-id="cSx7IEWkkDnGGWnibagJxB">01</text>
+<text x="154.4" y="28" fill="#666" text-anchor="middle" data-page-node-id="JxH2R1gicamZwB5XyKovw4">02</text>
+<text x="210.6" y="28" fill="#666" text-anchor="middle" data-page-node-id="K8TrFTXaT73zBlIsRlcOf6">03</text>
+<text x="266.9" y="28" fill="#666" text-anchor="middle" data-page-node-id="Bj7DcQzT3x0bpGvju5JKVA">04</text>
+<text x="323.1" y="28" fill="#666" text-anchor="middle" data-page-node-id="efq1RrzDHF4Pf3hHiXDa3F">05</text>
+<text x="379.4" y="28" fill="#666" text-anchor="middle" data-page-node-id="J1pcHGylSLjkl6UAySfvu8">06</text>
+<text x="435.6" y="28" fill="#666" text-anchor="middle" data-page-node-id="96ZMVCAeiGvwiA2045draN">07</text>
+<text x="491.9" y="28" fill="#666" text-anchor="middle" data-page-node-id="zEuuuXFnd027ePDxjwSf1q">08</text>
+<text x="548.1" y="28" fill="#666" text-anchor="middle" data-page-node-id="G8lecDgHhwluVDpARxju8p">09</text>
+<text x="604.4" y="28" fill="#666" text-anchor="middle" data-page-node-id="mUYMvtBwmUUdQmdVhHGhcW">10</text>
+<text x="660.6" y="28" fill="#666" text-anchor="middle" data-page-node-id="wNYBNT2JnfXSAoyyBSYncU">11</text>
+<text x="716.9" y="28" fill="#666" text-anchor="middle" data-page-node-id="lvnkfJB6RWyCRffwc1WQwW">12</text>
+<text x="64" y="47.0" fill="#444" text-anchor="end" data-page-node-id="vaAne3W26WGHI0WDi3cJpi">2024</text>
+<rect x="71.0" y="35.0" width="54.2" height="24.0" fill="rgb(187,184,97)" rx="2" data-page-node-id="PAZ3fGXvG2ZEw6B8nA4TIO"/>
+<text x="98.1" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="4FXAvUdw2Wis8xWPexDC3V">71</text>
+<rect x="127.2" y="35.0" width="54.2" height="24.0" fill="rgb(202,174,92)" rx="2" data-page-node-id="PWTVVEUurMDrhB894dfb6A"/>
+<text x="154.4" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="XBFYmLRcn2YDfVoi6XZEBS">56</text>
+<rect x="183.5" y="35.0" width="54.2" height="24.0" fill="rgb(175,193,101)" rx="2" data-page-node-id="HdpYSSHBdDC9zTC2AsEsZW"/>
+<text x="210.6" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="eCk3L6aHEIbBRvasdsIGLj">83</text>
+<rect x="239.8" y="35.0" width="54.2" height="24.0" fill="rgb(200,176,93)" rx="2" data-page-node-id="cvBoe4yJ0yF12RUeb594nx"/>
+<text x="266.9" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="ziITR6sDDnjUv7zTDx3Et4">58</text>
+<rect x="296.0" y="35.0" width="54.2" height="24.0" fill="rgb(205,172,91)" rx="2" data-page-node-id="1zdixALgjs77ukFlmW65YR"/>
+<text x="323.1" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="HKigV0SltIsZ6WNnQUNRqM">53</text>
+<rect x="352.2" y="35.0" width="54.2" height="24.0" fill="rgb(193,180,95)" rx="2" data-page-node-id="O7TKUu4JwYKDMeHnCrsBV8"/>
+<text x="379.4" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="qlLEAR2oAOQ6Kgd8gdMRAU">65</text>
+<rect x="408.5" y="35.0" width="54.2" height="24.0" fill="rgb(193,180,95)" rx="2" data-page-node-id="P0jB3PByRvCISCX8LtZ8XN"/>
+<text x="435.6" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="AWIYuRDqqd2TAQdX4gD42C">65</text>
+<rect x="464.8" y="35.0" width="54.2" height="24.0" fill="rgb(223,160,86)" rx="2" data-page-node-id="gMLBQlSYPIvXlrginPVRBU"/>
+<text x="491.9" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="OedaeCBQCOaRC6CKaO9nOr">33</text>
+<rect x="521.0" y="35.0" width="54.2" height="24.0" fill="rgb(195,179,94)" rx="2" data-page-node-id="r82PIkpFssMCGWWvRGp35X"/>
+<text x="548.1" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="jwd9S3fF7pNvqsIBoo0FmO">63</text>
+<rect x="577.2" y="35.0" width="54.2" height="24.0" fill="rgb(207,171,91)" rx="2" data-page-node-id="7istEVUz3hUY1YItbcKBXg"/>
+<text x="604.4" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="CJKIEmIyF8S4rqxh9QjugI">50</text>
+<rect x="633.5" y="35.0" width="54.2" height="24.0" fill="rgb(209,169,90)" rx="2" data-page-node-id="9kQ8HWm23whkCY5ks2gPVP"/>
+<text x="660.6" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="rAwbdPbkYF8KdepC5Li1jq">48</text>
+<rect x="689.8" y="35.0" width="54.2" height="24.0" fill="rgb(191,182,96)" rx="2" data-page-node-id="l2bKl1AD1qmI3oAfhGyAGW"/>
+<text x="716.9" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="ObxuwHMubqDUnzBt68wx4b">67</text>
+<text x="64" y="73.0" fill="#444" text-anchor="end" data-page-node-id="Ng1eDDyjOIK6Z2fbkVj8C2">2025</text>
+<rect x="71.0" y="61.0" width="54.2" height="24.0" fill="rgb(187,185,97)" rx="2" data-page-node-id="H3jw3FgingchETK5gYlx9F"/>
+<text x="98.1" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="FA8DACpKdBTIJDTLVTGOW7">71</text>
+<rect x="127.2" y="61.0" width="54.2" height="24.0" fill="rgb(193,180,95)" rx="2" data-page-node-id="HtRHAGMsPoMGyBAGZZ1lpu"/>
+<text x="154.4" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="RlHheHQA5njUbfNiOAJ8fs">65</text>
+<rect x="183.5" y="61.0" width="54.2" height="24.0" fill="rgb(207,171,91)" rx="2" data-page-node-id="hSsvQ73MB62OeFUqMxqTri"/>
+<text x="210.6" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="XGtFEJcPTHTXL3YKsRbRRq">50</text>
+<rect x="239.8" y="61.0" width="54.2" height="24.0" fill="rgb(193,180,95)" rx="2" data-page-node-id="UKfq3V082lZTv3HZLMoawI"/>
+<text x="266.9" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="RZHbDVvmdpVXetTgXplArj">65</text>
+<rect x="296.0" y="61.0" width="54.2" height="24.0" fill="rgb(215,165,88)" rx="2" data-page-node-id="q8NDVQMYPc6oI6rtgaBkO4"/>
+<text x="323.1" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="xOK5iBiTDHcJ2qe1hIz0Lw">41</text>
+<rect x="352.2" y="61.0" width="54.2" height="24.0" fill="rgb(223,160,86)" rx="2" data-page-node-id="eT6Q0uDUZ6wG9Dm04oBloz"/>
+<text x="379.4" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="ya73Nh0RaCjGZRpXJybLcA">33</text>
+<rect x="408.5" y="61.0" width="54.2" height="24.0" fill="rgb(207,171,91)" rx="2" data-page-node-id="rGZRr3bA2OkEW8NZS6uPFb"/>
+<text x="435.6" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="xgepuUo7HOwRfu0hFUdOzp">50</text>
+<rect x="464.8" y="61.0" width="54.2" height="24.0" fill="rgb(201,175,92)" rx="2" data-page-node-id="CeXWb0ws8hUGBq9Ya1XPzB"/>
+<text x="491.9" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="ATiimFyz8cfHUhfqDUSarf">56</text>
+<rect x="521.0" y="61.0" width="54.2" height="24.0" fill="rgb(226,157,85)" rx="2" data-page-node-id="osqbcQsQjNBLHyHyooJK0w"/>
+<text x="548.1" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="8lrhM1JSalt5uBVTCMUkBk">30</text>
+<rect x="577.2" y="61.0" width="54.2" height="24.0" fill="rgb(204,172,91)" rx="2" data-page-node-id="CVAUqtD37rIGIZ5ms5g7ZC"/>
+<text x="604.4" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="kd4ALFjzoRpfvk3LPOAQDO">53</text>
+<rect x="633.5" y="61.0" width="54.2" height="24.0" fill="rgb(185,186,98)" rx="2" data-page-node-id="DaJJCOSJIYJTcArS6A8YLX"/>
+<text x="660.6" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="OPelVFCkfisHY0dxt4rS41">74</text>
+<rect x="689.8" y="61.0" width="54.2" height="24.0" fill="rgb(209,169,90)" rx="2" data-page-node-id="C8LmFiGJIkWmig3Ta13v9k"/>
+<text x="716.9" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="r2pO2djUg8Wv2jBa2A1GeT">48</text>
+<text x="64" y="99.0" fill="#444" text-anchor="end" data-page-node-id="21plMNl2KFRK5VqAdyv8oJ">2026</text>
+<rect x="71.0" y="87.0" width="54.2" height="24.0" fill="rgb(193,180,95)" rx="2" data-page-node-id="ABk3kAvgbQCf9x0plntpCH"/>
+<text x="98.1" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="WnMoiydMTWDtFnC4yuLKF3">65</text>
+<rect x="127.2" y="87.0" width="54.2" height="24.0" fill="rgb(196,178,94)" rx="2" data-page-node-id="sfugkIKkI8Eb261guxlk1w"/>
+<text x="154.4" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="e0iDZ6k30aZmOVZRmEqJKc">62</text>
+<rect x="183.5" y="87.0" width="54.2" height="24.0" fill="rgb(203,174,92)" rx="2" data-page-node-id="6y8Zbsdun4oHplloBfQ9RR"/>
+<text x="210.6" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="TQBj2Lys428BNiRCwnbxlG">55</text>
+<rect x="239.8" y="87.0" width="54.2" height="24.0" fill="rgb(225,158,85)" rx="2" data-page-node-id="g5DnzDjJIbjgFMqoyoI9Ox"/>
+<text x="266.9" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="Ycnzp5IOMdfYqVLppOVmi7">32</text>
+<rect x="296.0" y="87.0" width="54.2" height="24.0" fill="rgb(191,182,96)" rx="2" data-page-node-id="Jq3Ngpe74rLYQeByi3Uf5p"/>
+<text x="323.1" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="bcvNCSETzMs4K933fp5Rpx">67</text>
+<rect x="352.2" y="87.0" width="54.2" height="24.0" fill="rgb(183,187,98)" rx="2" data-page-node-id="lHn4PsGQyQWjsTzUaMa1TS"/>
+<text x="379.4" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="Oh0u08RCpAuLmHQtgnB1CH">75</text>
+<rect x="408.5" y="87.0" width="54.2" height="24.0" fill="rgb(193,181,95)" rx="2" data-page-node-id="D17x03rRVk3u7YJ3LczbWW"/>
+<text x="435.6" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="tpKoe9D3Fk5W4s2MDRE75d">65</text>
+<rect x="464.8" y="87.0" width="54.2" height="24.0" fill="rgb(179,190,100)" rx="2" data-page-node-id="UIa8rabeQTS3O9HlytEcdI"/>
+<text x="491.9" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="sbAaB3bgQ2GozKHtnPb9Ag">80</text>
+<rect x="521.0" y="87.0" width="54.2" height="24.0" fill="rgb(160,204,106)" rx="2" data-page-node-id="8kYSgoiHLAABGDhin6mlhv"/>
+<text x="548.1" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="XB4zLijQulyX7fyH6gREDw">100</text>
+<rect x="577.2" y="87.0" width="54.2" height="24.0" fill="rgb(255,138,76)" rx="2" data-page-node-id="NAC3iN7LNCVP7sD6Yh7iVP"/>
+<text x="604.4" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="xNvw7raMcfwRdpVHJuAyPx">0</text>
+<rect x="633.5" y="87.0" width="54.2" height="24.0" fill="rgb(255,138,76)" rx="2" data-page-node-id="bl9w5Z4WWReGUAztrDYI6q"/>
+<text x="660.6" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="E9nJHMYyxtWQ0vWfYxeNF7">0</text>
+<rect x="689.8" y="87.0" width="54.2" height="24.0" fill="rgb(255,138,76)" rx="2" data-page-node-id="SAEk5rCyh89FJc3kiMg5hJ"/>
+<text x="716.9" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="9BtGRE9yb3o1YGsTvrkG6k">0</text>
+</svg><div class="cap" data-page-node-id="Tx9RD57hFpzThzsPCbEuzs">2024、2025 年同季（5-9月）胜率普通甚至偏低（2025-09仅30%、2025-06为33%、2025-05为41%），仅 2026 年异常 → 非日历季节规律，是 2026 特定 regime。</div></div>
+<div class="box" data-page-node-id="LodmJ7CY2pZsJZJEiSqgB8"><b data-page-node-id="BwEKkOU65JjfmFCnEw3HUB">小结：</b>胜率偏高=真实存在，但归因是 <b data-page-node-id="bCM9eq1Hfp14xtDrnItFPz">2026 年特定阶段（白银剧震/下行）的 regime 现象</b>，不是每年 5-9 月都会复现的稳定季节性。</div>
+
+<h2 id="s4" data-page-node-id="MdkDJGD33cV0r4Ala80GE7">4. 机制分析：为何胜率高</h2>
+<p data-page-node-id="6kEAcnr8vDHRHs05MEC5dR">从"下跌趋势是否放大尾段卖压"切入：</p>
+<div class="chart" data-page-node-id="iRkGRNCn0LdjXzkA3AcJJ3"><h3 data-page-node-id="aKvqrJ2JwJgWcScFK9G8v6">下跌市内：尾段窗口 vs 其他窗口</h3><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="11" data-page-node-id="OQSh8RTcwjAF5xprRL19WQ"><rect width="760" height="260" fill="#fff" data-page-node-id="Y7W6jxX4k6J1zXy39Qtl2a"/>
+<text x="55" y="18" fill="#222" font-size="12" font-weight="bold" data-page-node-id="e85tHXULsfvNDju3hgk5dh">下跌市内：尾段窗口 vs 其他窗口 方向胜率</text>
+<line x1="55" y1="215.0" x2="745" y2="215.0" stroke="#bbb" data-page-node-id="iBDK7qYxXu67U4UyvEIyaF"/>
+<rect x="82.6" y="30.0" width="82.8" height="185.0" fill="#1f8a4c" rx="2" data-page-node-id="zMG1jMWLymBuY7qQ3CDFfO"/>
+<text x="124.0" y="25.0" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="iNGBXB6U7GJphK8pZAcOdl">63.4%</text>
+<text x="124.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="1pgP6pQlEJKBm7deUITjOx">尾段(跌市)</text>
+<rect x="220.6" y="55.8" width="82.8" height="159.2" fill="#9bbcd6" rx="2" data-page-node-id="63IuD7PNQdUbrhXe2SNpKA"/>
+<text x="262.0" y="50.8" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="HisHwWzGMHbndBn9EExtvU">54.6%</text>
+<text x="262.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="3JB1u4glTzM5bUqHYoos3M">尾段(涨市)</text>
+<rect x="358.6" y="64.8" width="82.8" height="150.2" fill="#bbbbbb" rx="2" data-page-node-id="ZjUkCLt7NrfIPiHG7OqnvQ"/>
+<text x="400.0" y="59.8" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="zwArYTyKakwb4Vg7bJ3jxB">51.5%</text>
+<text x="400.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="bhEHejFPoXCtinROzLwHo3">开盘(跌市)</text>
+<rect x="496.6" y="62.9" width="82.8" height="152.1" fill="#bbbbbb" rx="2" data-page-node-id="g4OTdpRdAzj6aVJYqdSlMh"/>
+<text x="538.0" y="57.9" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="Li8QOtZmrMPJPzYFITluLm">52.2%</text>
+<text x="538.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="uTWGiwn9aaNW6XN0LJ6JSy">午前(跌市)</text>
+<rect x="634.6" y="57.1" width="82.8" height="157.9" fill="#bbbbbb" rx="2" data-page-node-id="InrWtzkLOXq5waBHqjUh9c"/>
+<text x="676.0" y="52.1" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="K1RVxP60LAiUwPm5RmsQRB">54.1%</text>
+<text x="676.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="BYGnPfN08QAkc3GYD6HROU">午后开(跌市)</text>
+<text x="124.0" y="254" fill="#1f8a4c" text-anchor="middle" font-size="9.5" data-page-node-id="RojTGCijMYx9enZsKrHIjp">62.9% vs ~52% p≈0.02</text>
+</svg><div class="cap" data-page-node-id="gqFJHwr0MZ5SC1nu8tlLru">下跌市中尾段方向胜率 63.4%，显著高于同市的开盘/午前/午后开窗口（均≈52%，p≈0.02）→ 结构性尾段卖压在下跌市中被放大、真实且显著。</div></div>
+<p data-page-node-id="6ODDMUohZjzOdgUVz6DCl6">趋势整体放大方向成立但仅边缘显著：尾段在下跌市 63.4% vs 上涨市 54.6%，z=2.25、p=0.025。日盘涨跌与尾段点差相关弱（r≈−0.19），说明尾段偏置大部分独立于当日方向。</p>
+<h3 data-page-node-id="b3Wky9CK9B5PzsbNfzw10m">4.1 漂移起点：尾段卖压从 14:28 才开始</h3>
+<div class="chart" data-page-node-id="BCru6RZavG8lqiq1duGb1A"><h3 data-page-node-id="dSdlUJgPjFzldblTZjew1s">逐分钟平均点差（正值=价格下跌）</h3><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="11" data-page-node-id="WxH7Kk2i3RENHgEc2FbiPM"><rect width="760" height="260" fill="#fff" data-page-node-id="4Jqf6OGN6jHXzSB54UB1n7"/>
+<text x="55" y="18" fill="#222" font-size="12" font-weight="bold" data-page-node-id="z8oN3TUbzxWo0en9u8yO2k">逐分钟平均点差(后一分钟−前一分钟，正值=下跌)</text>
+<line x1="55" y1="174.7" x2="745" y2="174.7" stroke="#bbb" stroke-dasharray="4 3" data-page-node-id="t9Ko2Cy3pwooP7hgUKvHhs"/>
+<text x="745" y="170.7" fill="#999" font-size="9" text-anchor="end" data-page-node-id="qkCmqcktNplagm8PsXZKN2">基准 0%</text>
+<path d="M 83.8,171.6 L 141.2,200.7 L 198.8,190.5 L 256.2,173.5 L 313.8,165.3 L 371.2,175.9 L 428.8,144.9 L 486.2,127.3 L 543.8,30.0 L 601.2,63.4 L 658.8,164.8 L 716.2,220.0" fill="none" stroke="#2c6fbb" stroke-width="1.4" data-page-node-id="WMHdSxo4tyQANbpaCB9XEQ"/>
+<circle cx="83.8" cy="171.6" r="2.5" fill="#2c6fbb" data-page-node-id="khVTaxUQqIqWE521oXnlQb"/>
+<text x="83.8" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="b6L11eaaZJs1CeC2BkyyFX">14:20→14:21</text>
+<circle cx="141.2" cy="200.7" r="2.5" fill="#2c6fbb" data-page-node-id="MVp0Ufu5sJbyqbfI7ayAKs"/>
+<text x="141.2" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="YMalUikkKsl8qycGAPebxp">14:21→14:22</text>
+<circle cx="198.8" cy="190.5" r="2.5" fill="#2c6fbb" data-page-node-id="BhaYCuuB6QSiVnCxzP9dg0"/>
+<text x="198.8" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="6CgGwlldOhv1n0tlMlw4vU">14:22→14:23</text>
+<circle cx="256.2" cy="173.5" r="2.5" fill="#2c6fbb" data-page-node-id="mjCfxsDEsXMYQ61ZvhLYma"/>
+<text x="256.2" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="tk8Qjl0wYYAFBAnUPNzZV4">14:23→14:24</text>
+<circle cx="313.8" cy="165.3" r="2.5" fill="#2c6fbb" data-page-node-id="wncRHHBaAJUZGlzB6MkVc3"/>
+<text x="313.8" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="lJLBGUiblmSrQ8cjlLRejD">14:24→14:25</text>
+<circle cx="371.2" cy="175.9" r="2.5" fill="#2c6fbb" data-page-node-id="1KIF3Zu9ddH2I9OiM5ZMLu"/>
+<text x="371.2" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="9iSu03qBu2PcqEGKteBCdX">14:25→14:26</text>
+<circle cx="428.8" cy="144.9" r="2.5" fill="#2c6fbb" data-page-node-id="v4pFLZwEAQpG2j1pRCbap0"/>
+<text x="428.8" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="gy4LcAsQiL2zSdBfbFznjt">14:26→14:27</text>
+<circle cx="486.2" cy="127.3" r="2.5" fill="#2c6fbb" data-page-node-id="hLpNn5biDHnxTQGCem0f4c"/>
+<text x="486.2" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="FGpLjOACZD0iCLFb1zSv6r">14:27→14:28</text>
+<circle cx="543.8" cy="30.0" r="2.5" fill="#2c6fbb" data-page-node-id="2oJtvrcWmxXhGHtMF2eLR2"/>
+<text x="543.8" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="O7to6q75Lp1UgFyKUbJApV">14:28→14:29</text>
+<circle cx="601.2" cy="63.4" r="2.5" fill="#2c6fbb" data-page-node-id="rIA18QCjlOK9Za0J48EZE2"/>
+<text x="601.2" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="XQZEa35P1fxyAwwQNBBqKT">14:29→14:30</text>
+<circle cx="658.8" cy="164.8" r="2.5" fill="#2c6fbb" data-page-node-id="X1q8EZe99iynlcYh4qD1JH"/>
+<text x="658.8" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="mEHrGXvA32PKyfl5pndTTT">14:30→14:31</text>
+<circle cx="716.2" cy="220.0" r="2.5" fill="#2c6fbb" data-page-node-id="OJbJasot4AsaiW3kk3FkU8"/>
+<text x="716.2" y="248" fill="#666" text-anchor="middle" font-size="9" data-page-node-id="KKy3quMxBLaeeTpAYCgOHT">14:31→14:32</text>
+</svg><div class="cap" data-page-node-id="3E2ydZ6NiasRujodnOsfFB">14:20–14:27 各分钟相邻比较均无统计显著下跌（p&gt;0.08）；显著下行始于 14:28→14:29（t=3.84, p=0.0001）与 14:29→14:30（t=2.49, p=0.0065）。即真正的尾段漂移起点就是 14:28。</div></div>
+<div class="box" data-page-node-id="5qCkfCPufXLqfpDiQt9tpp"><b data-page-node-id="KDjMB4XqNvq3HWEYpgtHtB">机制结论：</b>真实可预测因子 = <b data-page-node-id="gKcmeGI6Q2iOLnnalQgZuq">结构性尾段偏置（程序化/收盘前平仓止损卖压）+ 下跌趋势放大</b>。2026 五九月 75% 高胜率 ≈ 基础偏置(~58-63%) × 下跌市 regime × 近期尤强（滚动30日曾达 86%）。</div>
+
+<h2 id="s5" data-page-node-id="4HGgYjasdH1qRGEXvucffs">5. 参数敏感性（卖/买点网格）</h2>
+<p data-page-node-id="4aurhKnVSSLeCe4dpv4XJd">把卖点从 14:26 扩到 14:29、买点取 14:31/32，全样本净 RMB 对比：</p>
+<div class="chart" data-page-node-id="0D1oJx2WlTNKc82BPkWwLh"><h3 data-page-node-id="JxMHjVJQbnp0L1sW1uDXvY">网格净RMB（卖×买，元/手）</h3><svg viewBox="0 0 760 168" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="10" data-page-node-id="7ppcXTW2Ci6NAJhfOVcBHx"><rect width="760" height="168" fill="#fff" data-page-node-id="b2bsGK0TSL5kuO7tJvhszJ"/>
+<text x="70" y="20" fill="#222" font-size="12" font-weight="bold" data-page-node-id="3fsPotZjMd7BIjYRJRlNQ9">网格净RMB(每手，元) 卖×买</text>
+<text x="238.8" y="28" fill="#666" text-anchor="middle" data-page-node-id="mJWaKI1xDzNV9etr8JmDSt">14:31买</text>
+<text x="576.2" y="28" fill="#666" text-anchor="middle" data-page-node-id="vBjhs6oOrGZUc97xlG0IPL">14:32买</text>
+<text x="64" y="47.0" fill="#444" text-anchor="end" data-page-node-id="Ywx0fYe2V7EG5wKvJDsGID">14:26卖</text>
+<rect x="71.0" y="35.0" width="335.5" height="24.0" fill="rgb(160,204,106)" rx="2" data-page-node-id="gz1GSUzOQUJrK2BL70QygQ"/>
+<text x="238.8" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="XHO0xDjjsWV8TpEJQITqJG">10502</text>
+<rect x="408.5" y="35.0" width="335.5" height="24.0" fill="rgb(208,169,90)" rx="2" data-page-node-id="B9FHWkqTEnQcNZMglOODoY"/>
+<text x="576.2" y="50.0" fill="#222" text-anchor="middle" data-page-node-id="JJdvLX2A7T3XZ38pvPeHjA">5087</text>
+<text x="64" y="73.0" fill="#444" text-anchor="end" data-page-node-id="b4SerlOO0MGGS2xYSPSTHy">14:27卖</text>
+<rect x="71.0" y="61.0" width="335.5" height="24.0" fill="rgb(192,181,95)" rx="2" data-page-node-id="oKLTXYGGEkzuPrqkI44Kxi"/>
+<text x="238.8" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="yAOS3R4VyoyEkLSW943bi0">6933</text>
+<rect x="408.5" y="61.0" width="335.5" height="24.0" fill="rgb(241,147,80)" rx="2" data-page-node-id="6pZncLUeEnAn6rxxtbC3Mp"/>
+<text x="576.2" y="76.0" fill="#222" text-anchor="middle" data-page-node-id="6TWmlZquShTPAf0iHCjAPN">1517</text>
+<text x="64" y="99.0" fill="#444" text-anchor="end" data-page-node-id="syLPIhOHX7O2B6urIc0QHS">14:28卖</text>
+<rect x="71.0" y="87.0" width="335.5" height="24.0" fill="rgb(243,145,79)" rx="2" data-page-node-id="glPfn8R4NWJhKW58JaAhc9"/>
+<text x="238.8" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="aGF2yCBbfh4l4pkDqVfhk2">1263</text>
+<rect x="408.5" y="87.0" width="335.5" height="24.0" fill="rgb(204,62,47)" rx="2" data-page-node-id="gZFbOZoF53T5EkgyEfloHw"/>
+<text x="576.2" y="102.0" fill="#222" text-anchor="middle" data-page-node-id="LDRmAVJYO2o0KtlGU2hjF2">-4152</text>
+<text x="64" y="125.0" fill="#444" text-anchor="end" data-page-node-id="Vp8xz9yAfXu4Khbnyraa7g">14:29卖</text>
+<rect x="71.0" y="113.0" width="335.5" height="24.0" fill="rgb(239,79,59)" rx="2" data-page-node-id="9EE6bW3pYyd0laGNSG7sxq"/>
+<text x="238.8" y="128.0" fill="#222" text-anchor="middle" data-page-node-id="wTfjlBs5D1NpxbxTenIFq7">-16046</text>
+<rect x="408.5" y="113.0" width="335.5" height="24.0" fill="rgb(255,87,65)" rx="2" data-page-node-id="L6IlyDOGkz2VQomeH4KhuJ"/>
+<text x="576.2" y="128.0" fill="#222" text-anchor="middle" data-page-node-id="TGWCQ1I3Z0YzzHcGgfuLIF">-21462</text>
+</svg><div class="cap" data-page-node-id="eC8tr8yT8WpjP9oWECyBCC">网格内最优 = 14:26→14:31（净 +{grid[(26,31)][0]:.0f} 元）；14:28→14:31 仅在'vs 14:29'时占优，因 14:28→14:29 那一分钟系统偏高（尖峰恰在 14:28）。买点 14:31 恒优于 14:32（14:31→14:32 价格部分回升）。</div></div>
+<p data-page-node-id="nxilAsRq5UwtXMzBgcIlOU">卖点前扩扫描（14:20–14:26 卖、14:31 买）显示净 RMB 在 14:23 达峰（+11642）后走平——卖点早于 14:28 不再捕获显著额外下行，因 14:20–14:27 整段无统计独立下跌。</p>
+
+<h2 id="s6" data-page-node-id="yUE3RflhfuyAPh7VHwbuhI">6. 极端日与年度拆解</h2>
+<p data-page-node-id="B0GE9FAIb83OgZ8AHHOT1v">7 个极端日（点差 +110~+262，全为正）全部集中在 <b data-page-node-id="Ru0AjEnSbmOTBVxn6CfEqC">2025-12-29 ~ 2026-03-24</b>（白银从 ~31000 剧震回落的窗口），占样本 1.1% 却贡献约 55.6% 毛点。年度净 RMB：</p>
+<div class="chart" data-page-node-id="nfpG9TtfbWaUj3GbsFkFsO"><h3 data-page-node-id="ueZIdZPoPh1DTFbGG0CCuH">年度净RMB（含极端日；标注为剔极端日后）</h3><svg viewBox="0 0 760 260" xmlns="http://www.w3.org/2000/svg" font-family="Segoe UI,Microsoft YaHei,Arial" font-size="11" data-page-node-id="xTy50Jlg3zKF3pZiHQubw1"><rect width="760" height="260" fill="#fff" data-page-node-id="EijPrkusD9JQtGMfJjBcRQ"/>
+<text x="55" y="18" fill="#222" font-size="12" font-weight="bold" data-page-node-id="jfrtXXpFnXBDEibB7afgRQ">年度净RMB(含极端日)</text>
+<line x1="55" y1="152.6" x2="745" y2="152.6" stroke="#bbb" data-page-node-id="zeWSM4g6OhN02fkMC18oWZ"/>
+<rect x="101.0" y="152.6" width="138.0" height="51.4" fill="#2c6fbb" rx="2" data-page-node-id="pOkksqhC7jJsgAnsSFC58z"/>
+<text x="170.0" y="147.6" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="VRvsQW9uKquhamKWqBL1FN">-7384.1%</text>
+<text x="170.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="dkaAL2NXb1ULTwmaI1n73h">2024</text>
+<rect x="331.0" y="152.6" width="138.0" height="62.4" fill="#2c6fbb" rx="2" data-page-node-id="5HFFLXWNxb83G6b6WJYkXz"/>
+<text x="400.0" y="147.6" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="3rSCDgjRFMptMbqMACSacG">-8972.3%</text>
+<text x="400.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="S5q2ogELFckiAq2CtcAk7U">2025</text>
+<rect x="561.0" y="30.0" width="138.0" height="122.6" fill="#c0392b" rx="2" data-page-node-id="CihsPMfE6zYR88cumYvbGL"/>
+<text x="630.0" y="25.0" fill="#222" text-anchor="middle" font-size="11" data-page-node-id="UxLHCwIwIMtAf4GFDIIGQr">17619.3%</text>
+<text x="630.0" y="238" fill="#666" text-anchor="middle" font-size="10.5" data-page-node-id="gDDMGJvycYQ4ftA843jlyt">2026</text>
+<text x="170.0" y="254" fill="#888" text-anchor="middle" font-size="9.5" data-page-node-id="m1qjlfADJi8wJnr9DaUAlN">剔极端:-7384</text>
+<text x="400.0" y="254" fill="#888" text-anchor="middle" font-size="9.5" data-page-node-id="teCFL2vo0D5vYwzHhgjLTz">剔极端:-12184</text>
+<text x="630.0" y="254" fill="#888" text-anchor="middle" font-size="9.5" data-page-node-id="AsjYivD34tlKbsf4gfGHjQ">剔极端:3569</text>
+</svg><div class="cap" data-page-node-id="MLS6GASV3nehMOl1oPFziP">2024 净 -7384（无极端日仍亏）、2025 净 -8972（含1个极端日，剔除后 -12184）、2026 净 17619（含6个极端日，剔除后 3569 仍正）。两年亏损、一年靠尾部日补回。</div></div>
+<div class="warn" data-page-node-id="L2dm1rCF6D7B66wkUFziAx"><b data-page-node-id="o61vjTZV1kuKfKkS75BfKb">盈利集中度风险：</b>全样本微利完全由单一剧震季度撑起。若某年不出现此类尾盘急跌（如 2025 全年方向胜率仅 52.4%，低于抛硬币），策略即净亏。这是 regime 依赖而非稳定 alpha 的最直接证据。</div>
+
+<h2 id="s7" data-page-node-id="hRCSjfpRSFysbULiE3Gwqx">7. 关键发现与结论</h2>
+<div class="kf" data-page-node-id="Ol4cuyvCFbw5u7T6y1Qzjb"><ul data-page-node-id="ycVk8upVZpBanLrD9Pvper">
+<li data-page-node-id="3LSkV8CBILvRrrOOrC7xY9"><b data-page-node-id="7MGSiQZplpAjcvUOG1Bwbo">胜率偏高真实且统计显著：</b>尾段窗口方向胜率 58.3% 显著高于其他固定时段（≈51%，p 显著）；2026 五九月更达 75%（vs 其余 p=1e-05）。</li>
+<li data-page-node-id="EklhYRiK7UqmGcKSLhHGZS"><b data-page-node-id="MgilZmbbsIrhbWrgLmHrjE">但非日历季节性：</b>2024/2025 同季胜率普通甚至亏损，仅 2026 异常 → 属阶段/regime 现象，不可外推。</li>
+<li data-page-node-id="XDxkE01cC12XYThJbDMgKE"><b data-page-node-id="46OQqjFR2DAEnMJjgKACIR">机制可信：</b>结构性尾段卖压真实存在（下跌市中尾段 vs 其他窗口 p≈0.02），下行趋势放大方向正确但仅边缘显著（p=0.025）；漂移起点确为 14:28。</li>
+<li data-page-node-id="nBiC8d4HnDc3wpYnhCgu1b"><b data-page-node-id="GII8Fmhlggk0G0VBgNVUDp">经济 edge 极薄且集中：</b>普通日扣费后日均净约 −2~−3 点（亏损）；全样本净 +1263 元/手几乎全由 7 个极端日（1.1% 样本）撑起；2024+2025 合计亏约 19568 元。</li>
+<li data-page-node-id="GRGERT6b3IO4ZYfBnrdlsK"><b data-page-node-id="mADvxwgtxCM1IoYfBxw2fk">参数结论：</b>14:26→14:31 为网格最优卖/买点组合；14:28 是最优单点卖点（vs 14:29）；卖点再早无意义。</li>
+<li data-page-node-id="2FtnmlQ6qCAUucooakOsV0"><b data-page-node-id="grkm3wAEzeCWI39iyT63Mc">可行方向：</b>该信号宜作"尾部捕获 + 下跌市条件触发"的增强项（如仅 20 日 MA 下做），而非独立策略；须以样本外（2024-25 同季）持续验证。</li>
+</ul></div>
+
+<h2 id="s8" data-page-node-id="w5hZta3x8j7tj3xhMuk0F5">8. 方法与局限</h2>
+<ul data-page-node-id="e3GMhxHpuVpOjyHVBLlUhU">
+<li data-page-node-id="STigze6iCwhGWII1iJOuck"><b data-page-node-id="QdYKDHNheM7RAFy8Kqs5BP">成本模型：</b>手续费万0.5/边、滑点1点/边、保证金10%。滑点偏乐观（实盘尾盘流动性可能更差）；未考虑涨跌停无法成交、冲击成本。</li>
+<li data-page-node-id="H16B6SE6CKLpmltrV3lpSi"><b data-page-node-id="I2BHJ4XI0UBHhVoL8deGQm">成交价：</b>取该分钟收盘价，属保守假设；用开盘价/高低价口径结果差异大（见早期灵敏度测试）。</li>
+<li data-page-node-id="aGL98RmJBpDEnwtFhJuBLC"><b data-page-node-id="1JwLi9ZiL6zsrT2TgcAEHt">极端日处理：</b>用户已确认源数据无换约，7 日视为真实盈利保留在"含极端日"口径；"剔极端日"口径仅作对照，不代表应剔除。</li>
+<li data-page-node-id="2dsEEZhzyJgCYlnFTS4hEo"><b data-page-node-id="kyytlPk2uq3xEp29nlGnU9">样本：</b>全样本 656 日跨 2024-01~2026-09，含一段白银大牛市+剧震，结论受该历史路径影响；小样本尾部日（7 个）统计效力有限。</li>
+<li data-page-node-id="IAGWHPQNRT2EmPT2uSS5sn"><b data-page-node-id="y6Lhoob95ZqLFkih9UvqUG">未做：</b>样本外滚动验证、与其他品种对照、实盘滑点/流动性实测。</li>
+</ul>
+<p class="small" data-page-node-id="rnua4EZATRGRkGzULoj8D1">本报告由 8 轮迭代分析（原始回测 / 2026五月 / 季节性 / 机制 / 14:29对比 / 网格 / 入场扫描 / 极端日复核）整合而成，所有图表数据由 <code data-page-node-id="m0nzdWMnAVl9qlMF9gmQ9Y">agl8_integrated_report.py</code> 从原始 .lc1 重算，保证自洽。</p>
+</div></body></html>
